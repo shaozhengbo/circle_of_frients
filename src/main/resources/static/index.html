@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登陆界面</title>
+<!-- <script src="js/vue.js"></script>
+<script src=”https://unpkg.com/axios/dist/axios.min.js”></script> -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="text" id="username" v-model="username" /> <input
+			type="password" id="password" v-model="password" />
+		<button @click="login">登陆</button>
+		{{ result }}
+		{{ username }}
+		{{ password }}
+	</div>
+	<script src="js/main.js"></script>
+</body>
+</html>
