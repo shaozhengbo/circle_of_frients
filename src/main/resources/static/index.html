@@ -5,11 +5,16 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>首页</title>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="js/vue.js"></script>
 <!-- 引入 Bootstrap -->
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet" />
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="js/jQuery.js"></script>
+
+<!-- 包括所有已编译的插件 -->
+<script src="js/bootstrap.min.js"></script>
+<!-- 自定义JS -->
 <script src="js/main.js"></script>
 </head>
 <body>
@@ -17,7 +22,7 @@
 		<div class="container hidden-md">
 			<div class="row clearfix">
 				<div class="col-md-12 column">
-					<nav class="navbar navbar-default navbar-fixed-top"
+					<nav class="navbar navbar-default navbar-fixed-top "
 						role="navigation">
 						<div class="navbar-header"
 							style="margin-left: 50px; height: 48px; background: #fff;">
@@ -28,17 +33,18 @@
 									class="icon-bar"></span><span class="icon-bar"></span><span
 									class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="#">Logo</a>
+							<a class="" href="#"><img width="47" height="47"
+								src="img/QR-Code.png" style="margin-top: 2px;" /></a>
 						</div>
 
 						<div class="collapse navbar-collapse"
 							id="bs-example-navbar-collapse-1" style="width: 95%;">
-							<form class="navbar-form navbar-left" role="search"
-								style="margin-left: 50px;">
+							<form class="navbar-form navbar-left visible-md visible-lg"
+								role="search" style="margin-left: 50px;">
 								<div class="form-group">
 									<input type="text" class="form-control" style="width: 425px;" />
 								</div>
-								<button type="submit" class="btn btn-default">Search</button>
+								<button type="submit" class="btn btn-default">搜索</button>
 							</form>
 							<ul class="nav navbar-nav navbar-right">
 								<li><a href="#" onmousemove="changeColor(this);"
@@ -48,7 +54,7 @@
 							<ul class="nav navbar-nav navbar-right">
 								<li><a href="#">首页</a></li>
 								<li><a href="#">游戏</a></li>
-								<li class="visible-md visible-lg"><a disable='true'>|</a></li>
+								<li class="visible-md visible-lg"><a>|</a></li>
 								<!-- <li class="dropdown"><a href="#" class="dropdown-toggle"
 									data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
 									<ul class="dropdown-menu">
@@ -62,30 +68,138 @@
 									</ul></li> -->
 							</ul>
 						</div>
-
 					</nav>
-					<div class="page-header" style="position: relative; top: 10px;">
+					<div class="page-header" style="position: relative; top: 20px;">
 						<h1>
-							欢迎使用此系统 <small>开发还未完善，更多功能敬请期待。。。</small>
+							2018-10-17<small>PC端和移动端HTML适配完成</small>
 						</h1>
+						<div class="col-lg-6 visible-xs">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Search for..."> <span
+									class="input-group-btn">
+									<button class="btn btn-default" type="button">搜索</button>
+								</span>
+							</div>
+						</div>
 					</div>
 					<div class="row clearfix">
 						<div class="col-md-2 column">
-							<ol class="list-unstyled">
-								<li><a>1111</a></li>
-								<li><a>2111</a></li>
+							<ol class="list-unstyled visible-md visible-lg">
+								<li><a> </a></li>
+								<li><a> </a></li>
 							</ol>
 						</div>
 						<div class="col-md-7 column">
 							<blockquote class="pull-left">
 								<p></p>
-								<small>工业部门Picasso项目组2018GH<cite>邵政博</cite></small>
+								<small> <!-- 工业部门Picasso项目组2018GH<cite>邵政博</cite> -->
+								</small>
 							</blockquote>
 							<div class="row clearfix">
 								<div class="col-md-12 column">
-									<div class="row clearfix" style="width: 100%;">
-										<div class="media well">
-											<img src="v3/default3.jpg" width="100" height="100" />点赞
+									<!-- PC端 -->
+									<div class="row clearfix hidden-xs" style="width: 100%;">
+										<div class="media well" style="background: #ffffff">
+											<div>
+												<div style="float: left; clear: both;">
+													<img src="img/QR-Code.png" width="50px;" height="50px;"
+														style="border-radius: 25px;" />
+												</div>
+												<div style="float: left;">
+													&nbsp;&nbsp;<a href="" target="_blank">用户昵称</a>
+												</div>
+												<br>
+												<div>
+													&nbsp;&nbsp;<small>日期时间</small>
+												</div>
+												<br>
+												<p>&nbsp;转发评论。。。。。。。。。。。。。</p>
+											</div>
+											<div style="clear: both; background: #f2f2f5;">
+												<div style="margin-left: 55px; margin-top: 20px;">
+													<br>
+													<div style="float: left;">
+														<a href="" target="_blank">用户昵称</a>
+													</div>
+													<br>
+
+													<p>内容。。。。。。。。。。。。。</p>
+													<div style="text-align: left; width: 400px;">
+														<img src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" /> <img
+															src="img/QR-Code.png" width="100" height="100" />
+													</div>
+													<div>日期时间</div>
+												</div>
+											</div>
+											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
+												<button type="button" class="btn btn-default"
+													aria-label="Left Align" style="width: 32%;">
+													<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+												</button>
+												<button type="button" class="btn btn-default"
+													aria-label="Center Align" style="width: 32%;">
+													<span class="glyphicon glyphicon-comment"
+														aria-hidden="true"></span>
+												</button>
+												<button type="button" class="btn btn-default"
+													aria-label="Right Align" style="width: 32%;">
+													<span class="glyphicon glyphicon-thumbs-up"
+														aria-hidden="true"></span>
+												</button>
+
+											</div>
+										</div>
+
+									</div>
+									<!-- 移动端 -->
+									<div class="row clearfix visible-xs">
+										<div style="background: #ffffff; margin-top: 20px;">
+											<div style="">
+												<div>
+													<img src="img/QR-Code.png" width="50px;" height="50px;"
+														style="border-radius: 25px; position: absolute;left: 30px;" /><a href=""
+														target="_blank">用户昵称</a>
+													<p style="margin-left: 8%;">内容。。。。。。。。。。。。。</p>
+												</div>
+												<div
+													style="text-align: left; width: 400px; margin-left: 8%;">
+													<img src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" /> <img
+														src="img/QR-Code.png" width="100" height="100" />
+												</div>
+												<div style="margin-left: 8%;">日期时间</div>
+											</div>
+											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
+												<button type="button" class="btn btn-default"
+													aria-label="Left Align" style="width: 32%;">
+													<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+												</button>
+												<button type="button" class="btn btn-default"
+													aria-label="Center Align" style="width: 32%;">
+													<span class="glyphicon glyphicon-comment"
+														aria-hidden="true"></span>
+												</button>
+												<button type="button" class="btn btn-default"
+													aria-label="Right Align" style="width: 32%;">
+													<span class="glyphicon glyphicon-thumbs-up"
+														aria-hidden="true"></span>
+												</button>
+
+											</div>
 										</div>
 									</div>
 								</div>
@@ -93,10 +207,7 @@
 						</div>
 						<!-- 登陆窗口 -->
 						<div class="col-md-3 column hidden-xs"
-							style="background: #f2f2f5; border-radius: 10px;">
-							<!-- <div style="text-align: center; line-height: 60px;">
-								<strong>登陆</strong>
-							</div> -->
+							style="border-style: solid; border-width: 1px; border-color: #f2f2f5; border-radius: 10px;">
 							<div class="tabbable" id="tabs-337301">
 								<ul class="nav nav-tabs" style="text-align: center;">
 									<li class="active"
@@ -105,10 +216,10 @@
 									<li class=""
 										style="border-bottom: 3px solid #fa7d3c; color: #000; width: 50%;"><a
 										href="#panel-290169" data-toggle="tab">注册</a></li>
-									<!-- <li><a href="#panel-290169"
-										style="border-bottom: 3px solid #fa7d3c; color: #000; width: 50%;"
-										data-toggle="tab">注册</a></li> -->
 								</ul>
+								<HR
+									style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 2)"
+									width="100%" color=#987cb9 SIZE=1 />
 								<div class="tab-content">
 									<div class="tab-pane active" id="panel-287048">
 										<form class="form-horizontal" role="form">
@@ -154,10 +265,10 @@
 														id="inputPassword3" />
 												</div>
 											</div>
-											<!-- <div class="form-group"
+											<div class="form-group"
 												style="text-align: right; width: 95%;">
-												<small><a href="">忘记密码?</a></small>
-											</div> -->
+												<small><a href="">&nbsp;</a></small>
+											</div>
 											<div class="form-group">
 												<div style="text-align: center;">
 													<button type="submit"
@@ -169,65 +280,70 @@
 									</div>
 								</div>
 							</div>
-							<!-- <form class="form-horizontal" role="form">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-3 control-label">账号</label>
-									<div class="col-sm-8">
-										<input type="email" class="form-control" id="inputEmail3" />
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputPassword3" class="col-sm-3 control-label">密码</label>
-									<div class="col-sm-8">
-										<input type="password" class="form-control"
-											id="inputPassword3" />
-									</div>
-								</div>
-								<div class="form-group" style="text-align: right; width: 95%;">
-									<small><a href="">忘记密码?</a></small>
-								</div>
-								<div class="form-group">
-									<div style="text-align: center;">
-										<button type="submit"
-											style="width: 70%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;"
-											class="btn btn-default">登&nbsp;&nbsp;陆</button>
-									</div>
-								</div>
-							</form> -->
 						</div>
 					</div>
 					<HR
 						style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 3)"
-						width="100%" color=#987cb9 SIZE=3>
+						width="100%" color=#987cb9 SIZE=3 />
 					<div class="row clearfix">
 						<div class="col-md-12 column">
-							<div class="row clearfix">
-								<div class="col-md-4 column">
-									<ol>
-										<li>Lorem ipsum dolor sit amet</li>
-										<li>Consectetur adipiscing elit</li>
-										<li>Integer molestie lorem at massa</li>
-										<li>Facilisis in pretium nisl aliquet</li>
-										<li>Nulla volutpat aliquam velit</li>
-										<li>Faucibus porta lacus fringilla vel</li>
-										<li>Aenean sit amet erat nunc</li>
-										<li>Eget porttitor lorem</li>
+							<!-- PC端 -->
+							<div class="row clearfix hidden-xs" style="margin-left: 100px;">
+								<div class="col-md-4 column" style="margin-top: 20px;">
+									<ol class="list-unstyled">
+										<li><a href="#">意见反馈</a></li>
+										<li><a href="#">联系我们</a></li>
 									</ol>
 								</div>
-								<div class="col-md-4 column">
-									<ol>
-										<li>Lorem ipsum dolor sit amet</li>
-										<li>Consectetur adipiscing elit</li>
-										<li>Integer molestie lorem at massa</li>
-										<li>Facilisis in pretium nisl aliquet</li>
-										<li>Nulla volutpat aliquam velit</li>
-										<li>Faucibus porta lacus fringilla vel</li>
-										<li>Aenean sit amet erat nunc</li>
-										<li>Eget porttitor lorem</li>
+
+								<div class="col-md-4 column" style="margin-top: 20px;">
+									<ol class="list-unstyled">
+										<li><a href="#">意见反馈</a></li>
+										<li><a href="#">联系我们</a></li>
 									</ol>
 								</div>
-								<div class="col-md-4 column">
+								<div class="col-md-4 column hidden-xs">
 									<h3 class="text-left">&nbsp;&nbsp;作者微信</h3>
+									<img width="128" height="128" src="img/QR-Code.png"
+										class="img-thumbnail img-responsive" alt="Responsive image"
+										style="align-content: center;" />
+								</div>
+								<div class="col-md-4 column visible-xs"
+									style="text-align: center;">
+									<h3 class="text-conter">作者微信</h3>
+									<img width="128" height="128" src="img/QR-Code.png"
+										class="img-thumbnail img-responsive" alt="Responsive image"
+										style="align-content: center;" />
+								</div>
+							</div>
+
+							<!-- 移动端 -->
+							<div class="row clearfix visible-xs">
+								<div class="col-md-4 column"
+									style="text-align: center; font-size: 18px;">
+									<ol class="list-unstyled">
+										<li><a href="#">意见反馈</a></li>
+										<li><a href="#">联系我们</a></li>
+									</ol>
+								</div>
+
+								<div class="col-md-4 column"
+									style="text-align: center; font-size: 18px;">
+									<ol class="list-unstyled">
+										<li><a href="#">意见反馈</a></li>
+										<li><a href="#">联系我们</a></li>
+									</ol>
+								</div>
+
+								<div class="col-md-4 column hidden-xs">
+									<h5 class="text-left">&nbsp;&nbsp;作者微信</h5>
+									<img width="128" height="128" src="img/QR-Code.png"
+										class="img-thumbnail img-responsive" alt="Responsive image"
+										style="align-content: center;" />
+								</div>
+								<div class="col-md-4 column visible-xs"
+									style="text-align: center;">
+									<h3 class="text-conter">作者微信</h3>
 									<img width="128" height="128" src="img/QR-Code.png"
 										class="img-thumbnail img-responsive" alt="Responsive image"
 										style="align-content: center;" />
@@ -237,19 +353,14 @@
 					</div>
 				</div>
 			</div>
+			<button class="btn btn-primary visible-xs"
+				style="border-radius: 20px; position: fixed; color: white; opacity: 0.8; width: 33%; margin-left: 29.5%;">&nbsp;登陆/注册&nbsp;</button>
 			<div class="w-1000 copyright"
 				style="text-align: center; line-height: 100px;">
-				Copyright © 2013-2018 <strong><a href="//www.runoob.com/"
-					target="_blank">菜鸟教程</a></strong>&nbsp; <strong><a
-					href="//www.runoob.com/" target="_blank">runoob.com</a></strong> All Rights
-				Reserved. 备案号：闽ICP备15012807号-1
+				Picasso © 2018-2019 <strong><a href="shaozhbo@cn.ibm.com">shaozhbo@cn.ibm.com</a></strong>&nbsp;
 			</div>
 		</div>
 
 	</div>
-	<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<!-- 包括所有已编译的插件 -->
-	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
