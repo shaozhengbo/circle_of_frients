@@ -23,18 +23,20 @@
 			<div class="row clearfix">
 				<div class="col-md-12 column">
 					<nav class="navbar navbar-default navbar-fixed-top "
-						role="navigation">
+						role="navigation" style="background: #fff;">
 						<div class="navbar-header"
 							style="margin-left: 50px; height: 48px; background: #fff;">
 							<button type="button" class="navbar-toggle"
 								data-toggle="collapse"
 								data-target="#bs-example-navbar-collapse-1">
 								<span class="sr-only">Toggle navigation</span><span
-									class="icon-bar"></span><span class="icon-bar"></span><span
+									class="icon-bar"></span><span class="icon-bar" style="size: 10"></span><span
 									class="icon-bar"></span>
 							</button>
-							<a class="" href="#"><img width="47" height="47"
-								src="img/QR-Code.png" style="margin-top: 2px;" /></a>
+							<a class="" href="#"> <!-- <img width="47" height="47"
+								src="img/QR-Code.png" style="margin-top: 2px;" /> --> <span
+								class="glyphicon glyphicon-globe"></span>
+							</a>
 						</div>
 
 						<div class="collapse navbar-collapse"
@@ -47,9 +49,10 @@
 								<button type="submit" class="btn btn-default">搜索</button>
 							</form>
 							<ul class="nav navbar-nav navbar-right">
-								<li><a href="#" onmousemove="changeColor(this);"
+								<li class="hidden-xs"><a href="#"
+									onmousemove="changeColor(this);"
 									onmouseleave="returnColor(this);">登陆</a></li>
-								<li><a href="#">注册</a></li>
+								<li class="hidden-xs"><a href="#">注册</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<li><a href="#">首页</a></li>
@@ -70,9 +73,7 @@
 						</div>
 					</nav>
 					<div class="page-header" style="position: relative; top: 20px;">
-						<h1>
-							2018-10-17<small>PC端和移动端HTML适配完成</small>
-						</h1>
+
 						<div class="col-lg-6 visible-xs">
 							<div class="input-group">
 								<input type="text" class="form-control"
@@ -91,11 +92,15 @@
 							</ol>
 						</div>
 						<div class="col-md-7 column">
-							<blockquote class="pull-left">
-								<p></p>
-								<small> <!-- 工业部门Picasso项目组2018GH<cite>邵政博</cite> -->
-								</small>
-							</blockquote>
+							<div class="row clearfix">
+								<blockquote class="pull-left">
+									<p>
+									<h1>2018-10-17</h1>
+									</p>
+									<small> PC端和移动端HTML适配完成 <!-- <cite>邵政博</cite> -->
+									</small>
+								</blockquote>
+							</div>
 							<div class="row clearfix">
 								<div class="col-md-12 column">
 									<!-- PC端 -->
@@ -103,40 +108,38 @@
 										<div class="media well" style="background: #ffffff">
 											<div>
 												<div style="float: left; clear: both;">
-													<img src="img/QR-Code.png" width="50px;" height="50px;"
+													<img src="img/pic1.jpg" width="50px;" height="50px;"
 														style="border-radius: 25px;" />
 												</div>
 												<div style="float: left;">
-													&nbsp;&nbsp;<a href="" target="_blank">用户昵称</a>
+													&nbsp;&nbsp;<a href="" target="_blank">赵丽颖</a>
 												</div>
 												<br>
 												<div>
-													&nbsp;&nbsp;<small>日期时间</small>
+													&nbsp;&nbsp;<small>2018年10月17日&nbsp;&nbsp;22:04:34</small>
 												</div>
 												<br>
-												<p>&nbsp;转发评论。。。。。。。。。。。。。</p>
+												<p>&nbsp;转发</p>
 											</div>
 											<div style="clear: both; background: #f2f2f5;">
 												<div style="margin-left: 55px; margin-top: 20px;">
 													<br>
 													<div style="float: left;">
-														<a href="" target="_blank">用户昵称</a>
+														<a href="" target="_blank">赵丽颖</a>
 													</div>
 													<br>
 
-													<p>内容。。。。。。。。。。。。。</p>
+													<p>
+														官宣<img width="17px;" height="17px;" src="img/xin.png">
+													</p>
 													<div style="text-align: left; width: 400px;">
-														<img src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" /> <img
-															src="img/QR-Code.png" width="100" height="100" />
+														<img src="img/1.jpg" width="112.97" height="112.97"
+															style="object-fit: cover;" /> <img src="img/2.jpg"
+															width="112.97" height="112.97" style="object-fit: cover;" />
 													</div>
-													<div>日期时间</div>
+													<div>
+														<small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
+													</div>
 												</div>
 											</div>
 											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
@@ -162,28 +165,35 @@
 									<!-- 移动端 -->
 									<div class="row clearfix visible-xs">
 										<div style="background: #ffffff; margin-top: 20px;">
-											<div style="">
-												<div>
-													<img src="img/QR-Code.png" width="50px;" height="50px;"
-														style="border-radius: 25px; position: absolute;left: 30px;" /><a href=""
-														target="_blank">用户昵称</a>
-													<p style="margin-left: 8%;">内容。。。。。。。。。。。。。</p>
-												</div>
-												<div
-													style="text-align: left; width: 400px; margin-left: 8%;">
-													<img src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" /> <img
-														src="img/QR-Code.png" width="100" height="100" />
-												</div>
-												<div style="margin-left: 8%;">日期时间</div>
+											<div>
+												<table style="width: 100%">
+													<tr>
+														<td style="width: 8%;"></td>
+														<td style="height: 55px; width: 90%;"><img
+															src="img/pic1.jpg" width="32;" height="32;"
+															style="border-radius: 25px;" /> &nbsp;&nbsp;<a href="#"
+															style="height: 19"><font size="2.5">赵丽颖</font></a> <span
+															style="color: #87909a; border: 1px; border-color: #87909a; border-style: solid; padding: 4.5px; font-size: 10px; margin-left: 45%">&nbsp;&nbsp;&nbsp;＋&nbsp;关注&nbsp;&nbsp;&nbsp;&nbsp;</span>
+														</td>
+													</tr>
+													<tr>
+														<td style="width: 8%;"></td>
+														<td style="width: 90%;"><div>
+																官宣<img width="17px;" height="17px;" src="img/xin.png">
+															</div></td>
+													</tr>
+												</table>
 											</div>
-											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
+											<div style="text-align: left; width: 310px; margin-left: 8%;">
+												<img src="img/1.jpg" width="112.97" height="112.97"
+													style="object-fit: cover;" /> <img src="img/2.jpg"
+													width="112.97" height="112.97" style="object-fit: cover;" />
+											</div>
+											<div style="margin-left: 8%;">
+												<small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
+											</div>
+											<footer class="container-fluid foot-wrap"
+												style="margin-top: 10px;">
 												<button type="button" class="btn btn-default"
 													aria-label="Left Align" style="width: 32%;">
 													<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
@@ -198,8 +208,7 @@
 													<span class="glyphicon glyphicon-thumbs-up"
 														aria-hidden="true"></span>
 												</button>
-
-											</div>
+											</footer>
 										</div>
 									</div>
 								</div>
@@ -327,13 +336,13 @@
 									</ol>
 								</div>
 
-								<div class="col-md-4 column"
+								<!-- <div class="col-md-4 column"
 									style="text-align: center; font-size: 18px;">
 									<ol class="list-unstyled">
 										<li><a href="#">意见反馈</a></li>
 										<li><a href="#">联系我们</a></li>
 									</ol>
-								</div>
+								</div> -->
 
 								<div class="col-md-4 column hidden-xs">
 									<h5 class="text-left">&nbsp;&nbsp;作者微信</h5>
@@ -354,7 +363,7 @@
 				</div>
 			</div>
 			<button class="btn btn-primary visible-xs"
-				style="border-radius: 20px; position: fixed; color: white; opacity: 0.8; width: 33%; margin-left: 29.5%;">&nbsp;登陆/注册&nbsp;</button>
+				style="border-radius: 20px; color: white; opacity: 0.8; width: 33%; left: 33%; top: 90%; position: fixed;">&nbsp;登陆/注册&nbsp;</button>
 			<div class="w-1000 copyright"
 				style="text-align: center; line-height: 100px;">
 				Picasso © 2018-2019 <strong><a href="shaozhbo@cn.ibm.com">shaozhbo@cn.ibm.com</a></strong>&nbsp;
