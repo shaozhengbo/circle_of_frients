@@ -56,5 +56,25 @@ $(document).ready(function(){
 	$('#d').mouseleave(function() {
 		$('#d').css("color","");
 	});
+	
+	$('#tab-login').addClass("tab-active");
 });
+
+function clickTab(id) {
+	var login = $('#tab-login');
+	var register = $('#tab-register');
+	if(id=='tab-login') {
+		if(!login.hasClass("tab-active")) {
+			login.addClass("tab-active");
+			register.removeClass("tab-active");
+			register.addClass("tab-unactive");
+		}
+	} else if(id=="tab-register") {
+		if(!register.hasClass("tab-active")) {
+			register.addClass("tab-active");
+			login.removeClass("tab-active");
+			login.addClass("tab-unactive");
+		}
+	}
+}
 
