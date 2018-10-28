@@ -54,7 +54,8 @@ public class UserController {
 			msg = Currency.SEARCHNULL;
 		}
 		logger.info("getUserByUsernameAndPassword end");
-		return new Message(user, msg);
+		Message message = new Message(user, msg);
+		return message;
 	}
 	
 	@RequestMapping(value = "getUserByPhonenumber")
