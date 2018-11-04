@@ -10,9 +10,28 @@ public class User {
 	private char sex;
 	private String mail;
 	private String phonenumber;
+	private String major;
+	private Image img;
+	private Date createtime;
+
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
 
 	public User() {
 		super();
+	}
+
+	public Image getImg() {
+		return img;
+	}
+
+	public void setImg(Image img) {
+		this.img = img;
 	}
 
 	public Long getId() {
@@ -71,10 +90,11 @@ public class User {
 		this.phonenumber = phonenumber;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", birth=" + birth + ", sex="
-				+ sex + ", mail=" + mail + ", phonenumber=" + phonenumber + "]";
+	public String getMajor() {
+		return major;
 	}
 
+	public void setMajor(String major) {
+		this.major = major;
+	}
 }

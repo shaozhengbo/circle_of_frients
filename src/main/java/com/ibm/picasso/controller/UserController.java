@@ -1,5 +1,9 @@
 package com.ibm.picasso.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,8 +27,23 @@ public class UserController {
 	UserServiceImpl userService;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	private static String msg = "";
+
+	@RequestMapping(value = "getUserById")
+	@ResponseBody
+	public Message getUserById(String id) {
+		logger.info("getUserById start");
+		User user = userService.findUserById(Long.valueOf(id));
+		logger.info("getUserById end");
+		if (user != null) {
+			msg = Currency.SEARCHHAVE;
+		} else {
+			user = new User();
+			msg = Currency.SEARCHNULL;
+		}
+		return new Message(user, msg);
+	}
 
 	@RequestMapping(value = "getUserByUsername")
 	@ResponseBody
@@ -32,9 +51,9 @@ public class UserController {
 		logger.info("getUserByUsername start");
 		User user = userService.findUserByUsername(username);
 		logger.info("getUserByUsername end");
-		if(user != null) {
+		if (user != null) {
 			msg = Currency.SEARCHHAVE;
-		}else {
+		} else {
 			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
@@ -43,10 +62,11 @@ public class UserController {
 
 	@RequestMapping(value = "getUserByUsernameAndPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public Message getUserByUsernameAndPassword(String username, String password, HttpSession session) throws Exception {
+	public Message getUserByUsernameAndPassword(String username, String password, HttpSession session)
+			throws Exception {
 		logger.info("getUserByUsernameAndPassword start");
 		User user = userService.findUserByUsernameAndPassword(username, Util.MD5(password));
-		if(user != null) {
+		if (user != null) {
 			session.setAttribute("user", user);
 			msg = Currency.SEARCHHAVE;
 		} else {
@@ -57,13 +77,13 @@ public class UserController {
 		Message message = new Message(user, msg);
 		return message;
 	}
-	
+
 	@RequestMapping(value = "getUserByPhonenumber")
 	@ResponseBody
 	public Message getUserByPhonenumber(String phonenumber) throws Exception {
 		logger.info("getUserByUsernameAndPassword start");
 		User user = userService.findUserByPhonenumber(phonenumber);
-		if(user != null) {
+		if (user != null) {
 			msg = Currency.SEARCHHAVE;
 		} else {
 			user = new User();
@@ -78,8 +98,9 @@ public class UserController {
 	public Message registerUser(User user) throws Exception {
 		logger.info("registerUser start");
 		user.setPassword(Util.MD5(user.getPassword()));
-		boolean result = userService.insertUser(user);
-		if(result) {
+		user.setCreatetime(Calendar.getInstance().getTime());
+		boolean result = userService.registerUser(user);
+		if (result) {
 			msg = Currency.REGISTERSUCCESS;
 		} else {
 			msg = Currency.REGISTERERROR;
@@ -92,8 +113,11 @@ public class UserController {
 	@ResponseBody
 	public Message updateUser(User user) throws Exception {
 		logger.info("updateUser start");
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(user.getBirth());
+		user.setBirth(instance.getTime());
 		boolean result = userService.updateUser(user);
-		if(result) {
+		if (result) {
 			msg = Currency.SUCCESS;
 		} else {
 			msg = Currency.ERROR;
@@ -108,7 +132,7 @@ public class UserController {
 		logger.info("updatePassword start");
 		user.setPassword(Util.MD5(user.getPassword()));
 		boolean result = userService.updatePassword(user);
-		if(result) {
+		if (result) {
 			msg = Currency.SUCCESS;
 		} else {
 			msg = Currency.ERROR;

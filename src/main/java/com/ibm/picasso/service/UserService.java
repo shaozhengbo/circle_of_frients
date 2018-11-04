@@ -3,6 +3,9 @@ package com.ibm.picasso.service;
 import com.ibm.picasso.domain.User;
 
 public interface UserService {
+	
+	User findUserById(Long id);
+	
 	User findUserByUsername(String username);
 	
 	User findUserByUsernameAndPassword(String username, String password);
@@ -13,5 +16,5 @@ public interface UserService {
 	
 	boolean updatePassword(User user);
 	
-	boolean insertUser(User user);
+	boolean registerUser(User user);
 }

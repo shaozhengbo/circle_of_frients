@@ -35,12 +35,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean insertUser(User user) {
+	public boolean registerUser(User user) {
 		return userDao.insertUser(user) == 1 ? true : false;
 	}
 
 	@Override
 	public User findUserByPhonenumber(String phonenumber) {
 		return userDao.selectUserByPhonenumber(phonenumber);
+	}
+
+	@Override
+	public User findUserById(Long id) {
+		return userDao.selectUserById(id);
 	}
 }
