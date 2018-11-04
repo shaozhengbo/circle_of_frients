@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="app">
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <script src="/js/vue.js"></script>
+    <!-- 引入 Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/my.css" rel="stylesheet"/>
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="/js/jQuery.js"></script>
+
+    <!-- 包括所有已编译的插件 -->
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<input th:value="${user.username}"/>
+<input th:value="${user.birth}"/>
+<input th:value="${user.phonenumber}"/>
+<input th:value="${user.major}"/>
+</body>
+<!-- 自定义JS -->
+<script src="/js/main.js"></script>
+</html>

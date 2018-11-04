@@ -1,11 +1,10 @@
 package com.ibm.picasso.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.servlet.http.HttpSession;
-
+import com.ibm.picasso.domain.User;
+import com.ibm.picasso.pojo.Message;
+import com.ibm.picasso.service.impl.UserServiceImpl;
+import com.ibm.picasso.util.Currency;
+import com.ibm.picasso.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.ibm.picasso.domain.User;
-import com.ibm.picasso.pojo.Message;
-import com.ibm.picasso.service.impl.UserServiceImpl;
-import com.ibm.picasso.util.Currency;
-import com.ibm.picasso.util.Util;
+import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("/User/*")
@@ -31,18 +28,20 @@ public class UserController {
 	private static String msg = "";
 
 	@RequestMapping(value = "getUserById")
-	@ResponseBody
-	public Message getUserById(String id) {
-		logger.info("getUserById start");
+    public ModelAndView getUserById(String id) {
+        ModelAndView modelAndView = new ModelAndView();
+        logger.info("getUserById start");
 		User user = userService.findUserById(Long.valueOf(id));
-		logger.info("getUserById end");
+        logger.info(user.toString() + "getUserById end");
 		if (user != null) {
 			msg = Currency.SEARCHHAVE;
 		} else {
 			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
-		return new Message(user, msg);
+        modelAndView.setViewName("personal_information.html");
+        modelAndView.addObject("user", user);
+        return modelAndView;
 	}
 
 	@RequestMapping(value = "getUserByUsername")

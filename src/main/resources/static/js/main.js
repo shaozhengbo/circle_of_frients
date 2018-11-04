@@ -61,46 +61,6 @@
 //	
 //});
 
-$(function() {
-	$('#a').mouseenter(function() {
-		$('#a').css("color", "#eb7350");
-	});
-
-	$('#a').mouseleave(function() {
-		$('#a').css("color", "");
-	});
-
-	$('#b').mouseenter(function() {
-		$('#b').css("color", "#eb7350");
-	});
-
-	$('#b').mouseleave(function() {
-		$('#b').css("color", "");
-	});
-
-	$('#c').mouseenter(function() {
-		$('#c').css("color", "#eb7350");
-	});
-
-	$('#c').mouseleave(function() {
-		$('#c').css("color", "");
-	});
-
-	$('#d').mouseenter(function() {
-		$('#d').css("color", "#eb7350");
-	});
-
-	$('#d').mouseleave(function() {
-		$('#d').css("color", "");
-	});
-	$('#tab-login').addClass("tab-active");
-	$('#tab-register').addClass("tab-unactive");
-
-	$(".pimg").click(function() {
-		var _this = $(this);
-		imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
-	});
-});
 function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	var src = _this.attr("src");
 	$(bigimg).attr("src", src);
@@ -154,12 +114,26 @@ function login() {
 			"password" : password
 		},
 		success : function(data) {
-			$('#loginDiv').fadeOut("fast");
-			$('#a').html(data.object.username);
-			$('#b').html("退出");
+            if (data.msg == '查找到用户') {
+                $('#loginDiv').fadeOut("fast");
+                $('#a').html(data.object.username);
+                $('#a').attr("href", "/User/getUserById?id=" + data.object.id);
+                $('#b').html("退出");
+            } else {
+                $('#loginButton').css("background", "red");
+                $('#loginButton').attr('disabled', true);
+                $('#loginButton').html("用户名或密码错误");
+            }
 		},
 		error : function(data) {
 			console.log(data);
 		}
 	});
+}
+
+function recoveryButton() {
+    var loginButton = $('#loginButton');
+    loginButton.attr('disabled', false);
+    loginButton.css("background", "#ff8140");
+    loginButton.html("登&nbsp;&nbsp;陆");
 }
