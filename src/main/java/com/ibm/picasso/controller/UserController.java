@@ -32,7 +32,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         logger.info("getUserById start");
 		User user = userService.findUserById(Long.valueOf(id));
-        logger.info(user.toString() + "getUserById end");
+        logger.info("getUserById end");
 		if (user != null) {
 			msg = Currency.SEARCHHAVE;
 		} else {
@@ -112,9 +112,9 @@ public class UserController {
 	@ResponseBody
 	public Message updateUser(User user) throws Exception {
 		logger.info("updateUser start");
-		Calendar instance = Calendar.getInstance();
-		instance.setTime(user.getBirth());
-		user.setBirth(instance.getTime());
+//		Calendar instance = Calendar.getInstance();
+//		instance.setTime(user.getBirth());
+//		user.setBirth(instance.getTime());
 		boolean result = userService.updateUser(user);
 		if (result) {
 			msg = Currency.SUCCESS;

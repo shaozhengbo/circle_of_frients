@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head id="app">
-    <meta charset="UTF-8">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8"/>
     <title>个人中心</title>
     <script src="/js/vue.js"></script>
     <!-- 引入 Bootstrap -->
@@ -13,14 +14,92 @@
 
     <!-- 包括所有已编译的插件 -->
     <script src="/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
-<input th:value="${user.username}"/>
-<input th:value="${user.birth}"/>
-<input th:value="${user.phonenumber}"/>
-<input th:value="${user.major}"/>
+<div id="app">
+    <table style="border: 1px;border-color: #1b6d85;border-style: solid">
+        <input type="hidden" id="id" v-model="id"/>
+        <tr>
+            <td>用户名 ：</td>
+            <td><input id="username" v-model="username"/></td>
+        </tr>
+        <tr>
+            <td>生日 ：</td>
+            <td><input id="year" v-model="year"/>年
+                <input id="mouth" v-model="mouth"/>月
+                <input id="day" v-model="day"/>日
+            </td>
+        </tr>
+        <tr>
+            <td>手机号码 ：</td>
+            <td><input id="phonenumber" v-model="phonenumber"/></td>
+        </tr>
+        <tr>
+            <td>专业 ：</td>
+            <td><input id="major" v-model="major"/></td>
+        </tr>
+        <tr>
+            <td>邮箱地址 ：</td>
+            <td><input id="mail" v-model="mail"/></td>
+        </tr>
+    </table>
+
+    <button id="editButton" type="button" v-on:click="edit()">编辑</button>
+    <button id="saveButton" type="button" v-on:click="save()">保存</button>
+</div>
 </body>
 <!-- 自定义JS -->
 <script src="/js/main.js"></script>
+<script th:inline="javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            id: [[${user.id}]],
+            username: [[${user.username}]],
+            birth: "",
+            year: [[${user.birth}]].toString().substr(0, 4),
+            mouth: [[${user.birth}]].toString().substr(5, 2),
+            day: [[${user.birth}]].toString().substr(8, 2),
+            phonenumber: [[${user.phonenumber}]],
+            major: [[${user.major}]],
+            mail: [[${user.mail}]]
+        },
+        methods: {
+            edit: function () {
+                $("input").attr("disabled", false);
+            },
+            save: function () {
+                var birth = $("#year").val() + "-" + $("#mouth").val() + "-" + $("#day").val() + " 00:00:00";
+                $.ajax({
+                    url: "/User/updateUser",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        "id": $("#id").val(),
+                        "username": $("#username").val(),
+                        "phonenumber": $("#phonenumber").val(),
+                        "major": $("#major").val(),
+                        "mail": $("#mail").val(),
+                        "birth": birth
+                    },
+                    success: function (data) {
+                        alert(data.msg);
+                        $("input").attr("disabled", true);
+                    },
+                    error: function (data) {
+                        alert(data.msg);
+                    }
+                })
+            }
+        }
+    });
+
+    $(function () {
+        $("input").addClass("input-group");
+        $("input").addClass("userInformation");
+        $("input").attr("disabled", true);
+    });
+</script>
 </html>

@@ -6,7 +6,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private Date birth;
+    private String birth;
     private char sex;
     private String mail;
     private String phonenumber;
@@ -58,11 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getBirth() {
+    public String getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 
