@@ -112,9 +112,6 @@ public class UserController {
 	@ResponseBody
 	public Message updateUser(User user) throws Exception {
 		logger.info("updateUser start");
-//		Calendar instance = Calendar.getInstance();
-//		instance.setTime(user.getBirth());
-//		user.setBirth(instance.getTime());
 		boolean result = userService.updateUser(user);
 		if (result) {
 			msg = Currency.SUCCESS;
@@ -139,4 +136,12 @@ public class UserController {
 		logger.info("updatePassword end");
 		return new Message(user, msg);
 	}
+
+    @RequestMapping(value = "goForgetPassword")
+    public ModelAndView goForgetPassword(String username) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("forgetPassword.html");
+        modelAndView.addObject("username", username);
+        return modelAndView;
+    }
 }
