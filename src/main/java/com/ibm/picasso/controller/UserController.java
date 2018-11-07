@@ -1,10 +1,9 @@
 package com.ibm.picasso.controller;
 
-import com.ibm.picasso.domain.User;
-import com.ibm.picasso.pojo.Message;
-import com.ibm.picasso.service.impl.UserServiceImpl;
-import com.ibm.picasso.util.Currency;
-import com.ibm.picasso.util.Util;
+import java.util.Calendar;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
-import java.util.Calendar;
+import com.ibm.picasso.domain.User;
+import com.ibm.picasso.pojo.Message;
+import com.ibm.picasso.service.impl.UserServiceImpl;
+import com.ibm.picasso.util.Currency;
+import com.ibm.picasso.util.Util;
 
 @Controller
 @RequestMapping("/User/*")
@@ -28,20 +30,20 @@ public class UserController {
 	private static String msg = "";
 
 	@RequestMapping(value = "getUserById")
-    public ModelAndView getUserById(String id) {
-        ModelAndView modelAndView = new ModelAndView();
-        logger.info("getUserById start");
+	public ModelAndView getUserById(String id) {
+		ModelAndView modelAndView = new ModelAndView();
+		logger.info("getUserById start");
 		User user = userService.findUserById(Long.valueOf(id));
-        logger.info("getUserById end");
+		logger.info("getUserById end");
 		if (user != null) {
 			msg = Currency.SEARCHHAVE;
 		} else {
 			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
-        modelAndView.setViewName("personal_information.html");
-        modelAndView.addObject("user", user);
-        return modelAndView;
+		modelAndView.setViewName("personal_information.html");
+		modelAndView.addObject("user", user);
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "getUserByUsername")
@@ -137,11 +139,27 @@ public class UserController {
 		return new Message(user, msg);
 	}
 
-    @RequestMapping(value = "goForgetPassword")
-    public ModelAndView goForgetPassword(String username) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("forgetPassword.html");
-        modelAndView.addObject("username", username);
-        return modelAndView;
-    }
+	@RequestMapping(value = "goForgetPassword")
+	public ModelAndView goForgetPassword(String username) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forgetPassword.html");
+		modelAndView.addObject("username", username);
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public Message resetPassword(String username, String email) throws Exception {
+		logger.info("resetPassword start");
+		User user = userService.findUserByUsername(username);
+		user.setPassword(Util.MD5("123456"));
+		boolean result = userService.updatePassword(user);
+		if (result) {
+			msg = Currency.SUCCESS;
+		} else {
+			msg = Currency.ERROR;
+		}
+		logger.info("resetPassword end");
+		return new Message(user, msg);
+	}
 }
