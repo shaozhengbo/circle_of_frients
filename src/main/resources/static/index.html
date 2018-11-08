@@ -1,433 +1,453 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>首页</title>
-<script src="js/vue.js"></script>
-<!-- 引入 Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" />
-<link href="css/my.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>首页</title>
+    <script src="js/vue.js"></script>
+    <!-- 引入 Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/my.css" rel="stylesheet"/>
 
-<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-<script src="js/jQuery.js"></script>
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="js/jQuery.js"></script>
 
-<!-- 包括所有已编译的插件 -->
-<script src="js/bootstrap.min.js"></script>
-<style type="text/css">
-.mouseenterA {
-	color: #eb7350
-}
-</style>
+    <!-- 包括所有已编译的插件 -->
+    <script src="js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .mouseenterA {
+            color: #eb7350
+        }
+    </style>
 </head>
 <body>
-	<div id="app">
-		<div class="container hidden-md">
-			<div class="row clearfix">
-				<div class="col-md-12 column">
-					<nav class="navbar navbar-default navbar-fixed-top "
-						role="navigation" style="background: #fff;">
-						<div class="navbar-header"
-							style="margin-left: 50px; height: 48px; background: #fff;">
-							<button type="button" class="navbar-toggle"
-								data-toggle="collapse"
-								data-target="#bs-example-navbar-collapse-1">
-								<span class="sr-only">Toggle navigation</span><span
-									class="icon-bar"></span><span class="icon-bar" style="size: 10"></span><span
-									class="icon-bar"></span>
-							</button>
-							<a class="" href="#"> <!-- <img width="47" height="47"
+<div id="app">
+    <div class="container hidden-md">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <nav class="navbar navbar-default navbar-fixed-top "
+                     role="navigation" style="background: #fff;">
+                    <div class="navbar-header"
+                         style="margin-left: 50px; height: 48px; background: #fff;">
+                        <button type="button" class="navbar-toggle"
+                                data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span><span
+                                class="icon-bar"></span><!--<span class="icon-bar" style="size: 10"></span>--><span
+                                class="icon-bar"></span>
+                        </button>
+                        <a class="" href="#"> <!-- <img width="47" height="47"
 								src="img/QR-Code.png" style="margin-top: 2px;" /> --> <span
-								class="glyphicon glyphicon-globe"></span>
-							</a>
-						</div>
+                                class="glyphicon glyphicon-globe"></span>
+                        </a>
+                    </div>
 
-						<div class="collapse navbar-collapse"
-							id="bs-example-navbar-collapse-1" style="width: 95%;">
-							<form class="navbar-form navbar-left visible-md visible-lg"
-								role="search" style="margin-left: 50px;">
-								<div class="form-group">
-									<input type="text" class="form-control" style="width: 425px;" />
-								</div>
-								<button type="submit" class="btn btn-default">搜索</button>
-							</form>
-							<ul class="nav navbar-nav navbar-right">
-								<li class="hidden-xs"><a id="a" :class="{test1 :a}"
-									href="#" @mouseenter="letFontBeOrange"
-									@mouseleave="returnColor">登陆</a></li>
-								<li class="hidden-xs"><a id="b" href="#">注册</a></li>
-							</ul>
-							<ul class="nav navbar-nav navbar-right">
-								<li><a id='c' href="#">首页</a></li>
-								<li><a id='d' href="#">游戏</a></li>
-								<li class="visible-md visible-lg"><a>|</a></li>
-							</ul>
-						</div>
-					</nav>
+                    <div class="collapse navbar-collapse"
+                         id="bs-example-navbar-collapse-1" style="width: 95%;">
+                        <form class="navbar-form navbar-left visible-md visible-lg"
+                              role="search" style="margin-left: 50px;">
+                            <div class="form-group">
+                                <input type="text" class="form-control" style="width: 425px;"/>
+                            </div>
+                            <button type="submit" class="btn btn-default">搜索</button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden-xs"><a id="a" :class="{test1 :a}"
+                                                     href="#" @mouseenter="letFontBeOrange"
+                                                     @mouseleave="returnColor">登陆</a></li>
+                            <li class="hidden-xs"><a id="b" href="#">注册</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a id='c' href="#">首页</a></li>
+                            <li><a id='d' href="#">游戏</a></li>
+                            <li class="visible-md visible-lg"><a>|</a></li>
+                        </ul>
+                    </div>
+                </nav>
 
-					<div class="page-header" style="position: relative; top: 20px;">
+                <div class="page-header" style="position: relative; top: 20px;">
 
-						<div class="col-lg-6 visible-xs">
-							<div class="input-group">
-								<input type="text" class="form-control"
-									placeholder="Search for..."> <span
-									class="input-group-btn">
+                    <div class="col-lg-6 visible-xs">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Search for..."> <span
+                                class="input-group-btn">
 									<button class="btn btn-default" type="button">搜索</button>
 								</span>
-							</div>
-						</div>
-					</div>
-					<div class="row clearfix">
-						<div class="col-md-2 column">
-							<ol class="list-unstyled visible-md visible-lg">
-								<li><a> </a></li>
-								<li><a> </a></li>
-							</ol>
-						</div>
-						<div class="col-md-7 column">
-							<div class="row clearfix" style="border: 1px; border-style: solid; border-radius:20px; margin-right: 5px;">
-								<div class="title_area clearfix">
-									<div class="title" node-type="publishTitle">
-										<span class="txt">What’s new with you?</span>
-									</div>
-									<div class="num S_txt2" node-type="num" style="display: none;"></div>
-								</div>
-								<div style="width: 95.8%;">
-									<textarea class="form-control" title="消息输入框" name=""
-										node-type="textEl" pic_split="1" range="0&amp;0"
-										style="overflow: hidden; height: 68px; font-size: 14px; overflow-wrap: break-word; line-height: 18px; overflow: hidden; outline: none;"></textarea>
-								</div>
-							</div>
-							<div class="row clearfix">
-								<div class="col-md-12 column">
-									<!-- PC端 -->
-									<div class="row clearfix hidden-xs" style="width: 100%;">
-										<div class="media well" style="background: #ffffff">
-											<div>
-												<div style="float: left; clear: both;">
-													<img src="img/pic1.jpg" width="50px;" height="50px;"
-														style="border-radius: 25px;" />
-												</div>
-												<div style="float: left;">
-													&nbsp;&nbsp;<a href="" target="_blank">赵丽颖</a>
-												</div>
-												<br>
-												<div>
-													&nbsp;&nbsp;<small>2018年10月17日&nbsp;&nbsp;22:04:34</small>
-												</div>
-												<br>
-												<p>&nbsp;转发</p>
-											</div>
-											<div style="clear: both; background: #f2f2f5;">
-												<div style="margin-left: 55px; margin-top: 20px;">
-													<br>
-													<div style="float: left;">
-														<a href="" target="_blank">赵丽颖</a>
-													</div>
-													<br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-2 column">
+                        <ol class="list-unstyled visible-md visible-lg">
+                            <li><a> </a></li>
+                            <li><a> </a></li>
+                        </ol>
+                    </div>
+                    <div class="col-md-7 column">
+                        <div class="row clearfix"
+                             style="border: 1px; border-style: solid; border-radius:20px; margin-right: 5px;">
+                            <div class="title_area clearfix hidden-xs">
+                                <div class="title" node-type="publishTitle" style="margin-top: 1%;">
+                                    <span class="txt">&nbsp;&nbsp;What’s new with you?</span>
+                                </div>
+                                <div class="num S_txt2" node-type="num" style="display: none;"></div>
+                            </div>
+                            <div style="margin-top: 1%;width: 95.8%;">
+									<textarea class="form-control" title="消息输入框" placeholder="说些有趣的东西吧..." name=""
+                                              node-type="textEl" pic_split="1" range="0&amp;0"
+                                              style="overflow: hidden; height: 68px; font-size: 14px; overflow-wrap: break-word; line-height: 18px; overflow: hidden; outline: none;"></textarea>
+                            </div>
+                            <div>
+                                <button
+                                        style="margin-left: 66%;margin-bottom: 1%; width: 15%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;">
+                                    添加图片
+                                </button>
+                                <button
+                                        style="margin-left: 1%;margin-bottom: 1%; width: 15%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;">
+                                    发表
+                                </button>
+                            </div>
+                            <div style="text-align: left; width: 310px; margin-left: 8%;">
+                                <img class="pimg" src="img/1.jpg" width="112.97"
+                                     height="112.97" style="object-fit: cover;"/> <img
+                                    class="pimg" src="img/2.jpg" width="112.97" height="112.97"
+                                    style="object-fit: cover;"/>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-md-12 column">
+                                <!-- PC端 -->
+                                <div class="row clearfix hidden-xs" style="width: 100%;">
+                                    <div class="media well" style="background: #ffffff">
+                                        <div>
+                                            <div style="float: left; clear: both;">
+                                                <img src="img/pic1.jpg" width="50px;" height="50px;"
+                                                     style="border-radius: 25px;"/>
+                                            </div>
+                                            <div style="float: left;">
+                                                &nbsp;&nbsp;<a href="" target="_blank">赵丽颖</a>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                &nbsp;&nbsp;<small>2018年10月17日&nbsp;&nbsp;22:04:34</small>
+                                            </div>
+                                            <br>
+                                            <p>&nbsp;转发</p>
+                                        </div>
+                                        <div style="clear: both; background: #f2f2f5;">
+                                            <div style="margin-left: 55px; margin-top: 20px;">
+                                                <br>
+                                                <div style="float: left;">
+                                                    <a href="" target="_blank">赵丽颖</a>
+                                                </div>
+                                                <br>
 
-													<p>
-														官宣<img width="17px;" height="17px;" src="img/xin.png">
-													</p>
-													<div style="text-align: left; width: 400px;">
-														<img class="pimg" src="img/1.jpg" width="112.97"
-															height="112.97" style="object-fit: cover;" /> <img
-															class="pimg" src="img/2.jpg" width="112.97"
-															height="112.97" style="object-fit: cover;" />
-													</div>
-													<div>
-														<small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
-													</div>
-												</div>
-											</div>
-											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
-												<button type="button" class="btn btn-default"
-													aria-label="Left Align" style="width: 32%;">
-													<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
-												</button>
-												<button type="button" class="btn btn-default"
-													aria-label="Center Align" style="width: 32%;">
+                                                <p>
+                                                    官宣<img width="17px;" height="17px;" src="img/xin.png">
+                                                </p>
+                                                <div style="text-align: left; width: 400px;">
+                                                    <img class="pimg" src="img/1.jpg" width="112.97"
+                                                         height="112.97" style="object-fit: cover;"/> <img
+                                                        class="pimg" src="img/2.jpg" width="112.97"
+                                                        height="112.97" style="object-fit: cover;"/>
+                                                </div>
+                                                <div>
+                                                    <small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 100%; margin-left: 5px; margin-top: 10px;">
+                                            <button type="button" class="btn btn-default"
+                                                    aria-label="Left Align" style="width: 32%;">
+                                                <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    aria-label="Center Align" style="width: 32%;">
 													<span class="glyphicon glyphicon-comment"
-														aria-hidden="true"></span>
-												</button>
-												<button type="button" class="btn btn-default"
-													aria-label="Right Align" style="width: 32%;">
+                                                          aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    aria-label="Right Align" style="width: 32%;">
 													<span class="glyphicon glyphicon-thumbs-up"
-														aria-hidden="true"></span>
-												</button>
+                                                          aria-hidden="true"></span>
+                                            </button>
 
-											</div>
-										</div>
+                                        </div>
+                                    </div>
 
-									</div>
-									<!-- 移动端 -->
-									<div class="row clearfix visible-xs">
-										<div style="background: #ffffff; margin-top: 20px;">
-											<div>
-												<table style="width: 100%">
-													<tr>
-														<td style="width: 8%;"></td>
-														<td style="height: 55px; width: 90%;"><img
-															src="img/pic1.jpg" width="32;" height="32;"
-															style="border-radius: 25px;" /> &nbsp;&nbsp;<a href="#"
-															style="height: 19"><font size="2.5">赵丽颖</font></a> <span
-															style="color: #87909a; border: 1px; border-color: #87909a; border-style: solid; padding: 4.5px; font-size: 10px; margin-left: 45%">&nbsp;&nbsp;&nbsp;＋&nbsp;关注&nbsp;&nbsp;&nbsp;&nbsp;</span>
-														</td>
-													</tr>
-													<tr>
-														<td style="width: 8%;"></td>
-														<td style="width: 90%;">
-															<div>
-																官宣<img width="17px;" height="17px;" src="img/xin.png">
-															</div>
-														</td>
-													</tr>
-												</table>
-											</div>
-											<div style="text-align: left; width: 310px; margin-left: 8%;">
-												<img class="pimg" src="img/1.jpg" width="112.97"
-													height="112.97" style="object-fit: cover;" /> <img
-													class="pimg" src="img/2.jpg" width="112.97" height="112.97"
-													style="object-fit: cover;" />
-											</div>
-											<div style="margin-left: 8%;">
-												<small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
-											</div>
-											<footer class="container-fluid foot-wrap"
-												style="margin-top: 10px;">
-												<button type="button" class="btn btn-default"
-													aria-label="Left Align" style="width: 32%;">
-													<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
-												</button>
-												<button type="button" class="btn btn-default"
-													aria-label="Center Align" style="width: 32%;">
+                                </div>
+                                <!-- 移动端 -->
+                                <div class="row clearfix visible-xs">
+                                    <div style="background: #ffffff; margin-top: 20px;">
+                                        <div>
+                                            <table style="width: 100%">
+                                                <tr>
+                                                    <td style="width: 8%;"></td>
+                                                    <td style="height: 55px; width: 90%;"><img
+                                                            src="img/pic1.jpg" width="32;" height="32;"
+                                                            style="border-radius: 25px;"/> &nbsp;&nbsp;<a href="#"
+                                                                                                          style="height: 19"><font
+                                                            size="2.5">赵丽颖</font></a> <span
+                                                            style="color: #87909a; border: 1px; border-color: #87909a; border-style: solid; padding: 4.5px; font-size: 10px; margin-left: 45%">&nbsp;&nbsp;&nbsp;＋&nbsp;关注&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 8%;"></td>
+                                                    <td style="width: 90%;">
+                                                        <div>
+                                                            官宣<img width="17px;" height="17px;" src="img/xin.png">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div style="text-align: left; width: 310px; margin-left: 8%;">
+                                            <img class="pimg" src="img/1.jpg" width="112.97"
+                                                 height="112.97" style="object-fit: cover;"/> <img
+                                                class="pimg" src="img/2.jpg" width="112.97" height="112.97"
+                                                style="object-fit: cover;"/>
+                                        </div>
+                                        <div style="margin-left: 8%;">
+                                            <small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
+                                        </div>
+                                        <footer class="container-fluid foot-wrap"
+                                                style="margin-top: 10px;">
+                                            <button type="button" class="btn btn-default"
+                                                    aria-label="Left Align" style="width: 32%;">
+                                                <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    aria-label="Center Align" style="width: 32%;">
 													<span class="glyphicon glyphicon-comment"
-														aria-hidden="true"></span>
-												</button>
-												<button type="button" class="btn btn-default"
-													aria-label="Right Align" style="width: 32%;">
+                                                          aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    aria-label="Right Align" style="width: 32%;">
 													<span class="glyphicon glyphicon-thumbs-up"
-														aria-hidden="true"></span>
-												</button>
-											</footer>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- 登陆窗口 -->
-						<div id="loginDiv" class="col-md-3 column hidden-xs"
-							style="border-style: solid; border-width: 1px; border-color: #f2f2f5; border-radius: 10px;">
-							<div class="tabbable" id="tabs-337301">
-								<ul class="nav nav-tabs" style="text-align: center;">
-									<li id="tab-login" style="color: #000; width: 50%;"><a
-										href="#tab_login" data-toggle="tab"
-										onclick="clickTab('tab-login')">登陆</a></li>
-									<li id="tab-register" style="color: #000; width: 50%;"><a
-										href="#tab_register" data-toggle="tab"
-										onclick="clickTab('tab-register')">注册</a></li>
-								</ul>
-								<HR
-									style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 2)"
-									width="100%" color=#987cb9 SIZE=1 />
-								<div class="tab-content">
-									<div class="tab-pane active" id="tab_login">
-										<form class="form-horizontal" role="form">
-											<div class="form-group">
-												<label for="inputUsername" class="col-sm-3 control-label">账号</label>
-												<div class="col-sm-8">
-													<input type="text" class="form-control" id="inputUsername"
-														placeholder="手机号/邮箱地址/用户名" onkeyup="recoveryButton()" />
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="inputPassword" class="col-sm-3 control-label">密码</label>
-												<div class="col-sm-8">
-													<input type="password" class="form-control"
-														id="inputPassword" placeholder="请输入密码"
-														onkeyup="recoveryButton()" />
-												</div>
-											</div>
-											<div class="form-group"
-												style="text-align: right; width: 95%;">
-												<small><a onclick="forgetPassword()">忘记密码?</a></small>
-											</div>
-											<div class="form-group">
-												<div style="text-align: center;">
-													<button id="loginButton" type="button"
-														style="width: 70%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;"
-														class="btn btn-default" onclick="login()">登&nbsp;&nbsp;陆
-													</button>
-												</div>
-											</div>
-										</form>
-									</div>
-									<div class="tab-pane" id="tab_register">
-										<form class="form-horizontal" role="form">
-											<div class="form-group">
-												<label for="inputEmail2" class="col-sm-3 control-label">账号</label>
-												<div class="col-sm-8">
-													<input type="email" class="form-control" id="inputEmail2" />
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="inputPassword2" class="col-sm-3 control-label">密码</label>
-												<div class="col-sm-8">
-													<input type="password" class="form-control"
-														id="inputPassword2" />
-												</div>
-											</div>
-											<div class="form-group"
-												style="text-align: right; width: 95%;">
-												<small><a href="">&nbsp;</a></small>
-											</div>
-											<div class="form-group">
-												<div style="text-align: center;">
-													<button type="submit"
-														style="width: 70%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;"
-														class="btn btn-default">注&nbsp;&nbsp;册</button>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<HR
-						style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 3)"
-						width="100%" color=#987cb9 SIZE=3 />
-					<div class="row clearfix">
-						<div class="col-md-12 column">
-							<!-- PC端 -->
-							<div class="row clearfix hidden-xs" style="margin-left: 100px;">
-								<div class="col-md-4 column" style="margin-top: 20px;">
-									<ol class="list-unstyled">
-										<li><a href="#">意见反馈</a></li>
-										<li><a href="#">联系我们</a></li>
-									</ol>
-								</div>
-
-								<div class="col-md-4 column" style="margin-top: 20px;">
-									<ol class="list-unstyled">
-										<li><a href="#">意见反馈</a></li>
-										<li><a href="#">联系我们</a></li>
-									</ol>
-								</div>
-								<div class="col-md-4 column hidden-xs">
-									<h3 class="text-left">&nbsp;&nbsp;作者微信</h3>
-									<img width="128" height="128" src="img/QR-Code.png"
-										class="img-thumbnail img-responsive" alt="Responsive image"
-										style="align-content: center;" />
-								</div>
-								<div class="col-md-4 column visible-xs"
-									style="text-align: center;">
-									<h3 class="text-conter">作者微信</h3>
-									<img width="128" height="128" src="img/QR-Code.png"
-										class="img-thumbnail img-responsive" alt="Responsive image"
-										style="align-content: center;" />
-								</div>
-							</div>
-
-							<!-- 移动端 -->
-							<div class="row clearfix visible-xs">
-								<div class="col-md-4 column"
-									style="text-align: center; font-size: 18px;">
-									<ol class="list-unstyled">
-										<li><a href="#">意见反馈</a></li>
-										<li><a href="#">联系我们</a></li>
-									</ol>
-								</div>
-
-								<!-- <div class="col-md-4 column"
-                                style="text-align: center; font-size: 18px;">
+                                                          aria-hidden="true"></span>
+                                            </button>
+                                        </footer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 登陆窗口 -->
+                    <div id="loginDiv" class="col-md-3 column hidden-xs"
+                         style="border-style: solid; border-width: 1px; border-color: #f2f2f5; border-radius: 10px;">
+                        <div class="tabbable" id="tabs-337301">
+                            <ul class="nav nav-tabs" style="text-align: center;">
+                                <li id="tab-login" style="color: #000; width: 50%;"><a
+                                        href="#tab_login" data-toggle="tab"
+                                        onclick="clickTab('tab-login')">登陆</a></li>
+                                <li id="tab-register" style="color: #000; width: 50%;"><a
+                                        href="#tab_register" data-toggle="tab"
+                                        onclick="clickTab('tab-register')">注册</a></li>
+                            </ul>
+                            <HR
+                                    style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 2)"
+                                    width="100%" color=#987cb9 SIZE=1/>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_login">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="inputUsername" class="col-sm-3 control-label">账号</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="inputUsername"
+                                                       placeholder="手机号/邮箱地址/用户名" onkeyup="recoveryButton()"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword" class="col-sm-3 control-label">密码</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" class="form-control"
+                                                       id="inputPassword" placeholder="请输入密码"
+                                                       onkeyup="recoveryButton()"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"
+                                             style="text-align: right; width: 95%;">
+                                            <small><a onclick="forgetPassword()">忘记密码?</a></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <div style="text-align: center;">
+                                                <button id="loginButton" type="button"
+                                                        style="width: 70%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;"
+                                                        class="btn btn-default" onclick="login()">登&nbsp;&nbsp;陆
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="tab_register">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="inputEmail2" class="col-sm-3 control-label">账号</label>
+                                            <div class="col-sm-8">
+                                                <input type="email" class="form-control" id="inputEmail2"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputPassword2" class="col-sm-3 control-label">密码</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" class="form-control"
+                                                       id="inputPassword2"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"
+                                             style="text-align: right; width: 95%;">
+                                            <small><a href="">&nbsp;</a></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <div style="text-align: center;">
+                                                <button type="submit"
+                                                        style="width: 70%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;"
+                                                        class="btn btn-default">注&nbsp;&nbsp;册
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <HR
+                        style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 3)"
+                        width="100%" color=#987cb9 SIZE=3/>
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <!-- PC端 -->
+                        <div class="row clearfix hidden-xs" style="margin-left: 100px;">
+                            <div class="col-md-4 column" style="margin-top: 20px;">
                                 <ol class="list-unstyled">
                                     <li><a href="#">意见反馈</a></li>
                                     <li><a href="#">联系我们</a></li>
                                 </ol>
-                            </div> -->
+                            </div>
 
-								<div class="col-md-4 column hidden-xs">
-									<h5 class="text-left">&nbsp;&nbsp;作者微信</h5>
-									<img width="128" height="128" src="img/QR-Code.png"
-										class="img-thumbnail img-responsive" alt="Responsive image"
-										style="align-content: center;" />
-								</div>
-								<div class="col-md-4 column visible-xs"
-									style="text-align: center;">
-									<h3 class="text-conter">作者微信</h3>
-									<img width="128" height="128" src="img/QR-Code.png"
-										class="img-thumbnail img-responsive" alt="Responsive image"
-										style="align-content: center;" />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<button class="btn btn-primary visible-xs"
-				style="border-radius: 20px; color: white; opacity: 0.8; width: 33%; left: 33%; top: 90%; position: fixed;">
-				&nbsp;登陆/注册&nbsp;</button>
-			<div class="w-1000 copyright"
-				style="text-align: center; line-height: 100px;">
-				Picasso © 2018-2019 <strong><a href="shaozhbo@cn.ibm.com">shaozhbo@cn.ibm.com</a></strong>&nbsp;
-			</div>
-		</div>
-		<div id="outerdiv">
-			<div id="innerdiv">
-				<img id="bigimg" />
-			</div>
-		</div>
-	</div>
+                            <div class="col-md-4 column" style="margin-top: 20px;">
+                                <ol class="list-unstyled">
+                                    <li><a href="#">意见反馈</a></li>
+                                    <li><a href="#">联系我们</a></li>
+                                </ol>
+                            </div>
+                            <div class="col-md-4 column hidden-xs">
+                                <h3 class="text-left">&nbsp;&nbsp;作者微信</h3>
+                                <img width="128" height="128" src="img/QR-Code.png"
+                                     class="img-thumbnail img-responsive" alt="Responsive image"
+                                     style="align-content: center;"/>
+                            </div>
+                            <div class="col-md-4 column visible-xs"
+                                 style="text-align: center;">
+                                <h3 class="text-conter">作者微信</h3>
+                                <img width="128" height="128" src="img/QR-Code.png"
+                                     class="img-thumbnail img-responsive" alt="Responsive image"
+                                     style="align-content: center;"/>
+                            </div>
+                        </div>
+
+                        <!-- 移动端 -->
+                        <div class="row clearfix visible-xs">
+                            <div class="col-md-4 column"
+                                 style="text-align: center; font-size: 18px;">
+                                <ol class="list-unstyled">
+                                    <li><a href="#">意见反馈</a></li>
+                                    <li><a href="#">联系我们</a></li>
+                                </ol>
+                            </div>
+
+                            <!-- <div class="col-md-4 column"
+                            style="text-align: center; font-size: 18px;">
+                            <ol class="list-unstyled">
+                                <li><a href="#">意见反馈</a></li>
+                                <li><a href="#">联系我们</a></li>
+                            </ol>
+                        </div> -->
+
+                            <div class="col-md-4 column hidden-xs">
+                                <h5 class="text-left">&nbsp;&nbsp;作者微信</h5>
+                                <img width="128" height="128" src="img/QR-Code.png"
+                                     class="img-thumbnail img-responsive" alt="Responsive image"
+                                     style="align-content: center;"/>
+                            </div>
+                            <div class="col-md-4 column visible-xs"
+                                 style="text-align: center;">
+                                <h3 class="text-conter">作者微信</h3>
+                                <img width="128" height="128" src="img/QR-Code.png"
+                                     class="img-thumbnail img-responsive" alt="Responsive image"
+                                     style="align-content: center;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary visible-xs"
+                style="border-radius: 20px; color: white; opacity: 0.8; width: 33%; left: 33%; top: 90%; position: fixed;">
+            &nbsp;登陆/注册&nbsp;
+        </button>
+        <div class="w-1000 copyright"
+             style="text-align: center; line-height: 100px;">
+            Picasso © 2018-2019 <strong><a href="shaozhbo@cn.ibm.com">shaozhbo@cn.ibm.com</a></strong>&nbsp;
+        </div>
+    </div>
+    <div id="outerdiv">
+        <div id="innerdiv">
+            <img id="bigimg"/>
+        </div>
+    </div>
+</div>
 </body>
 <!-- 自定义JS -->
 <script src="js/main.js"></script>
 <script>
-	$(function() {
-		$('#a').mouseenter(function() {
-			$('#a').css("color", "#eb7350");
-		});
+    $(function () {
+        $('#a').mouseenter(function () {
+            $('#a').css("color", "#eb7350");
+        });
 
-		$('#a').mouseleave(function() {
-			$('#a').css("color", "");
-		});
+        $('#a').mouseleave(function () {
+            $('#a').css("color", "");
+        });
 
-		$('#b').mouseenter(function() {
-			$('#b').css("color", "#eb7350");
-		});
+        $('#b').mouseenter(function () {
+            $('#b').css("color", "#eb7350");
+        });
 
-		$('#b').mouseleave(function() {
-			$('#b').css("color", "");
-		});
+        $('#b').mouseleave(function () {
+            $('#b').css("color", "");
+        });
 
-		$('#c').mouseenter(function() {
-			$('#c').css("color", "#eb7350");
-		});
+        $('#c').mouseenter(function () {
+            $('#c').css("color", "#eb7350");
+        });
 
-		$('#c').mouseleave(function() {
-			$('#c').css("color", "");
-		});
+        $('#c').mouseleave(function () {
+            $('#c').css("color", "");
+        });
 
-		$('#d').mouseenter(function() {
-			$('#d').css("color", "#eb7350");
-		});
+        $('#d').mouseenter(function () {
+            $('#d').css("color", "#eb7350");
+        });
 
-		$('#d').mouseleave(function() {
-			$('#d').css("color", "");
-		});
-		$('#tab-login').addClass("tab-active");
-		$('#tab-register').addClass("tab-unactive");
+        $('#d').mouseleave(function () {
+            $('#d').css("color", "");
+        });
+        $('#tab-login').addClass("tab-active");
+        $('#tab-register').addClass("tab-unactive");
 
-		$(".pimg").click(function() {
-			var _this = $(this);
-			imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
-		});
-	});
+        $(".pimg").click(function () {
+            var _this = $(this);
+            imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+        });
+    });
 
-	function forgetPassword() {
-		var username = $("#inputUsername").val();
-		window.location.href = "/User/goForgetPassword?username=" + username;
-	}
+    function forgetPassword() {
+        var username = $("#inputUsername").val();
+        window.location.href = "/User/goForgetPassword?username=" + username;
+    }
 </script>
 </html>

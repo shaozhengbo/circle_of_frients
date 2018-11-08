@@ -1,9 +1,10 @@
 package com.ibm.picasso.controller;
 
-import java.util.Calendar;
-
-import javax.servlet.http.HttpSession;
-
+import com.ibm.picasso.domain.User;
+import com.ibm.picasso.pojo.Message;
+import com.ibm.picasso.service.impl.UserServiceImpl;
+import com.ibm.picasso.util.Currency;
+import com.ibm.picasso.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibm.picasso.domain.User;
-import com.ibm.picasso.pojo.Message;
-import com.ibm.picasso.service.impl.UserServiceImpl;
-import com.ibm.picasso.util.Currency;
-import com.ibm.picasso.util.Util;
+import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("/User/*")
@@ -81,7 +79,7 @@ public class UserController {
 
 	@RequestMapping(value = "getUserByPhonenumber")
 	@ResponseBody
-	public Message getUserByPhonenumber(String phonenumber) throws Exception {
+    public Message getUserByPhonenumber(String phonenumber) {
 		logger.info("getUserByUsernameAndPassword start");
 		User user = userService.findUserByPhonenumber(phonenumber);
 		if (user != null) {
@@ -112,7 +110,7 @@ public class UserController {
 
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public Message updateUser(User user) throws Exception {
+    public Message updateUser(User user) {
 		logger.info("updateUser start");
 		boolean result = userService.updateUser(user);
 		if (result) {
