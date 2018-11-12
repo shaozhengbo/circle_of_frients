@@ -26,8 +26,18 @@ public class FriendsServiceImpl implements FriendsService {
 	}
 
 	@Override
-	public int createFriendRelationship(Friends friends) {
-		return 0;
+	public List<Friends> findAllFriendsByUid(User user) {
+		return friendsMapper.selectAllFriendsByUid1(user);
+	}
+
+	@Override
+	public int addFriends(Friends friends) {
+		return friendsMapper.insert(friends);
+	}
+
+	@Override
+	public Friends isFriends(Friends friends) {
+		return friendsMapper.selectFriendsByUid1AndUid2(friends);
 	}
 
 }
