@@ -1,17 +1,18 @@
 package com.ibm.picasso.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.ibm.picasso.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ibm.picasso.domain.User;
+import com.ibm.picasso.mapper.UserMapper;
 import com.ibm.picasso.service.UserService;
 
-@Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userDao;
 
 	@Override
 	public User findUserByUsername(String username) {
@@ -47,5 +48,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserById(Long id) {
 		return userDao.selectUserById(id);
+	}
+
+	@Override
+	public List<User> searchUser(String searchStr) {
+		List<User> result = userDao.selectUserBySearchStr(searchStr);
+		return result == null ? new ArrayList<>() : result;
 	}
 }

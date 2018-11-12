@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Util {
 	public static String MD5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -18,6 +20,10 @@ public class Util {
 			md5code = "0" + md5code;
 		}
 		return md5code;
+	}
+
+	public static Date getNowDate() {
+		return Calendar.getInstance().getTime();
 	}
 
 }
