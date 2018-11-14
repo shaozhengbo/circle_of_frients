@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 09/11/2018 07:00:23
+ Date: 15/11/2018 00:38:53
 */
 
 SET NAMES utf8mb4;
@@ -33,6 +33,26 @@ CREATE TABLE `album` (
   PRIMARY KEY (`id`),
   KEY `fk_a_uid` (`uid`),
   CONSTRAINT `fk_a_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mid` bigint(20) unsigned NOT NULL,
+  `uid` bigint(20) unsigned NOT NULL,
+  `to` bigint(20) unsigned NOT NULL COMMENT '自连外键（0是独立评论）',
+  `comment` varchar(255) NOT NULL,
+  `createtime` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_c_mid` (`mid`),
+  KEY `fk_c_uid` (`uid`),
+  KEY `fk_c_to` (`to`),
+  CONSTRAINT `fk_c_mid` FOREIGN KEY (`mid`) REFERENCES `message` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_c_to` FOREIGN KEY (`to`) REFERENCES `comment` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_c_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
