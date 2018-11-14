@@ -4,5 +4,19 @@ import com.ibm.picasso.domain.Forward;
 
 public interface ForwardService {
 
-	int addForwardRecord(Forward forward);
+    /**
+     * 转发
+     *
+     * @param forward
+     * @return
+     */
+    int addForwardRecord(Forward forward);
+
+    /**
+     * 获取转发数
+     *
+     * @param forward
+     * @return
+     */
+    int getForwardNumber(Forward forward);
 }

@@ -1,10 +1,12 @@
 package com.ibm.picasso.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ibm.picasso.domain.Point;
 import com.ibm.picasso.mapper.PointMapper;
 import com.ibm.picasso.service.PointService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PointServiceImpl implements PointService{
 	
@@ -20,5 +22,14 @@ public class PointServiceImpl implements PointService{
 			return -1;
 		}
 	}
+
+    @Override
+    public int getPointNumber(Point point) {
+        List<Point> pointList = pointMapper.selectByMid(point.getMid().getId());
+        if (pointList == null) {
+            pointList = new ArrayList<>();
+        }
+        return pointList.size();
+    }
 
 }

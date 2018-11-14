@@ -1,17 +1,5 @@
 package com.ibm.picasso.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ibm.picasso.domain.Forward;
 import com.ibm.picasso.domain.Message;
 import com.ibm.picasso.domain.Point;
@@ -22,6 +10,16 @@ import com.ibm.picasso.service.FriendsService;
 import com.ibm.picasso.service.MessageService;
 import com.ibm.picasso.service.PointService;
 import com.ibm.picasso.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/Message/*")
@@ -105,8 +103,8 @@ public class MessageController {
 	
 	/**
 	 * 更新朋友圈状态
-	 * @param message
-	 * @param session
+     * @param id
+     * @param status
 	 * @return
 	 */
 	@RequestMapping(value = "updateMessage", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
