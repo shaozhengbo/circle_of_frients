@@ -12,10 +12,10 @@ public interface PointMapper {
 	@Delete("DELETE FROM POINT WHERE id = #{id}")
     int deleteByPrimaryKey(@Param(value="id")Long id);
 
-	@Insert("insert into point(mid, uid, createtime) values(#{mid}, #{uid}, #{createtime})")
+	@Insert("insert into point(mid, uid, createtime) values(#{mid.id}, #{uid.id}, #{createtime})")
     int insert(Point point);
 
-	@Select("SELECT * FROM POINT WHERE MID = #{mid} AND UID = #{uid}")
+	@Select("SELECT * FROM POINT WHERE MID = #{mid.id} AND UID = #{uid.id}")
     Point selectByMidAndUid(Point point);
 
     @Select("SELECT * FROM POINT WHERE MID = #{mid}")
