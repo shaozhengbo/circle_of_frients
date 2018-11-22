@@ -27,12 +27,3 @@
 	border: 5px solid #fff;
 	margin-top: 100px;
 }
-
-textarea {
-	margin-left: 5px;
-	rows: 6;
-	display: block;
-	margin-bottom: 10px;
-	font-size: 14px;
-	resize: none;
-}
