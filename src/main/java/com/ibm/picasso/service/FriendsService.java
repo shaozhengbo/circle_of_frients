@@ -13,10 +13,7 @@ import com.ibm.picasso.domain.User;
 public interface FriendsService {
 
 	List<Long> getAllFriendsIds(User user);
-
-	List<Friends> findAllFriendsByUid(User user);
-
-	int addFriends(Friends friends);
-
-	Friends isFriends(Friends friends);
+	
+	int createFriendRelationship(Friends friends);
+	
 }

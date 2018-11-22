@@ -6,10 +6,17 @@ import com.ibm.picasso.domain.Friends;
 import com.ibm.picasso.domain.User;
 
 public interface FriendsMapper {
+    int deleteByPrimaryKey(Long id);
 
     int insert(Friends record);
 
-    List<Friends> selectAllFriendsByUid1(User user);
+    int insertSelective(Friends record);
 
-	Friends selectFriendsByUid1AndUid2(Friends friends);
+    Friends selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(Friends record);
+
+    int updateByPrimaryKey(Friends record);
+    
+    List<Friends> selectAllFriendsByUid1(User user);
 }

@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ibm.picasso.domain.Forward;
 import com.ibm.picasso.domain.Message;
 import com.ibm.picasso.domain.Point;
 import com.ibm.picasso.domain.User;
 import com.ibm.picasso.pojo.ResultPojo;
-import com.ibm.picasso.service.ForwardService;
 import com.ibm.picasso.service.FriendsService;
 import com.ibm.picasso.service.MessageService;
 import com.ibm.picasso.service.PointService;
@@ -33,8 +31,6 @@ public class MessageController {
 	private FriendsService friendsService;
 	@Autowired
 	private PointService pointService;
-	@Autowired
-	private ForwardService forwardService;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -57,7 +53,7 @@ public class MessageController {
 		if (lst == null) {
 			msg = "获取失败";
 		}
-		logger.info("showAllMessages end");
+		logger.info("showAllMEssages end");
 		return new ResultPojo(lst, msg);
 	}
 
@@ -151,11 +147,6 @@ public class MessageController {
 		int result = messageService.forwardMessage(newMessage);
 		if (result > 0) {
 			msg = "转发成功";
-			Forward forward = new Forward();
-			forward.setMid(message);
-			forward.setUid((User) session.getAttribute("user"));
-			forward.setCreatetime(Util.getNowDate());
-			forwardService.addForwardRecord(forward);
 		}
 		logger.info("forwardMessage end");
 		return new ResultPojo(message, msg);
