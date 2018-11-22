@@ -1,7 +1,6 @@
 package com.ibm.picasso.controller;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,12 +29,6 @@ public class UserController {
 
 	private static String msg = "";
 
-	/**
-	 * 个人信息页面跳转
-	 * 
-	 * @param id
-	 * @return
-	 */
 	@RequestMapping(value = "getUserById")
 	public ModelAndView getUserById(String id) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -53,12 +46,6 @@ public class UserController {
 		return modelAndView;
 	}
 
-	/**
-	 * 通过用户名查找用户
-	 * 
-	 * @param username
-	 * @return
-	 */
 	@RequestMapping(value = "getUserByUsername")
 	@ResponseBody
 	public ResultPojo getUserByUsername(String username) {
@@ -74,15 +61,6 @@ public class UserController {
 		return new ResultPojo(user, msg);
 	}
 
-	/**
-	 * 登陆
-	 * 
-	 * @param username
-	 * @param password
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "getUserByUsernameAndPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResultPojo getUserByUsernameAndPassword(String username, String password, HttpSession session)
@@ -101,33 +79,21 @@ public class UserController {
 		return message;
 	}
 
-	/**
-	 * 模糊查询用户
-	 * 
-	 * @param searchStr
-	 * @return
-	 */
-	@RequestMapping(value = "searchUser", method=RequestMethod.POST, produces="appliction/json; charset = utf-8")
+	@RequestMapping(value = "getUserByPhonenumber")
 	@ResponseBody
-	public ResultPojo searchUser(String searchStr) {
-		logger.info("searchUser start");
-		List<User> userLst = userService.searchUser(searchStr);
-		if (userLst.size() == 0) {
+    public ResultPojo getUserByPhonenumber(String phonenumber) {
+		logger.info("getUserByUsernameAndPassword start");
+		User user = userService.findUserByPhonenumber(phonenumber);
+		if (user != null) {
 			msg = Currency.SEARCHHAVE;
 		} else {
+			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
-		logger.info("searchUser end");
-		return new ResultPojo(userLst, msg);
+		logger.info("getUserByUsernameAndPassword end");
+		return new ResultPojo(user, msg);
 	}
 
-	/**
-	 * 注册
-	 * 
-	 * @param user
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "registerUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResultPojo registerUser(User user) throws Exception {
@@ -144,15 +110,9 @@ public class UserController {
 		return new ResultPojo(user, msg);
 	}
 
-	/**
-	 * 更新用户资料
-	 * 
-	 * @param user
-	 * @return
-	 */
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResultPojo updateUser(User user) {
+    public ResultPojo updateUser(User user) {
 		logger.info("updateUser start");
 		boolean result = userService.updateUser(user);
 		if (result) {
@@ -164,13 +124,6 @@ public class UserController {
 		return new ResultPojo(user, msg);
 	}
 
-	/**
-	 * 修改密码
-	 * 
-	 * @param user
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "updatePassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResultPojo updatePassword(User user) throws Exception {
@@ -186,12 +139,6 @@ public class UserController {
 		return new ResultPojo(user, msg);
 	}
 
-	/**
-	 * 忘记密码页面跳转
-	 * 
-	 * @param username
-	 * @return
-	 */
 	@RequestMapping(value = "goForgetPassword")
 	public ModelAndView goForgetPassword(String username) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -200,14 +147,6 @@ public class UserController {
 		return modelAndView;
 	}
 
-	/**
-	 * 重置密码
-	 * 
-	 * @param username
-	 * @param email
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public ResultPojo resetPassword(String username, String email) throws Exception {
