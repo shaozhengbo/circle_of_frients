@@ -14,8 +14,8 @@ public interface MessageMapper {
 	@Delete("UPDATE MESSAGE SET STATUE = 2, DELETETIME = #{DELETETIME} WHERE ID = #{id}")
     int deleteByPrimaryKey(Long id);
 
-	@Insert("INSERT INTO MESSAGE(UID, MESSAGE, PIDS, FROM, STATUE, CREATETIME) VALUES(#{uid.id}, #{message}, #{pids}, #{from}, #{statue}, #{createtime})")
-    int insert(Message message);
+	@Insert("INSERT INTO MESSAGE(UID, MESSAGE, PIDS, FROM, STATUE, CREATETIME) VALUES(#{uid}, #{message}, #{pids}, #{from}, #{statue}, #{createtime})")
+    int insert(Message record);
 
 	@Select("SELECT * FROM MESSAGE WHERE ID = #{id}")
     Message selectByPrimaryKey(Long id);

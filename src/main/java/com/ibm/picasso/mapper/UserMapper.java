@@ -31,8 +31,7 @@ public interface UserMapper {
 	User selectUserByUsername(@Param("username")String username);
 	
 	@Select("SELECT * FROM user WHERE username = #{username} And password = #{password}")
-	User selectUserByUsernameAndPassword(@Param("username")String username, @Param("password")String password);
-/*@Results(value = { @Result(id = true, property = "id", column = "id"),
+	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "username", column = "username"), 
 			@Result(property = "birth", column = "birth"),
 			@Result(property = "sex", column = "sex"),
@@ -41,7 +40,8 @@ public interface UserMapper {
 			@Result(property = "major", column = "major"),
 			@Result(property = "createtime", column = "createtime"),
 			@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")) })
-	*/
+	User selectUserByUsernameAndPassword(@Param("username")String username, @Param("password")String password);
+	
 	@Select("SELECT * FROM user WHERE phonenumber = #{phonenumber}")
 	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "username", column = "username"), 
