@@ -1,9 +1,10 @@
 package com.ibm.picasso.controller;
 
-import java.util.Calendar;
-
-import javax.servlet.http.HttpSession;
-
+import com.ibm.picasso.domain.User;
+import com.ibm.picasso.pojo.Message;
+import com.ibm.picasso.service.impl.UserServiceImpl;
+import com.ibm.picasso.util.Currency;
+import com.ibm.picasso.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ibm.picasso.domain.User;
-import com.ibm.picasso.pojo.ResultPojo;
-import com.ibm.picasso.service.UserService;
-import com.ibm.picasso.util.Currency;
-import com.ibm.picasso.util.Util;
+import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("/User/*")
 public class UserController {
 	@Autowired
-	private UserService userService;
+	UserServiceImpl userService;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -48,7 +46,7 @@ public class UserController {
 
 	@RequestMapping(value = "getUserByUsername")
 	@ResponseBody
-	public ResultPojo getUserByUsername(String username) {
+	public Message getUserByUsername(String username) {
 		logger.info("getUserByUsername start");
 		User user = userService.findUserByUsername(username);
 		logger.info("getUserByUsername end");
@@ -58,12 +56,12 @@ public class UserController {
 			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
-		return new ResultPojo(user, msg);
+		return new Message(user, msg);
 	}
 
 	@RequestMapping(value = "getUserByUsernameAndPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResultPojo getUserByUsernameAndPassword(String username, String password, HttpSession session)
+	public Message getUserByUsernameAndPassword(String username, String password, HttpSession session)
 			throws Exception {
 		logger.info("getUserByUsernameAndPassword start");
 		User user = userService.findUserByUsernameAndPassword(username, Util.MD5(password));
@@ -75,13 +73,13 @@ public class UserController {
 			msg = Currency.SEARCHNULL;
 		}
 		logger.info("getUserByUsernameAndPassword end");
-		ResultPojo message = new ResultPojo(user, msg);
+		Message message = new Message(user, msg);
 		return message;
 	}
 
 	@RequestMapping(value = "getUserByPhonenumber")
 	@ResponseBody
-    public ResultPojo getUserByPhonenumber(String phonenumber) {
+    public Message getUserByPhonenumber(String phonenumber) {
 		logger.info("getUserByUsernameAndPassword start");
 		User user = userService.findUserByPhonenumber(phonenumber);
 		if (user != null) {
@@ -91,12 +89,12 @@ public class UserController {
 			msg = Currency.SEARCHNULL;
 		}
 		logger.info("getUserByUsernameAndPassword end");
-		return new ResultPojo(user, msg);
+		return new Message(user, msg);
 	}
 
 	@RequestMapping(value = "registerUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResultPojo registerUser(User user) throws Exception {
+	public Message registerUser(User user) throws Exception {
 		logger.info("registerUser start");
 		user.setPassword(Util.MD5(user.getPassword()));
 		user.setCreatetime(Calendar.getInstance().getTime());
@@ -107,12 +105,12 @@ public class UserController {
 			msg = Currency.REGISTERERROR;
 		}
 		logger.info("registerUser end");
-		return new ResultPojo(user, msg);
+		return new Message(user, msg);
 	}
 
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-    public ResultPojo updateUser(User user) {
+    public Message updateUser(User user) {
 		logger.info("updateUser start");
 		boolean result = userService.updateUser(user);
 		if (result) {
@@ -121,12 +119,12 @@ public class UserController {
 			msg = Currency.ERROR;
 		}
 		logger.info("updateUser end");
-		return new ResultPojo(user, msg);
+		return new Message(user, msg);
 	}
 
 	@RequestMapping(value = "updatePassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResultPojo updatePassword(User user) throws Exception {
+	public Message updatePassword(User user) throws Exception {
 		logger.info("updatePassword start");
 		user.setPassword(Util.MD5(user.getPassword()));
 		boolean result = userService.updatePassword(user);
@@ -136,7 +134,7 @@ public class UserController {
 			msg = Currency.ERROR;
 		}
 		logger.info("updatePassword end");
-		return new ResultPojo(user, msg);
+		return new Message(user, msg);
 	}
 
 	@RequestMapping(value = "goForgetPassword")
@@ -149,7 +147,7 @@ public class UserController {
 
 	@RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ResultPojo resetPassword(String username, String email) throws Exception {
+	public Message resetPassword(String username, String email) throws Exception {
 		logger.info("resetPassword start");
 		User user = userService.findUserByUsername(username);
 		user.setPassword(Util.MD5("123456"));
@@ -160,6 +158,6 @@ public class UserController {
 			msg = Currency.ERROR;
 		}
 		logger.info("resetPassword end");
-		return new ResultPojo(user, msg);
+		return new Message(user, msg);
 	}
 }

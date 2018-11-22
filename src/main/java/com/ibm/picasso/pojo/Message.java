@@ -1,16 +1,16 @@
 package com.ibm.picasso.pojo;
 
-public class ResultPojo {
+public class Message {
 
 	private String msg;
 	private Object object;
 	
-	public ResultPojo() {
+	public Message() {
 		super();
 	}
 	
 	
-	public ResultPojo(Object object, String msg) {
+	public Message(Object object, String msg) {
 		super();
 		this.object = object;
 		this.msg = msg;
