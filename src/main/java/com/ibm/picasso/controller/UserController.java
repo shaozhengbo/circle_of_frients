@@ -1,10 +1,10 @@
 package com.ibm.picasso.controller;
 
-import com.ibm.picasso.domain.User;
-import com.ibm.picasso.pojo.Message;
-import com.ibm.picasso.service.impl.UserServiceImpl;
-import com.ibm.picasso.util.Currency;
-import com.ibm.picasso.util.Util;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
-import java.util.Calendar;
+import com.ibm.picasso.domain.User;
+import com.ibm.picasso.pojo.Message;
+import com.ibm.picasso.service.impl.UserServiceImpl;
+import com.ibm.picasso.util.Currency;
+import com.ibm.picasso.util.Util;
 
 @Controller
 @RequestMapping("/User/*")
@@ -28,8 +31,8 @@ public class UserController {
 	private static String msg = "";
 
 	@RequestMapping(value = "getUserById")
-    public ModelAndView getUserById(String id) {
-        ModelAndView modelAndView = new ModelAndView();
+	@ResponseBody
+    public Message getUserById(String id) {
         logger.info("getUserById start");
 		User user = userService.findUserById(Long.valueOf(id));
         logger.info("getUserById end");
@@ -39,9 +42,7 @@ public class UserController {
 			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
-        modelAndView.setViewName("personal_information.html");
-        modelAndView.addObject("user", user);
-        return modelAndView;
+        return new Message(user, msg);
 	}
 
 	@RequestMapping(value = "getUserByUsername")
@@ -143,5 +144,13 @@ public class UserController {
         modelAndView.setViewName("forgetPassword.html");
         modelAndView.addObject("username", username);
         return modelAndView;
+    }
+    
+    @RequestMapping("searchUser")
+    @ResponseBody
+    public Message searchUser(String searchStr) {
+    	msg = "ok";
+    	List<User> userList = userService.findUserBySearchStr(searchStr);
+    	return new Message(userList,msg);
     }
 }

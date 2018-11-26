@@ -1,5 +1,7 @@
 package com.ibm.picasso.service;
 
+import java.util.List;
+
 import com.ibm.picasso.domain.User;
 
 public interface UserService {
@@ -17,4 +19,6 @@ public interface UserService {
 	boolean updatePassword(User user);
 	
 	boolean registerUser(User user);
+	
+	List<User> findUserBySearchStr(String searchStr);
 }

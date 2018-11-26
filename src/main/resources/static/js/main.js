@@ -1,65 +1,8 @@
-//var vm = new Vue({
-//	el : '#app',
-//	data : {
-//		username : "1",
-//		password : "1",
-//		result : "请登录",
-//		a : false
-//	},
-//	methods : {
-////		login() {
-////			axios({
-////		        method:'get',
-////		         url:'User/getUserByUsername?username='+vm.username
-////		     }).then(function(res){
-////		     });
-////		},
-//		letFontBeOrange : function() {
-//			a = true;
-//		},
-//		returnColor : function() {
-//			a = false;
-//		}
-//		
-//	}
-//});
-//$(document).ready(function() {
-//
-//	$('#a').mouseenter(function() {
-//		$('#a').css("color", "#eb7350");
-//	});
-//
-//	$('#a').mouseleave(function() {
-//		$('#a').css("color", "");
-//	});
-//
-//	$('#b').mouseenter(function() {
-//		$('#b').css("color", "#eb7350");
-//	});
-//
-//	$('#b').mouseleave(function() {
-//		$('#b').css("color", "");
-//	});
-//
-//	$('#c').mouseenter(function() {
-//		$('#c').css("color", "#eb7350");
-//	});
-//
-//	$('#c').mouseleave(function() {
-//		$('#c').css("color", "");
-//	});
-//
-//	$('#d').mouseenter(function() {
-//		$('#d').css("color", "#eb7350");
-//	});
-//
-//	$('#d').mouseleave(function() {
-//		$('#d').css("color", "");
-//	});
-//	$('#tab-login').addClass("tab-active");
-//	$('#tab-register').addClass("tab-unactive");
-//	
-//});
+$._messengerDefaults = {
+	extraClasses : 'messenger-fixed messenger-theme-future messenger-on-top'
+}
+
+// $.globalMessenger().post "Your request has succeded!"
 
 function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	var src = _this.attr("src");
@@ -103,9 +46,28 @@ function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	});
 }
 
-function login() {
-	var username = $('#inputUsername').val();
-	var password = $('#inputPassword').val();
+function login(flag) {
+	var username = "";
+	var password = "";
+	if(flag == '0') {
+		username = sessionStorage["username"];
+		password = sessionStorage["password"];
+	} else if(flag == '1') {
+		username = $('#inputUsername').val();
+		password = $('#inputPassword').val();
+	} else {
+		alert("请重试");
+		return;
+	}
+	
+	if(flag == '1') {
+		$.globalMessenger().post({
+	        message: "Logining...",
+	        hideAfter: 2,
+	        type: 'success'
+	    });
+	}
+	
 	$.ajax({
 		url : "/User/getUserByUsernameAndPassword",
 		type : "post",
@@ -114,16 +76,48 @@ function login() {
 			"password" : password
 		},
 		success : function(data) {
-            if (data.msg == '查找到用户') {
-                $('#loginDiv').fadeOut("fast");
-                $('#a').html(data.object.username);
-                $('#a').attr("href", "/User/getUserById?id=" + data.object.id);
-                $('#b').html("退出");
-            } else {
-                $('#loginButton').css("background", "red");
-                $('#loginButton').attr('disabled', true);
-                $('#loginButton').html("用户名或密码错误");
-            }
+			if (data.msg == '查找到用户') {
+				if(flag == '1') {
+					$.globalMessenger().post({
+	                    message: "Login Success",
+	                    id: "Only-one-message",
+	                    type: "info"
+	                });
+				}
+				
+				$('#loginDiv').fadeOut("fast");
+				
+				saveStorage(username, password);
+				sessionStorage.setItem("user",data.object);
+				
+				$('#a').html(data.object.username);
+				
+				$('#a').attr("href", "#user_info");
+				$('#a').attr("role", "button");
+				$('#a').attr("data-toggle", "modal");
+				//$('#a').attr("onclick", "getUserInfo("+data.object.id+")");
+				$('#b').html("退出");
+				
+				var object = data.object;
+				$("#id").val(object.id + "");
+				$("#name").html(object.username);
+				$("#sex").html(object.sex);
+				$("#year").html(object.birth.toString().substr(0, 4));
+				$("#mouth").html(object.birth.toString().substr(5, 2));
+				$("#day").html(object.birth.toString().substr(8, 2));
+				$("#phonenumber").html(object.phonenumber);
+				$("#major").html(object.major);
+				$("#mail").html(object.mail);
+			} else {
+				$.globalMessenger().hideAll();
+				$.globalMessenger().post({
+                    message: "Login Error",
+                    type: 'error'
+                });
+				$('#loginButton').css("background", "red");
+				$('#loginButton').attr('disabled', true);
+				$('#loginButton').html("用户名或密码错误");
+			}
 		},
 		error : function(data) {
 			console.log(data);
@@ -132,8 +126,31 @@ function login() {
 }
 
 function recoveryButton() {
-    var loginButton = $('#loginButton');
-    loginButton.attr('disabled', false);
-    loginButton.css("background", "#ff8140");
-    loginButton.html("登&nbsp;&nbsp;陆");
+	var loginButton = $('#loginButton');
+	loginButton.attr('disabled', false);
+	loginButton.css("background", "#ff8140");
+	loginButton.html("登&nbsp;&nbsp;陆");
+}
+
+function saveStorage(username, password) {
+	sessionStorage.setItem("username",username);
+	sessionStorage.setItem("password",password);
+}
+
+function search() {
+	var searchStr = $("#searchInput").val();
+	
+	$.ajax({
+		url : "/User/searchUser",
+		data : {
+			"searchStr" : searchStr
+		},
+		success: function (data){
+			var obj = data.object;
+			console.log(obj);
+		},
+		error : function() {
+			alert("通信错误");
+		}
+	});
 }

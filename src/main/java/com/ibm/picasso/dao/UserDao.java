@@ -1,5 +1,7 @@
 package com.ibm.picasso.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
@@ -72,4 +74,17 @@ public interface UserDao {
 			@Result(property = "createtime", column = "createtime"),
 			@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")) })
 	User selectUserById(Long id);
+
+	@Select("SELECT * FROM user WHERE username like '%${searchStr}%' or phonenumber like '${searchStr}%' or mail like '%${searchStr}%'")
+	@Results(value = { @Result(id = true, property = "id", column = "id"),
+			@Result(property = "username", column = "username"), 
+			@Result(property = "birth", column = "birth"),
+			@Result(property = "sex", column = "sex"),
+			@Result(property = "mail", column = "mail"),
+			@Result(property = "phonenumber", column = "phonenumber"),
+			@Result(property = "major", column = "major"),
+			@Result(property = "createtime", column = "createtime")
+			 })
+//	@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey"))
+	List<User> fuzzyQuery(@Param("searchStr")String searchStr);
 }
