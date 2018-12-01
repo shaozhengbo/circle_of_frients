@@ -11,6 +11,7 @@ import com.ibm.picasso.service.UserService;
 @Controller
 public class IndexController {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private UserService userService;
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);

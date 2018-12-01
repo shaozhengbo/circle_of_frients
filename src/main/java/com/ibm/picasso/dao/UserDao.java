@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 import com.ibm.picasso.domain.User;
@@ -27,7 +25,7 @@ public interface UserDao {
 			@Result(property = "phonenumber", column = "phonenumber"),
 			@Result(property = "major", column = "major"),
 			@Result(property = "createtime", column = "createtime"),
-			@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")) })
+			@Result(property = "img", column = "img")})
 	User selectUserByUsername(@Param("username")String username);
 	
 	@Select("SELECT * FROM user WHERE username = #{username} And password = #{password}")
@@ -39,7 +37,7 @@ public interface UserDao {
 			@Result(property = "phonenumber", column = "phonenumber"),
 			@Result(property = "major", column = "major"),
 			@Result(property = "createtime", column = "createtime"),
-			@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")) })
+			@Result(property = "img", column = "img")})
 	User selectUserByUsernameAndPassword(@Param("username")String username, @Param("password")String password);
 	
 	@Select("SELECT * FROM user WHERE phonenumber = #{phonenumber}")
@@ -51,10 +49,10 @@ public interface UserDao {
 			@Result(property = "phonenumber", column = "phonenumber"),
 			@Result(property = "major", column = "major"),
 			@Result(property = "createtime", column = "createtime"),
-			@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey"))})
+			@Result(property = "img", column = "img")})
 	User selectUserByPhonenumber(@Param("phonenumber")String phonenumber);
 	
-	@Update("UPDATE user SET username = #{username}, birth = #{birth}, sex = #{sex}, mail = #{mail}, phonenumber = #{phonenumber}, major = #{major}, img = #{img.id} WHERE id = #{id}")
+	@Update("UPDATE user SET username = #{username}, birth = #{birth}, sex = #{sex}, mail = #{mail}, phonenumber = #{phonenumber}, major = #{major}, img = #{img} WHERE id = #{id}")
 	int updateUser(User user);
 	
 	@Update("UPDATE user SET password = #{password} where id = #{id}")
@@ -72,7 +70,7 @@ public interface UserDao {
 			@Result(property = "phonenumber", column = "phonenumber"),
 			@Result(property = "major", column = "major"),
 			@Result(property = "createtime", column = "createtime"),
-			@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")) })
+			@Result(property = "img", column = "img")})
 	User selectUserById(Long id);
 
 	@Select("SELECT * FROM user WHERE username like '%${searchStr}%' or phonenumber like '${searchStr}%' or mail like '%${searchStr}%'")
@@ -83,8 +81,7 @@ public interface UserDao {
 			@Result(property = "mail", column = "mail"),
 			@Result(property = "phonenumber", column = "phonenumber"),
 			@Result(property = "major", column = "major"),
-			@Result(property = "createtime", column = "createtime")
-			 })
-//	@Result(property = "img", column = "img", one = @One(fetchType = FetchType.EAGER, select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey"))
+			@Result(property = "createtime", column = "createtime"),
+			@Result(property = "img", column = "img")})
 	List<User> fuzzyQuery(@Param("searchStr")String searchStr);
 }

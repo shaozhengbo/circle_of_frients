@@ -11,7 +11,7 @@ public class User {
     private String mail;
     private String phonenumber;
     private String major;
-    private Image img;
+    private String img;
     private Date createtime;
 
     public Date getCreatetime() {
@@ -26,11 +26,11 @@ public class User {
         super();
     }
 
-    public Image getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Image img) {
+    public void setImg(String img) {
         this.img = img;
     }
 

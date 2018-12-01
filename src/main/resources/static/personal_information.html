@@ -1,53 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>个人中心</title>
-    <script src="/js/vue.js"></script>
-    <!-- 引入 Bootstrap -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/css/my.css" rel="stylesheet"/>
+<meta charset="UTF-8" />
+<title>个人中心</title>
+<script src="/js/vue.js"></script>
+<!-- 引入 Bootstrap -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/css/my.css" rel="stylesheet" />
 
-    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-    <script src="/js/jQuery.js"></script>
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="/js/jQuery.js"></script>
 
-    <!-- 包括所有已编译的插件 -->
-    <script src="/js/bootstrap.min.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<div id="app">
-    <table style="border: 1px;border-color: #1b6d85;border-style: solid">
-        <input type="hidden" id="id" v-model="id"/>
-        <tr>
-            <td>用户名 ：</td>
-            <td><input id="username" v-model="username"/></td>
-        </tr>
-        <tr>
-            <td>生日 ：</td>
-            <td><input id="year" v-model="year"/>年
-                <input id="mouth" v-model="mouth"/>月
-                <input id="day" v-model="day"/>日
-            </td>
-        </tr>
-        <tr>
-            <td>手机号码 ：</td>
-            <td><input id="phonenumber" v-model="phonenumber"/></td>
-        </tr>
-        <tr>
-            <td>专业 ：</td>
-            <td><input id="major" v-model="major"/></td>
-        </tr>
-        <tr>
-            <td>邮箱地址 ：</td>
-            <td><input id="mail" v-model="mail"/></td>
-        </tr>
-    </table>
+	<div id="app">
+		<table style="border: 1px; border-color: #1b6d85; border-style: solid">
+			<input type="hidden" id="id" v-model="id" />
+			<tr>
+				<td>用户名 ：</td>
+				<td><input id="username" v-model="username" /></td>
+			</tr>
+			<tr>
+				<td>生日 ：</td>
+				<td><input id="year" v-model="year" />年 <input id="mouth"
+					v-model="mouth" />月 <input id="day" v-model="day" />日</td>
+			</tr>
+			<tr>
+				<td>手机号码 ：</td>
+				<td><input id="phonenumber" v-model="phonenumber" /></td>
+			</tr>
+			<tr>
+				<td>专业 ：</td>
+				<td><input id="major" v-model="major" /></td>
+			</tr>
+			<tr>
+				<td>邮箱地址 ：</td>
+				<td><input id="mail" v-model="mail" /></td>
+			</tr>
+		</table>
 
-    <button id="editButton" type="button" v-on:click="edit()">编辑</button>
-    <button id="saveButton" type="button" v-on:click="save()">保存</button>
-</div>
+		<button id="editButton" type="button" v-on:click="edit()">编辑</button>
+		<button id="saveButton" type="button" v-on:click="save()">保存</button>
+	</div>
 </body>
 <!-- 自定义JS -->
 <script src="/js/main.js"></script>
