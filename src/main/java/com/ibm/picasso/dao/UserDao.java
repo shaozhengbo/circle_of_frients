@@ -73,7 +73,7 @@ public interface UserDao {
 			@Result(property = "img", column = "img")})
 	User selectUserById(Long id);
 
-	@Select("SELECT * FROM user WHERE username like '%${searchStr}%' or phonenumber like '${searchStr}%' or mail like '%${searchStr}%'")
+	@Select("SELECT * FROM user WHERE username like '${searchStr}%' or phonenumber like '{searchStr}%' or mail like '%{searchStr}%'")
 	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "username", column = "username"), 
 			@Result(property = "birth", column = "birth"),

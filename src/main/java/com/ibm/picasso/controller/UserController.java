@@ -32,17 +32,17 @@ public class UserController {
 
 	@RequestMapping(value = "getUserById")
 	@ResponseBody
-    public MessagePojo getUserById(String id) {
-        logger.info("getUserById start");
+	public MessagePojo getUserById(String id) {
+		logger.info("getUserById start");
 		User user = userService.findUserById(Long.valueOf(id));
-        logger.info("getUserById end");
+		logger.info("getUserById end");
 		if (user != null) {
 			msg = Currency.SEARCHHAVE;
 		} else {
 			user = new User();
 			msg = Currency.SEARCHNULL;
 		}
-        return new MessagePojo(user, msg);
+		return new MessagePojo(user, msg);
 	}
 
 	@RequestMapping(value = "getUserByUsername")
@@ -62,8 +62,7 @@ public class UserController {
 
 	@RequestMapping(value = "login", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo login(String username, String password, HttpSession session)
-			throws Exception {
+	public MessagePojo login(String username, String password, HttpSession session) throws Exception {
 		logger.info("getUserByUsernameAndPassword start");
 		User user = userService.findUserByUsernameAndPassword(username, Util.MD5(password));
 		if (user != null) {
@@ -146,19 +145,19 @@ public class UserController {
 		return new MessagePojo(user, msg);
 	}
 
-    @RequestMapping(value = "goForgetPassword")
-    public ModelAndView goForgetPassword(String username) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("forgetPassword.html");
-        modelAndView.addObject("username", username);
-        return modelAndView;
-    }
-    
-    @RequestMapping("searchUser")
-    @ResponseBody
-    public MessagePojo searchUser(String searchStr) {
-    	msg = "ok";
-    	List<User> userList = userService.findUserBySearchStr(searchStr);
-    	return new MessagePojo(userList,msg);
-    }
+	@RequestMapping(value = "goForgetPassword")
+	public ModelAndView goForgetPassword(String username) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forgetPassword.html");
+		modelAndView.addObject("username", username);
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "searchUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo searchUser(String searchStr) {
+		msg = "ok";
+		List<User> userList = userService.findUserBySearchStr(searchStr);
+		return new MessagePojo(userList, msg);
+	}
 }

@@ -1,5 +1,7 @@
 package com.ibm.picasso.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -25,6 +27,20 @@ public class MessageController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	private static String msg = "";
+	
+	@RequestMapping(value="getAllMessage", method=RequestMethod.POST, produces="application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo getAllMessage(HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		List<Message> result = messageService.getAllMessageByUid(user.getId());
+		if(result.size() == 0) {
+			msg = "获取到条"+result.size()+"消息";
+		} else {
+			msg = "没有消息";
+		}
+		return new MessagePojo(result, msg);
+	}
+
 
 	@RequestMapping(value = "sendMessage", method = RequestMethod.POST, produces = "application/json; chatset=utf-8")
 	@ResponseBody

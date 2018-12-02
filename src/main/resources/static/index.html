@@ -67,17 +67,27 @@ textarea {
 								<div class="form-group">
 									<input id="searchInput" type="text" class="form-control"
 										style="width: 425px;" />
+									<!-- 用户搜索下拉 -->
+									<div
+										style="position: absolute; z-index: 2; width: 425px; background-color: white; border-radius: 5px; margin-top: 3px; border-width 1; border-style: solid;">
+										<ul>
+											<li style="list-style: none;"><a href="#user_info_show" role="button" data-toggle="modal" style="text-decoration: none;" onclick="showUserInfo()"><div
+														style="margin-top: 5px;">
+														<img src="img/1.jpg" width="50px" height="50px"
+															style="object-fit: cover; border-radius: 25px;" />&nbsp;&nbsp;热心网友邵先生
+													</div></a></li>
+										</ul>
+									</div>
 								</div>
 								<button type="submit" class="btn btn-default">搜索</button>
 							</form>
 							<ul class="nav navbar-nav navbar-right">
 								<li class="hidden-xs"><a id="a" :class="{test1 :a}"
-									href="#" @mouseenter="letFontBeOrange"
-									@mouseleave="returnColor"></a></li>
+									href="#" <!-- @mouseenter="letFontBeOrange"
+									@mouseleave="returnColor" -->></a></li>
 								<li class="hidden-xs"><a id="b" href=""></a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
-								<li><a id='c' href="#"></a></li>
 								<li><a id='d' href="#"></a></li>
 								<li class="visible-md visible-lg"><a></a></li>
 							</ul>
@@ -85,7 +95,6 @@ textarea {
 					</nav>
 
 					<div class="page-header" style="position: relative; top: 20px;">
-
 						<div class="col-lg-6 visible-xs">
 							<div class="input-group">
 								<input type="text" class="form-control"
@@ -109,8 +118,8 @@ textarea {
 									<small> 分享一下目前的心情吧... </small>
 									<textarea rows="4" cols="67" style="resize: none;"
 										id="sendMessage"></textarea>
-									<button>插入图片</button>
-									<button type="button" id="sendBtn" onclick="send()">发布</button>
+									<button id="insertImgBtn" class="btn">插入图片</button>
+									<button class="btn" type="button" id="sendBtn" onclick="send()">发布</button>
 								</blockquote>
 							</div>
 							<div class="row clearfix">
@@ -185,7 +194,8 @@ textarea {
 
 									</div>
 									<!-- PC端 -->
-									<div class="row clearfix hidden-xs" style="width: 100%;">
+									<div id="itemDiv" class="row clearfix hidden-xs"
+										style="width: 100%;">
 										<div class="media well" style="background: #ffffff">
 											<div>
 												<div style="float: left; clear: both;">
@@ -196,23 +206,8 @@ textarea {
 													&nbsp;&nbsp;<a href="" target="_blank">赵丽颖</a>
 												</div>
 												<br>
-												<div>
-													&nbsp;&nbsp;<small>2018年10月17日&nbsp;&nbsp;22:04:34</small>
-												</div>
-												<br>
-												<p>&nbsp;转发</p>
-											</div>
-											<div style="clear: both; background: #f2f2f5;">
 												<div style="margin-left: 55px; margin-top: 20px;">
-													<br>
-													<div style="float: left;">
-														<a href="" target="_blank">赵丽颖</a>
-													</div>
-													<br>
-
-													<p>
-														官宣<img width="17px;" height="17px;" src="img/xin.png">
-													</p>
+													<p>官宣</p>
 													<div style="text-align: left; width: 400px;">
 														<img class="pimg" src="img/1.jpg" width="112.97"
 															height="112.97" style="object-fit: cover;" /> <img
@@ -504,6 +499,22 @@ textarea {
 			$('#changeImage').css("color", "");
 		});
 
+		$('#insertImgBtn').mouseenter(function() {
+			$('#insertImgBtn').css("color", "#eb7350");
+		});
+
+		$('#insertImgBtn').mouseleave(function() {
+			$('#insertImgBtn').css("color", "");
+		});
+
+		$('#sendBtn').mouseenter(function() {
+			$('#sendBtn').css("color", "#eb7350");
+		});
+
+		$('#sendBtn').mouseleave(function() {
+			$('#sendBtn').css("color", "");
+		});
+
 		$('#d').mouseleave(function() {
 			$('#d').css("color", "");
 		});
@@ -523,6 +534,7 @@ textarea {
 		if (username != null && password != null) {
 			login(0);
 		}
+
 	});
 
 	function forgetPassword() {

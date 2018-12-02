@@ -91,11 +91,10 @@ function login(flag) {
 				sessionStorage.setItem("user", data.object);
 
 				$('#a').html(data.object.username);
-
 				$('#a').attr("href", "#user_info");
 				$('#a').attr("role", "button");
 				$('#a').attr("data-toggle", "modal");
-				// $('#a').attr("onclick", "getUserInfo("+data.object.id+")");
+
 				$('#b').html("退出");
 				$('#b').attr("onclick", "exit()");
 
@@ -114,6 +113,7 @@ function login(flag) {
 				$("#major").val(object.major);
 				$("#mail").val(object.mail);
 				$("#user_img").attr("src", object.img);
+				getAllMessage();
 			} else {
 				$.globalMessenger().hideAll();
 				$.globalMessenger().post({
@@ -148,12 +148,14 @@ function search() {
 
 	$.ajax({
 		url : "/User/searchUser",
+		type: "post",
 		data : {
 			"searchStr" : searchStr
 		},
 		success : function(data) {
+			alert(searchStr)
 			var obj = data.object;
-			console.log(obj);
+			console.log(data);
 		},
 		error : function() {
 			alert("通信错误");
@@ -162,7 +164,6 @@ function search() {
 }
 
 function editUserInfo() {
-
 	// check data
 	var mail = $("#mail").val()
 	console.log(mail)
@@ -212,7 +213,7 @@ function changeUserImage() {
 }
 
 function send() {
-	var message = $("#sendMessage").html()
+	var message = $("#sendMessage").val();
 	$.ajax({
 		url : "/Message/sendMessage",
 		type : "post",
@@ -222,6 +223,8 @@ function send() {
 		},
 		success : function(data) {
 			alert(data.msg);
+			$("#sendMessage").val("");
+			getAllMessage();
 		},
 		error : function(err) {
 			console.log(err);
@@ -229,19 +232,56 @@ function send() {
 	})
 }
 
+function getAllMessage() {
+	var flag = true;
+	$
+			.ajax({
+				url : "/Message/getAllMessage",
+				type : "post",
+				data : {
+
+				},
+				success : function(res) {
+					console.log(res);
+					var list = res.object;
+					$("#itemDiv").empty();
+					for (var i = 0; i < list.length; i++) {
+						$("#itemDiv")
+								.append(
+										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"
+												+ list[i].uid.img
+												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;<a href='' target='_blank'>"
+												+ list[i].uid.username
+												+ "</a></div><br><div style='margin-left: 55px; margin-top: 20px;'><p>"
+												+ list[i].message
+												+ "</p><div style='text-align: left; width: 400px;'><img class='pimg' src='img/1.jpg' width='112.97'height='112.97' style='object-fit: cover;' /> <imgclass='pimg' src='img/2.jpg' width='112.97'height='112.97' style='object-fit: cover;' /></div><div><small style='color: gray;'>"
+												+ timeStamp2String(list[i].createtime)
+												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button type='button' class='btn btn-default'aria-label='Center Align' style='width: 32%;'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span></button><button type='button' class='btn btn-default'aria-label='Right Align' style='width: 32%;'><span class='glyphicon glyphicon-thumbs-up'aria-hidden='true'></span></button></div></div>");
+
+					}
+					$("img").click(function() {
+						var _this = $(this);
+						imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+					});
+				},
+				error : function(err) {
+					console.log(err);
+				}
+
+			})
+}
+
 // 获取当前时间，格式YYYY-MM-DD
 function getNowFormatDate() {
-	var date = new Date();
-	var seperator1 = "/";
-	var year = date.getFullYear();
-	var month = date.getMonth() + 1;
-	var strDate = date.getDate();
-	if (month >= 1 && month <= 9) {
-		month = "0" + month;
-	}
-	if (strDate >= 0 && strDate <= 9) {
-		strDate = "0" + strDate;
-	}
-	var currentdate = year + seperator1 + month + seperator1 + strDate;
-	return currentdate;
+	var myDate = new Date();
+	return myDate.toLocaleString('chinese', {
+		hour12 : false
+	});
+}
+
+function timeStamp2String(time) {
+	var dateee = new Date(time).toJSON();
+	return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(
+			/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+
 }
