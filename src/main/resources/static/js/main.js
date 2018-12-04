@@ -252,7 +252,7 @@ function getAllMessage() {
 												+ list[i].uid.img
 												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;<a href='' target='_blank'>"
 												+ list[i].uid.username
-												+ "</a></div><br><div style='margin-left: 55px; margin-top: 20px;'><p>"
+												+ "</a>  "+isNew(list[i].createtime)+"</div><br><div style='margin-left: 55px; margin-top: 20px;'><p>"
 												+ list[i].message
 												+ "</p><div style='text-align: left; width: 400px;'><img class='pimg' src='img/1.jpg' width='112.97'height='112.97' style='object-fit: cover;' /> <imgclass='pimg' src='img/2.jpg' width='112.97'height='112.97' style='object-fit: cover;' /></div><div><small style='color: gray;'>"
 												+ timeStamp2String(list[i].createtime)
@@ -284,4 +284,15 @@ function timeStamp2String(time) {
 	return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(
 			/T/g, ' ').replace(/\.[\d]{3}Z/, '')
 
+}
+
+function isNew(time) {
+	var itemTime = new Date(time);
+	var nowTime = new Date();
+	console.log(nowTime - itemTime);
+	if(nowTime - itemTime > 1000*60*3) {
+		return "";
+	} else {
+		return "<span class='label label-danger'>New</span>";
+	}
 }

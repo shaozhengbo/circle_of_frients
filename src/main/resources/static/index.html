@@ -57,7 +57,7 @@ textarea {
 									class="icon-bar"></span>
 							</button>
 							<img width="47" height="47" src="img/favicon.ico"
-								style="margin-top: 2px;" /> </a>
+								style="margin-top: 2px;" />
 						</div>
 
 						<div class="collapse navbar-collapse"
@@ -68,23 +68,24 @@ textarea {
 									<input id="searchInput" type="text" class="form-control"
 										style="width: 425px;" />
 									<!-- 用户搜索下拉 -->
-									<div
+									<!-- <div
 										style="position: absolute; z-index: 2; width: 425px; background-color: white; border-radius: 5px; margin-top: 3px; border-width 1; border-style: solid;">
 										<ul>
-											<li style="list-style: none;"><a href="#user_info_show" role="button" data-toggle="modal" style="text-decoration: none;" onclick="showUserInfo()"><div
-														style="margin-top: 5px;">
+											<li style="list-style: none;"><a href="#user_info_show"
+												role="button" data-toggle="modal"
+												style="text-decoration: none;" onclick="showUserInfo()">
+													<div style="margin-top: 5px;">
 														<img src="img/1.jpg" width="50px" height="50px"
 															style="object-fit: cover; border-radius: 25px;" />&nbsp;&nbsp;热心网友邵先生
-													</div></a></li>
+													</div>
+											</a></li>
 										</ul>
-									</div>
+									</div> -->
 								</div>
 								<button type="submit" class="btn btn-default">搜索</button>
 							</form>
 							<ul class="nav navbar-nav navbar-right">
-								<li class="hidden-xs"><a id="a" :class="{test1 :a}"
-									href="#" <!-- @mouseenter="letFontBeOrange"
-									@mouseleave="returnColor" -->></a></li>
+								<li class="hidden-xs"><a id="a" href="#"> </a></li>
 								<li class="hidden-xs"><a id="b" href=""></a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
@@ -116,7 +117,7 @@ textarea {
 							<div class="row clearfix">
 								<blockquote class="pull-left">
 									<small> 分享一下目前的心情吧... </small>
-									<textarea rows="4" cols="67" style="resize: none;"
+									<textarea rows="4" cols="74" style="resize: none;"
 										id="sendMessage"></textarea>
 									<button id="insertImgBtn" class="btn">插入图片</button>
 									<button class="btn" type="button" id="sendBtn" onclick="send()">发布</button>
@@ -146,17 +147,18 @@ textarea {
 														<input type="file" id="user_image_file"
 															style="display: none">
 														<div style="margin-top: 20px;">
+															<input id="user_id" type="hidden" />
 															<table>
-																<input type="hidden" id="user_id" />
 																<tr>
 																	<td>姓名 ：</td>
 																	<td><input id="name" /></td>
 																</tr>
 																<tr>
 																	<td>性别 ：</td>
-																	<td><select id="sex" />
-																		<option value="男" id="sex_man">男</option>
-																		<option value="女" id="sex_women">女</option> </select>
+																	<td><select id="sex">
+																			<option value="男" id="sex_man">男</option>
+																			<option value="女" id="sex_women">女</option>
+																	</select>
 																	<td>
 																</tr>
 																<tr>
@@ -194,7 +196,7 @@ textarea {
 
 									</div>
 									<!-- PC端 -->
-									<div id="itemDiv" class="row clearfix hidden-xs"
+									<div id="itemDiv" class="row clearfix hidden-xs  well well-sm"
 										style="width: 100%;">
 										<div class="media well" style="background: #ffffff">
 											<div>
