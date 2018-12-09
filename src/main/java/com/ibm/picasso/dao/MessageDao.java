@@ -22,7 +22,8 @@ public interface MessageDao {
 	@Select("select * from message where id = #{id} order by createtime desc")
 	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "uid", column = "uid", one = @One(select = "com.ibm.picasso.dao.UserDao.selectUserById")),
-			@Result(property = "message", column = "message"), @Result(property = "pids", column = "pids"),
+			@Result(property = "message", column = "message"),
+			@Result(property = "pid", column = "pid", one = @One(select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")),
 			@Result(property = "from", column = "from", one = @One(select = "com.ibm.picasso.dao.MessageDao.selectByPrimaryKey")),
 			@Result(property = "statue", column = "statue"), @Result(property = "createtime", column = "createtime"),
 			@Result(property = "deletetime", column = "deletetime") })
@@ -31,8 +32,9 @@ public interface MessageDao {
 	@Select("select * from message where uid = #{uid} order by createtime desc")
 	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "uid", column = "uid", one = @One(select = "com.ibm.picasso.dao.UserDao.selectUserById")),
-			@Result(property = "message", column = "message"), @Result(property = "pids", column = "pids"),
+			@Result(property = "message", column = "message"),
 			@Result(property = "from", column = "from", one = @One(select = "com.ibm.picasso.dao.MessageDao.selectByPrimaryKey")),
+			@Result(property = "pid", column = "pid", one = @One(select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")),
 			@Result(property = "statue", column = "statue"), @Result(property = "createtime", column = "createtime"),
 			@Result(property = "deletetime", column = "deletetime") })
 	List<Message> selectByUid(@Param("uid") Long uid);

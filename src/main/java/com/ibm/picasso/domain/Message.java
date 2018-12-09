@@ -9,7 +9,7 @@ public class Message {
 
     private String message;
 
-    private String pids;
+    private Image pid;
 
     private Long from;
 
@@ -43,12 +43,12 @@ public class Message {
         this.message = message == null ? null : message.trim();
     }
 
-    public String getPids() {
-        return pids;
+    public Image getPid() {
+        return pid;
     }
 
-    public void setPids(String pids) {
-        this.pids = pids == null ? null : pids.trim();
+    public void setPid(Image pid) {
+        this.pid = pid;
     }
 
     public Long getFrom() {

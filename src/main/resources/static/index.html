@@ -115,13 +115,26 @@ textarea {
 						</div>
 						<div class="col-md-7 column">
 							<div class="row clearfix">
-								<blockquote class="pull-left">
-									<small> 分享一下目前的心情吧... </small>
-									<textarea rows="4" cols="74" style="resize: none;"
-										id="sendMessage"></textarea>
-									<button id="insertImgBtn" class="btn">插入图片</button>
-									<button class="btn" type="button" id="sendBtn" onclick="send()">发布</button>
-								</blockquote>
+								<form id="form" action="/Message/sendMessage" method="post"
+									enctype="multipart/form-data">
+									<blockquote class="pull-left">
+										<small> 分享一下目前的心情吧... </small>
+										<textarea rows="4" cols="67" style="resize: none;"
+											id="message" name="message"></textarea>
+										<div style="margin-bottom: 10px;">
+											<img id="messagePic" src=""
+												style="object-fit: cover; border-radius: 8px;">
+										</div>
+
+										<div hidden="true">
+											<input id="messageChoicePic" name="file" type="file" />
+										</div>
+
+										<button type="button" id="insertImgBtn" class="btn" onclick="uploadPic()">插入图片</button>
+										<button class="btn" type="button" id="sendBtn"
+											onclick="send()">发布</button>
+									</blockquote>
+								</form>
 							</div>
 							<div class="row clearfix">
 								<div class="col-md-12 column">
@@ -199,7 +212,8 @@ textarea {
 									<div id="itemDiv" class="row clearfix hidden-xs  well well-sm"
 										style="width: 100%;">
 										<div class="media well" style="background: #ffffff">
-											<div>
+											<p align="center">登陆后解锁</p>
+											<!-- <div>
 												<div style="float: left; clear: both;">
 													<img src="img/pic1.jpg" width="50px;" height="50px;"
 														style="border-radius: 25px;" />
@@ -220,7 +234,7 @@ textarea {
 														<small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
 													</div>
 												</div>
-											</div>
+											</div> 
 											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
 												<button type="button" class="btn btn-default"
 													aria-label="Left Align" style="width: 32%;">
@@ -237,7 +251,7 @@ textarea {
 														aria-hidden="true"></span>
 												</button>
 
-											</div>
+											</div>-->
 										</div>
 
 									</div>
@@ -536,7 +550,6 @@ textarea {
 		if (username != null && password != null) {
 			login(0);
 		}
-
 	});
 
 	function forgetPassword() {
@@ -548,6 +561,10 @@ textarea {
 		sessionStorage.removeItem("username");
 		sessionStorage.removeItem("password");
 		location.reload();
+	}
+
+	function uploadPic() {
+		$("#messageChoicePic").click();
 	}
 </script>
 </html>
