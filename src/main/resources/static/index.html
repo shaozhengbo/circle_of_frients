@@ -67,20 +67,6 @@ textarea {
 								<div class="form-group">
 									<input id="searchInput" type="text" class="form-control"
 										style="width: 425px;" />
-									<!-- 用户搜索下拉 -->
-									<!-- <div
-										style="position: absolute; z-index: 2; width: 425px; background-color: white; border-radius: 5px; margin-top: 3px; border-width 1; border-style: solid;">
-										<ul>
-											<li style="list-style: none;"><a href="#user_info_show"
-												role="button" data-toggle="modal"
-												style="text-decoration: none;" onclick="showUserInfo()">
-													<div style="margin-top: 5px;">
-														<img src="img/1.jpg" width="50px" height="50px"
-															style="object-fit: cover; border-radius: 25px;" />&nbsp;&nbsp;热心网友邵先生
-													</div>
-											</a></li>
-										</ul>
-									</div> -->
 								</div>
 								<button type="submit" class="btn btn-default">搜索</button>
 							</form>
@@ -123,16 +109,21 @@ textarea {
 											id="message" name="message"></textarea>
 										<div style="margin-bottom: 10px;">
 											<img id="messagePic" src=""
-												style="object-fit: cover; border-radius: 8px;">
+												style="object-fit: cover; border-radius: 8px;"> <a
+												type="button" id="insertImgBtn" class="btn btn-primary" 
+												style="text-align: center; font-size: 15px; display: block; margin-bottom: 10px;"
+												onclick="uploadPic()">添加配图</a>
 										</div>
 
 										<div hidden="true">
-											<input id="messageChoicePic" name="file" type="file" />
+											<input id="messageChoicePic" name="file" type="file"
+												accept="image/jpeg,image/jpg,image/png" />
 										</div>
 
-										<button type="button" id="insertImgBtn" class="btn" onclick="uploadPic()">插入图片</button>
-										<button class="btn" type="button" id="sendBtn"
-											onclick="send()">发布</button>
+
+										<a class="btn btn-success" type="button" id="sendBtn"
+											style="text-align: center; font-size: 15px; display: block; "
+											onclick="send()">发布</a>
 									</blockquote>
 								</form>
 							</div>
@@ -213,50 +204,10 @@ textarea {
 										style="width: 100%;">
 										<div class="media well" style="background: #ffffff">
 											<p align="center">登陆后解锁</p>
-											<!-- <div>
-												<div style="float: left; clear: both;">
-													<img src="img/pic1.jpg" width="50px;" height="50px;"
-														style="border-radius: 25px;" />
-												</div>
-												<div style="float: left;">
-													&nbsp;&nbsp;<a href="" target="_blank">赵丽颖</a>
-												</div>
-												<br>
-												<div style="margin-left: 55px; margin-top: 20px;">
-													<p>官宣</p>
-													<div style="text-align: left; width: 400px;">
-														<img class="pimg" src="img/1.jpg" width="112.97"
-															height="112.97" style="object-fit: cover;" /> <img
-															class="pimg" src="img/2.jpg" width="112.97"
-															height="112.97" style="object-fit: cover;" />
-													</div>
-													<div>
-														<small style="color: gray;">2018年10月17日&nbsp;&nbsp;22:04:12</small>
-													</div>
-												</div>
-											</div> 
-											<div style="width: 100%; margin-left: 5px; margin-top: 10px;">
-												<button type="button" class="btn btn-default"
-													aria-label="Left Align" style="width: 32%;">
-													<span class="glyphicon glyphicon-share" aria-hidden="true"></span>
-												</button>
-												<button type="button" class="btn btn-default"
-													aria-label="Center Align" style="width: 32%;">
-													<span class="glyphicon glyphicon-comment"
-														aria-hidden="true"></span>
-												</button>
-												<button type="button" class="btn btn-default"
-													aria-label="Right Align" style="width: 32%;">
-													<span class="glyphicon glyphicon-thumbs-up"
-														aria-hidden="true"></span>
-												</button>
-
-											</div>-->
 										</div>
-
 									</div>
 									<!-- 移动端 -->
-									<div class="row clearfix visible-xs">
+									<!-- <div class="row clearfix visible-xs">
 										<div style="background: #ffffff; margin-top: 20px;">
 											<div>
 												<table style="width: 100%">
@@ -306,7 +257,7 @@ textarea {
 												</button>
 											</footer>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -515,7 +466,7 @@ textarea {
 			$('#changeImage').css("color", "");
 		});
 
-		$('#insertImgBtn').mouseenter(function() {
+		/* $('#insertImgBtn').mouseenter(function() {
 			$('#insertImgBtn').css("color", "#eb7350");
 		});
 
@@ -529,7 +480,7 @@ textarea {
 
 		$('#sendBtn').mouseleave(function() {
 			$('#sendBtn').css("color", "");
-		});
+		}); */
 
 		$('#d').mouseleave(function() {
 			$('#d').css("color", "");
@@ -550,6 +501,19 @@ textarea {
 		if (username != null && password != null) {
 			login(0);
 		}
+
+		var fil = $("#messageChoicePic");
+		fil.bind('change', function() {
+			var fils = $("#messageChoicePic").get(0).files[0];
+			var srcc = window.URL.createObjectURL(fils);
+			console.log(srcc);
+			$("#messagePic").attr({
+				"src" : srcc,
+				"width" : 160 + "px",
+				"height" : 160 + "px"
+			});
+		});
+
 	});
 
 	function forgetPassword() {

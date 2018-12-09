@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -61,13 +62,16 @@ public class MessageController {
 		if (file != null) {
 			try {
 				// 2.根据时间戳创建新的文件名，这样即便是第二次上传相同名称的文件，也不会把第一次的文件覆盖了
-				String fileName = System.currentTimeMillis() + file.getOriginalFilename();
+				String fileName = System.currentTimeMillis() + "_" + UUID.randomUUID() + "."
+						+ file.getName().substring(file.getName().lastIndexOf(".") + 1);
 				// 3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
-				String destFileName = "/Users/shao/Desktop/文件上传目录/" + fileName;
-				// 4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
+				String destFileName = "/image/" + fileName;
+
 				File destFile = new File(destFileName);
-				destFile.getParentFile().mkdirs();
-				// 5.把浏览器上传的文件复制到希望的位置
+				if (!destFile.getParentFile().exists()) {
+					destFile.getParentFile().mkdirs();
+				}
+
 				file.transferTo(destFile);
 				Image image = new Image();
 				image.setSrc(destFileName);
@@ -90,7 +94,7 @@ public class MessageController {
 		messageObj.setUid(user);
 		messageObj.setFrom((long) 0);
 		messageObj.setStatue(0);
-		if(messageObj.getMessage() == null) {
+		if (messageObj.getMessage() == null) {
 			messageObj.setMessage("");
 		}
 		int result = messageService.sendMessage(messageObj);

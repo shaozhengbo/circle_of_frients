@@ -259,7 +259,9 @@ function getAllMessage() {
 												+ imgHtml(list[i].pid)
 												+ "</div><div><small style='color: gray;'>"
 												+ timeStamp2String(list[i].createtime)
-												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button type='button' class='btn btn-default'aria-label='Center Align' style='width: 32%;'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span></button><button type='button' class='btn btn-default'aria-label='Right Align' style='width: 32%;'><span class='glyphicon glyphicon-thumbs-up'aria-hidden='true'></span></button></div></div>");
+												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' disabled='disabled' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button type='button' disabled='disabled' class='btn btn-default'aria-label='Center Align' style='width: 32%;'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span></button><button type='button' class='btn btn-default'aria-label='Right Align' style='width: 32%;' onclick=point(this,"
+												+ list[i].id
+												+ ")><span class='glyphicon glyphicon-thumbs-up'aria-hidden='true'></span>12</button></div></div>");
 
 					}
 					$("img").click(function() {
@@ -298,6 +300,22 @@ function imgHtml(pid) {
 				+ "' width='112.97'height='112.97' style='object-fit: cover;' />";
 		return str;
 	}
+}
+
+// 点赞
+function point(obj, id) {
+	$.ajax({
+		url : "/Point/point",
+		type : "post",
+		data : {
+			"mid" : id
+		},
+		success : function(result) {
+			alert(result.msg);
+			obj.classList.add("active");
+		}
+	});
+
 }
 
 function isNew(time) {

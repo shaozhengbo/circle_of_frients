@@ -26,4 +26,9 @@ public class MessageServiceImpl implements MessageService {
 		return result;
 	}
 
+	@Override
+	public Message getMessageById(Long id) {
+		return messageDao.selectByPrimaryKey(id);
+	}
+
 }

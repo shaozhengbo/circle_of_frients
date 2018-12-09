@@ -1,17 +1,14 @@
 package com.ibm.picasso.dao;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+
 import com.ibm.picasso.domain.Point;
 
 public interface PointDao {
-    int deleteByPrimaryKey(Long id);
+	@Delete("DELETE FROM POINT WHERE ID=#{id}")
+	int deleteByPrimaryKey(Long id);
 
-    int insert(Point record);
-
-    int insertSelective(Point record);
-
-    Point selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Point record);
-
-    int updateByPrimaryKey(Point record);
+	@Insert("insert POINT(mid,uid,createtime) values(#{mid.id},#{uid.id},#{createtime})")
+	int insert(Point point);
 }

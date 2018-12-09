@@ -9,6 +9,6 @@ public class WebAppConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/image/**").addResourceLocations("file:/Users/shao/Desktop/文件上传目录/");
+		registry.addResourceHandler("/image/**").addResourceLocations("file:/Users/shao/Desktop/filePath/");
 	}
 }

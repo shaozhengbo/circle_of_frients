@@ -9,4 +9,6 @@ public interface MessageService {
 	int sendMessage(Message message);
 	
 	List<Message> getAllMessageByUid(Long uid);
+	
+	Message getMessageById(Long id);
 }
