@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 02/12/2018 22:38:24
+ Date: 09/12/2018 19:58:13
 */
 
 SET NAMES utf8mb4;
@@ -98,7 +98,16 @@ CREATE TABLE `image` (
   `src` varchar(255) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of image
+-- ----------------------------
+BEGIN;
+INSERT INTO `image` VALUES (13, '/image/1544338442596壁纸1.jpg', '2018-12-09 14:54:03');
+INSERT INTO `image` VALUES (19, '/image/1544348331694_ce00749a-3276-4ca1-84e4-ececad735e50.file', '2018-12-09 17:38:52');
+INSERT INTO `image` VALUES (20, '/image/1544348396051_d610ca85-40f7-4d51-a196-687f7de1e742.file', '2018-12-09 17:39:56');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for message
@@ -108,7 +117,7 @@ CREATE TABLE `message` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `uid` bigint(20) unsigned NOT NULL,
   `message` varchar(255) DEFAULT NULL,
-  `pids` varchar(255) DEFAULT NULL,
+  `pid` varchar(255) DEFAULT NULL,
   `from` bigint(20) DEFAULT NULL,
   `statue` int(1) NOT NULL COMMENT '0-都可见，1-自己可见，2-删除',
   `createtime` datetime DEFAULT NULL,
@@ -116,7 +125,7 @@ CREATE TABLE `message` (
   PRIMARY KEY (`id`),
   KEY `fk_m_uid` (`uid`),
   CONSTRAINT `fk_m_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of message
@@ -126,8 +135,9 @@ INSERT INTO `message` VALUES (11, 3, '123', '', 0, 0, '2018-12-02 09:00:00', NUL
 INSERT INTO `message` VALUES (12, 3, '321', '', 0, 0, '2018-12-02 13:40:34', NULL);
 INSERT INTO `message` VALUES (13, 3, '今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头', '', 0, 0, '2018-12-02 15:01:02', NULL);
 INSERT INTO `message` VALUES (14, 3, '今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头今年头', '', 0, 0, '2018-12-02 15:01:15', NULL);
-INSERT INTO `message` VALUES (15, 3, '123123123', '', 0, 0, '2018-12-02 15:01:43', NULL);
-INSERT INTO `message` VALUES (16, 4, '123123', '', 0, 0, '2018-12-02 15:02:53', NULL);
+INSERT INTO `message` VALUES (28, 3, '123', '13', 0, 0, NULL, NULL);
+INSERT INTO `message` VALUES (29, 3, '有图的', '13', 0, 0, '2018-12-09 16:13:54', NULL);
+INSERT INTO `message` VALUES (30, 3, '这个怎么样', '20', 0, 0, '2018-12-09 17:39:56', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -144,7 +154,15 @@ CREATE TABLE `point` (
   KEY `fk_p_uid` (`uid`),
   CONSTRAINT `fk_p_mid` FOREIGN KEY (`mid`) REFERENCES `message` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_p_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of point
+-- ----------------------------
+BEGIN;
+INSERT INTO `point` VALUES (1, 30, 3, '2018-12-09 18:01:28');
+INSERT INTO `point` VALUES (2, 30, 3, '2018-12-09 18:03:06');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for user
