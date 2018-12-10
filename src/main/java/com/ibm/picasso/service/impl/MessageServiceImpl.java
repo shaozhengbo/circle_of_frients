@@ -31,4 +31,10 @@ public class MessageServiceImpl implements MessageService {
 		return messageDao.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public int deleteMessage(Long id) {
+		return messageDao.deleteByPrimaryKey(id);
+	}
+
+
 }

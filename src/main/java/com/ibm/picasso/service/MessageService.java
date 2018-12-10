@@ -11,4 +11,6 @@ public interface MessageService {
 	List<Message> getAllMessageByUid(Long uid);
 	
 	Message getMessageById(Long id);
+	
+	int deleteMessage(Long id);
 }

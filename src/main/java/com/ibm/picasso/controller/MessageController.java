@@ -77,7 +77,7 @@ public class MessageController {
 
 				file.transferTo(destFile);
 				Image image = new Image();
-				image.setSrc("/image/"+fileName);
+				image.setSrc("/image/" + fileName);
 				image.setCreatetime(new Date());
 				imageService.uploadImage(image);
 				messageObj.setPid(imageService.selectImage(image.getSrc()));
@@ -109,6 +109,19 @@ public class MessageController {
 		}
 		logger.info("sendMessage end");
 		return new MessagePojo(message, msg);
+	}
+
+	@RequestMapping(value = "deleteMessage", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo deleteMessage(Long id) {
+		logger.info("deleteMessage start");
+		msg = "删除失败";
+		int result = messageService.deleteMessage(id);
+		if(result == 1) {
+			msg = "删除成功";
+		}
+		logger.info("deleteMessage end");
+		return new MessagePojo(null, msg);
 	}
 
 }

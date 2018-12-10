@@ -102,7 +102,7 @@ function login(flag) {
 				$('#messageEditDiv').fadeIn("fast");
 
 				saveStorage(username, password);
-				sessionStorage.setItem("user", data.object);
+				sessionStorage.setItem("user_id", data.object.id);
 
 				$('#a').html(data.object.username);
 				$('#a').attr("href", "#user_info");
@@ -270,6 +270,8 @@ function getAllMessage() {
 												+ list[i].uid.username
 												+ "</a>  "
 												+ isNew(list[i].createtime)
+												+ deleteHtml(list[i].uid.id,
+														list[i].id)
 												+ "</div><br><div style='margin-left: 55px; margin-top: 20px;'><p>"
 												+ list[i].message
 												+ "</p><div style='text-align: left; width: 400px;'>"
@@ -333,6 +335,34 @@ function point(obj, id) {
 		}
 	});
 
+}
+
+function deleteHtml(uid, id) {
+	var user_id = sessionStorage["user_id"];
+	if ((uid + "") == user_id) {
+		return "<button class='btn btn-danger btn-xs' type='button' style='margin-left: 400px;' onclick='deleteMessage("
+				+ id + ")'>x</button>";
+	} else {
+		return "";
+	}
+}
+
+function deleteMessage(mid) {
+	console.info(mid);
+	$.ajax({
+		url : "/Message/deleteMessage",
+		type : "post",
+		data : {
+			id : mid
+		},
+		success : function(result) {
+			alert(result.msg);
+			getAllMessage();
+		},
+		error : function(msg) {
+			console.info(msg);
+		}
+	})
 }
 
 function isNew(time) {
