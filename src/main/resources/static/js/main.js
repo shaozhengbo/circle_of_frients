@@ -2,7 +2,19 @@ $._messengerDefaults = {
 	extraClasses : 'messenger-fixed messenger-theme-future messenger-on-top'
 }
 
-// $.globalMessenger().post "Your request has succeded!"
+function clickTab(flag) {
+	if (flag == 1) {
+		$('#tab-login').removeClass("tab-unactive");
+		$('#tab-login').addClass("tab-active");
+		$("#tab-register").removeClass("tab-active");
+		$("#tab-register").addClass("tab-unactive");
+	} else if (flag == 2) {
+		$('#tab-register').removeClass("tab-unactive");
+		$('#tab-register').addClass("tab-active");
+		$("#tab-login").removeClass("tab-active");
+		$("#tab-login").addClass("tab-unactive");
+	}
+}
 
 function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	var src = _this.attr("src");
@@ -86,6 +98,8 @@ function login(flag) {
 				}
 
 				$('#loginDiv').fadeOut("fast");
+
+				$('#messageEditDiv').fadeIn("fast");
 
 				saveStorage(username, password);
 				sessionStorage.setItem("user", data.object);
@@ -222,7 +236,10 @@ function send() {
 		contentType : false,
 		success : function(data) {
 			alert(data.msg);
-			$("#sendMessage").val("");
+			$("#message").val("");
+			$("#messagePic").attr("src", "");
+			$("#messagePic").attr("width", "0px");
+			$("#messagePic").attr("height", "0px");
 			getAllMessage();
 		},
 		error : function(err) {

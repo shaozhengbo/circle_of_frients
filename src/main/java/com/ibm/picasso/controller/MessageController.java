@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,8 @@ import com.ibm.picasso.service.impl.MessageServiceImpl;
 @Controller
 @RequestMapping("/Message/*")
 public class MessageController {
+	@Value("${fileUploadPath}")
+	private String fileUploadPath;
 
 	@Autowired
 	MessageServiceImpl messageService;
@@ -63,9 +66,9 @@ public class MessageController {
 			try {
 				// 2.根据时间戳创建新的文件名，这样即便是第二次上传相同名称的文件，也不会把第一次的文件覆盖了
 				String fileName = System.currentTimeMillis() + "_" + UUID.randomUUID() + "."
-						+ file.getName().substring(file.getName().lastIndexOf(".") + 1);
+						+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
 				// 3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
-				String destFileName = "/image/" + fileName;
+				String destFileName = fileUploadPath + fileName;
 
 				File destFile = new File(destFileName);
 				if (!destFile.getParentFile().exists()) {
@@ -74,10 +77,10 @@ public class MessageController {
 
 				file.transferTo(destFile);
 				Image image = new Image();
-				image.setSrc(destFileName);
+				image.setSrc("/image/"+fileName);
 				image.setCreatetime(new Date());
 				imageService.uploadImage(image);
-				messageObj.setPid(imageService.selectImage(destFileName));
+				messageObj.setPid(imageService.selectImage(image.getSrc()));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

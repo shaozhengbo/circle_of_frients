@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,8 @@ import com.ibm.picasso.util.Util;
 public class UserController {
 	@Autowired
 	UserServiceImpl userService;
+	@Autowired
+	JavaMailSenderImpl senderImpl;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -136,6 +139,23 @@ public class UserController {
 		logger.info("updatePassword start");
 		user.setPassword(Util.MD5(user.getPassword()));
 		boolean result = userService.updatePassword(user);
+		if (result) {
+			msg = Currency.SUCCESS;
+		} else {
+			msg = Currency.ERROR;
+		}
+		logger.info("updatePassword end");
+		return new MessagePojo(user, msg);
+	}
+	
+	@RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo resetPassword(String username, String email) throws Exception {
+		logger.info("updatePassword start");
+		User user = userService.findUserByUsername(username);
+		user.setPassword(Util.MD5("123456"));
+		boolean result = userService.updatePassword(user);
+		Util.sendMail(email, senderImpl);
 		if (result) {
 			msg = Currency.SUCCESS;
 		} else {

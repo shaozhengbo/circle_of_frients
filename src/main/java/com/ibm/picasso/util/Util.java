@@ -7,6 +7,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 public class Util {
 	public static String MD5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		byte[] secretBytes = null;
@@ -34,4 +38,21 @@ public class Util {
 		out.close();
 	}
 
+	
+	public static void sendMail(String toMail, JavaMailSenderImpl senderImpl) {
+		// 设定mail server
+	    senderImpl.setHost("smtp.qq.com");
+	    senderImpl.setProtocol("smtp");
+	    senderImpl.setUsername("690143820@qq.com");
+	    senderImpl.setPassword("zjzstpgydptebbhj");
+	    senderImpl.setPort(587);
+	    senderImpl.setDefaultEncoding("UTF-8");
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("690143820@qq.com");
+        message.setTo("690143820@qq.com");
+        message.setSubject("【密码重置通知】");
+        message.setText("由于系统采用MD5加密了您的密码，现在已将您的登陆密码重置为123456，请尽快登陆后修改您的登陆密码。");
+        senderImpl.send(message);
+	}
 }
