@@ -8,6 +8,7 @@
 <link rel="shortcut icon" href="img/favicon.ico">
 <script src="/js/vue.js"></script>
 <!-- 引入 Bootstrap -->
+<link href="css/flat-ui.min.css" rel="stylesheet" />
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <link href="css/my.css" rel="stylesheet" />
 <link href="css/messenger.css" rel="stylesheet" />
@@ -16,6 +17,7 @@
 <link href="css/messenger-theme-block.css" rel="stylesheet" />
 <link href="css/messenger-theme-flat.css" rel="stylesheet" />
 <link href="css/messenger-theme-ice.css" rel="stylesheet" />
+
 
 <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
 <script src="js/jQuery.js"></script>
@@ -92,18 +94,19 @@ textarea {
 							</ol>
 						</div>
 						<div class="col-md-7 column">
-						<!-- 发送朋友圈 -->
-							<div id="messageEditDiv" class="row clearfix" hidden="true">
+							<!-- 发送朋友圈 -->
+							<div id="messageEditDiv" class="row clearfix" hidden="true"
+								style="width: 100%">
 								<form id="form" action="/Message/sendMessage" method="post"
 									enctype="multipart/form-data">
-									<blockquote class="pull-left">
+									<blockquote class="pull-left" style="width: 100%">
 										<small> 分享一下目前的心情吧... </small>
-										<textarea rows="4" cols="67" style="resize: none;"
+										<textarea rows="4" cols="67" style="resize: none; width: 100%"
 											id="message" name="message"></textarea>
 										<div style="margin-bottom: 10px;">
 											<img id="messagePic" src=""
 												style="object-fit: cover; border-radius: 8px;"> <a
-												type="button" id="insertImgBtn" class="btn btn-primary"
+												type="button" id="insertImgBtn" class="btn btn-info"
 												style="text-align: center; font-size: 15px; display: block; margin-bottom: 10px;"
 												onclick="uploadPic()">添加配图</a>
 										</div>
@@ -113,7 +116,7 @@ textarea {
 												accept="image/jpeg,image/jpg,image/png" />
 										</div>
 
-										<a class="btn btn-success" type="button" id="sendBtn"
+										<a class="btn btn-primary" type="button" id="sendBtn"
 											style="text-align: center; font-size: 15px; display: block;"
 											onclick="send()">发布</a>
 									</blockquote>
@@ -219,7 +222,7 @@ textarea {
 												<label for="inputUsername" class="col-sm-3 control-label">账号</label>
 												<div class="col-sm-8">
 													<input type="text" class="form-control" id="inputUsername"
-														placeholder="手机号/邮箱地址/用户名" onkeyup="recoveryButton()" />
+														placeholder="手机号/邮箱地址/用户名" onkeyup="recoveryButton1()" />
 												</div>
 											</div>
 											<div class="form-group">
@@ -227,7 +230,7 @@ textarea {
 												<div class="col-sm-8">
 													<input type="password" class="form-control"
 														id="inputPassword" placeholder="请输入密码"
-														onkeyup="recoveryButton()" />
+														onkeyup="recoveryButton1()" />
 												</div>
 											</div>
 											<div class="form-group"
@@ -247,10 +250,10 @@ textarea {
 									<div class="tab-pane" id="tab_register">
 										<form class="form-horizontal" role="form">
 											<div class="form-group">
-												<label for="register_mail" class="col-sm-3 control-label">账号</label>
+												<label for="register_username" class="col-sm-3 control-label">账号</label>
 												<div class="col-sm-8">
-													<input type="email" class="form-control" id="register_mail"
-														placeholder="请输入邮箱注册" />
+													<input type="text" class="form-control" id="register_username"
+														placeholder="请输入用户名" onkeyup="recoveryButton2()"/>
 												</div>
 											</div>
 											<div class="form-group">
@@ -267,9 +270,9 @@ textarea {
 											</div>
 											<div class="form-group">
 												<div style="text-align: center;">
-													<button type="submit"
+													<button id="registerButton" type="button"
 														style="width: 70%; background: #ff8140; border: 1px solid #f77c3d; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25); color: #ffffff; font-size: 16px; height: 32px;"
-														class="btn btn-default">注&nbsp;&nbsp;册</button>
+														class="btn btn-default" onclick="register()">注&nbsp;&nbsp;册</button>
 												</div>
 											</div>
 										</form>

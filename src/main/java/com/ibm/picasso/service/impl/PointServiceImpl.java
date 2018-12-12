@@ -1,5 +1,7 @@
 package com.ibm.picasso.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,18 @@ public class PointServiceImpl implements PointService {
 
 	@Override
 	public int unPoint(Point point) {
-		return pointDao.deleteByPrimaryKey(point.getId());
+		return pointDao.deleteByPrimaryKey(point);
 	}
+
+	@Override
+	public List<Point> getPointNum(Point point) {
+		return pointDao.selectByMid(point);
+	}
+
+	@Override
+	public Point findByMidAndUid(Point point) {
+		return pointDao.selectByMidAndUid(point);
+	}
+
 
 }

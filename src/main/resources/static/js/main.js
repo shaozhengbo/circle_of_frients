@@ -58,6 +58,59 @@ function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	});
 }
 
+function checkUsernameIsExist(username) {
+	var result = false;
+	$.ajax({
+		url : "/User/getUserByUsername",
+		type : "post",
+		async : false,
+		data : {
+			"username" : username,
+		},
+		success : function(data) {
+			if (data.msg == "查找到用户") {
+				result = true;
+			}
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+	return result;
+}
+
+function register() {
+	var username = $("#register_username").val();
+	var password = $("#register_password").val();
+	var result = checkUsernameIsExist(username);
+	if (result) {
+		$('#registerButton').css("background", "red");
+		$('#registerButton').attr('disabled', true);
+		$('#registerButton').html("用户名已存在");
+	}
+	$.ajax({
+		url : "/User/registerUser",
+		type : "post",
+		data : {
+			"username" : username,
+			"password" : password
+		},
+		success : function(data) {
+			if (data.msg == "注册成功") {
+				saveStorage(username, password);
+				login('0');
+			} else {
+				$('#registerButton').css("background", "red");
+				$('#registerButton').attr('disabled', true);
+				$('#registerButton').html(data.object);
+			}
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+}
+
 function login(flag) {
 	var username = "";
 	var password = "";
@@ -90,11 +143,10 @@ function login(flag) {
 		success : function(data) {
 			if (data.msg == '查找到用户') {
 				if (flag == '1') {
-					$.globalMessenger().post({
-						message : "Login Success",
-						id : "Only-one-message",
-						type : "info"
-					});
+					/*
+					 * $.globalMessenger().post({ message : "Login Success", id :
+					 * "Only-one-message", type : "info" });
+					 */
 				}
 
 				$('#loginDiv').fadeOut("fast");
@@ -145,11 +197,18 @@ function login(flag) {
 	});
 }
 
-function recoveryButton() {
+function recoveryButton1() {
 	var loginButton = $('#loginButton');
 	loginButton.attr('disabled', false);
 	loginButton.css("background", "#ff8140");
 	loginButton.html("登&nbsp;&nbsp;陆");
+}
+
+function recoveryButton2() {
+	var registerButton = $('#registerButton');
+	registerButton.attr('disabled', false);
+	registerButton.css("background", "#ff8140");
+	registerButton.html("注&nbsp;&nbsp;册");
 }
 
 function saveStorage(username, password) {
@@ -179,8 +238,12 @@ function search() {
 
 function editUserInfo() {
 	// check data
-	var mail = $("#mail").val()
-	console.log(mail)
+	var nameCheck = checkUsernameIsExist($("#name").val());
+	var mail = $("#mail").val();
+	if (nameCheck) {
+		alert("用户名已存在");
+		return;
+	}
 	if (mail.indexOf("@") == -1) {
 		alert("邮箱格式不正确");
 		return;
@@ -214,6 +277,14 @@ function editUserInfo() {
 		success : function(data) {
 			alert(data.msg);
 			$("#userInfoCloseBtn").click();
+			sessionStorage.setItem("username", $("#name").val());
+			function exit() {
+				sessionStorage.removeItem("username");
+				sessionStorage.removeItem("password");
+				location.reload();
+			}
+			login('0');
+			$('#a').html(data.object.username);
 		},
 		error : function(err) {
 			console.log("通信错误");
@@ -260,15 +331,19 @@ function getAllMessage() {
 				success : function(res) {
 					console.log(res);
 					var list = res.object;
+					if (list.length == 0) {
+						$("#itemDiv").empty();
+						return;
+					}
 					$("#itemDiv").empty();
 					for (var i = 0; i < list.length; i++) {
 						$("#itemDiv")
 								.append(
 										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"
 												+ list[i].uid.img
-												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;<a href='' target='_blank'>"
+												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;"
 												+ list[i].uid.username
-												+ "</a>  "
+												+ " "
 												+ isNew(list[i].createtime)
 												+ deleteHtml(list[i].uid.id,
 														list[i].id)
@@ -278,9 +353,15 @@ function getAllMessage() {
 												+ imgHtml(list[i].pid)
 												+ "</div><div><small style='color: gray;'>"
 												+ timeStamp2String(list[i].createtime)
-												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' disabled='disabled' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button type='button' disabled='disabled' class='btn btn-default'aria-label='Center Align' style='width: 32%;'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span></button><button type='button' class='btn btn-default'aria-label='Right Align' style='width: 32%;' onclick=point(this,"
+												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' disabled='disabled' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button type='button' disabled='disabled' class='btn btn-default'aria-label='Center Align' style='width: 32%;'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span></button><button type='button' class='btn btn-default"
+												+ isPointed(list[i].id)
+												+ "'aria-label='Right Align' style='width: 32%;' onclick=point(this,"
 												+ list[i].id
-												+ ")><span class='glyphicon glyphicon-thumbs-up'aria-hidden='true'></span>12</button></div></div>");
+												+ ")><span class='glyphicon glyphicon-thumbs-up'aria-hidden='true'></span>&nbsp;<font id='f_"
+												+ list[i].id
+												+ "'>"
+												+ getPointNum(list[i].id)
+												+ "</font></button></div></div>");
 
 					}
 					$("img").click(function() {
@@ -321,27 +402,67 @@ function imgHtml(pid) {
 	}
 }
 
-// 点赞
-function point(obj, id) {
+function isPointed(mid) {
+	var str = "";
 	$.ajax({
-		url : "/Point/point",
+		url : "/Point/isPointed",
 		type : "post",
+		async : false,
 		data : {
-			"mid" : id
+			"mid" : mid
 		},
 		success : function(result) {
-			alert(result.msg);
-			obj.classList.add("active");
+			if (!result.object) {
+				str = " active";
+			}
+		},
+		error : function(msg) {
+			console.log(msg);
 		}
 	});
+	return str;
+}
 
+// 点赞
+function point(obj, id) {
+	if (obj.className.indexOf("active") != -1) {
+		obj.classList.remove("active");
+		// 点赞减一
+		$.ajax({
+			url : "/Point/unPoint",
+			type : "post",
+			data : {
+				"mid" : id
+			},
+			success : function(result) {
+				var num = getPointNum(id);
+				var dom = "f_"+id;
+				$("#"+dom).html(num);
+			}
+		});
+	} else {
+		// 点赞加一
+		$.ajax({
+			url : "/Point/point",
+			type : "post",
+			data : {
+				"mid" : id
+			},
+			success : function(result) {
+				obj.classList.add("active");
+				var num = getPointNum(id);
+				var dom = "f_"+id;
+				$("#"+dom).html(num);
+			}
+		});
+	}
 }
 
 function deleteHtml(uid, id) {
 	var user_id = sessionStorage["user_id"];
 	if ((uid + "") == user_id) {
 		return "<button class='btn btn-danger btn-xs' type='button' style='margin-left: 400px;' onclick='deleteMessage("
-				+ id + ")'>x</button>";
+				+ id + ")'>删除</button>";
 	} else {
 		return "";
 	}
@@ -363,6 +484,25 @@ function deleteMessage(mid) {
 			console.info(msg);
 		}
 	})
+}
+
+function getPointNum(mid) {
+	var num = 0;
+	$.ajax({
+		url : "/Point/getPointNum",
+		type : "post",
+		async : false,
+		data : {
+			"mid" : mid
+		},
+		success : function(data) {
+			num = data.object;
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+	return num;
 }
 
 function isNew(time) {

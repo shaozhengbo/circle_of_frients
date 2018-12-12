@@ -58,7 +58,7 @@ public interface UserDao {
 	@Update("UPDATE user SET password = #{password} where id = #{id}")
 	int updatePassword(User user);
 
-	@Insert("INSERT INTO user(username, password, createtime) VALUES(#{username}, #{password}, #{createtime})")
+	@Insert("INSERT INTO user(username, password, createtime, img) VALUES(#{username}, #{password}, #{createtime}, #{img})")
 	int insertUser(User user);
 
 	@Select("SELECT * FROM user WHERE id = #{id}")

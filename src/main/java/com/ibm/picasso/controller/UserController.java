@@ -48,7 +48,7 @@ public class UserController {
 		return new MessagePojo(user, msg);
 	}
 
-	@RequestMapping(value = "getUserByUsername")
+	@RequestMapping(value = "getUserByUsername", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessagePojo getUserByUsername(String username) {
 		logger.info("getUserByUsername start");
@@ -97,10 +97,14 @@ public class UserController {
 
 	@RequestMapping(value = "registerUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo registerUser(User user) throws Exception {
+	public MessagePojo registerUser(String username, String password) throws Exception {
 		logger.info("registerUser start");
-		user.setPassword(Util.MD5(user.getPassword()));
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(Util.MD5(password));
 		user.setCreatetime(Calendar.getInstance().getTime());
+		user.setBirth(Calendar.getInstance().getTime().toString());
+		user.setImg("img/moren.jpg");
 		boolean result = userService.registerUser(user);
 		if (result) {
 			msg = Currency.REGISTERSUCCESS;
@@ -113,7 +117,7 @@ public class UserController {
 
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo updateUser(User user) throws Exception {
+	public MessagePojo updateUser(User user,HttpSession session) throws Exception {
 		logger.info("updateUser start");
 		User userById = userService.findUserById(user.getId());
 		userById.setUsername(user.getUsername());
@@ -126,6 +130,7 @@ public class UserController {
 		boolean result = userService.updateUser(userById);
 		if (result) {
 			msg = Currency.SUCCESS;
+			session.setAttribute("user", user);
 		} else {
 			msg = Currency.ERROR;
 		}
@@ -147,7 +152,7 @@ public class UserController {
 		logger.info("updatePassword end");
 		return new MessagePojo(user, msg);
 	}
-	
+
 	@RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessagePojo resetPassword(String username, String email) throws Exception {
@@ -166,11 +171,23 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "goForgetPassword")
-	public ModelAndView goForgetPassword(String username) {
+	public ModelAndView goForgetPassword(String username, HttpSession session) {
+		session.setAttribute("forgetUsername", username);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forgetPassword.html");
 		modelAndView.addObject("username", username);
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "getForgetPasswordUsername", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo getForgetPasswordUsername(HttpSession session) {
+		msg = "ok";
+		User user = new User();
+		String username = (String) session.getAttribute("forgetUsername");
+		user.setUsername(username);
+		user = userService.findUserByUsername(username);
+		return new MessagePojo(user, msg);
 	}
 
 	@RequestMapping(value = "searchUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")

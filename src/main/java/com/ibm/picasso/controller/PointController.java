@@ -1,6 +1,7 @@
 package com.ibm.picasso.controller;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,7 +36,7 @@ public class PointController {
 
 	@RequestMapping(value = "point", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo point(String mid, String createtime, HttpSession session) {
+	public MessagePojo point(String mid, HttpSession session) {
 		logger.info("point start");
 		Message message = messageService.getMessageById(Long.valueOf(mid));
 		User user = (User) session.getAttribute("user");
@@ -50,6 +51,61 @@ public class PointController {
 			msg = "点赞成功";
 		}
 		logger.info("point end");
+		return new MessagePojo(result, msg);
+	}
+	
+	@RequestMapping(value = "unPoint", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo unPoint(String mid, HttpSession session) {
+		logger.info("unPoint start");
+		Message message = messageService.getMessageById(Long.valueOf(mid));
+		User user = (User) session.getAttribute("user");
+		Point point = new Point();
+		point.setMid(message);
+		point.setUid(user);
+		int result = pointService.unPoint(point);
+		if (result == 0) {
+			msg = "取消点赞失败";
+		} else {
+			msg = "取消点赞成功";
+		}
+		logger.info("unPoint end");
+		return new MessagePojo(result, msg);
+	}
+	
+	@RequestMapping(value = "getPointNum", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo getPointNum(String mid) {
+		logger.info("getPointNum start");
+		Message message = messageService.getMessageById(Long.valueOf(mid));
+		Point point = new Point();
+		point.setMid(message);
+		List<Point> pointNum = pointService.getPointNum(point);
+		if (pointNum == null) {
+			msg = "查询点赞数失败";
+		} else {
+			msg = "查询点赞数成功";
+		}
+		logger.info("getPointNum end");
+		return new MessagePojo(pointNum.size(), msg);
+	}
+	
+	@RequestMapping(value = "isPointed", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo isPointed(String mid, HttpSession session) {
+		logger.info("isPointed start");
+		boolean result = true;
+		Point point = new Point();
+		point.setMid(messageService.getMessageById(Long.valueOf(mid)));
+		point.setUid((User) session.getAttribute("user"));
+		point = pointService.findByMidAndUid(point);
+		if (point == null) {
+			msg = "没点赞";
+		} else {
+			msg = "点赞了";
+			result = false;
+		}
+		logger.info("isPointed end");
 		return new MessagePojo(result, msg);
 	}
 }
