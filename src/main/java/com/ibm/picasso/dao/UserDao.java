@@ -58,7 +58,7 @@ public interface UserDao {
 	@Update("UPDATE user SET password = #{password} where id = #{id}")
 	int updatePassword(User user);
 
-	@Insert("INSERT INTO user(username, password, createtime, img) VALUES(#{username}, #{password}, #{createtime}, #{img})")
+	@Insert("INSERT INTO user(username, password, createtime, img, sex, phonenumber, birth, mail) VALUES(#{username}, #{password}, #{createtime}, #{img}, #{sex}, #{phonenumber}, #{birth}, #{mail})")
 	int insertUser(User user);
 
 	@Select("SELECT * FROM user WHERE id = #{id}")
@@ -73,7 +73,7 @@ public interface UserDao {
 			@Result(property = "img", column = "img")})
 	User selectUserById(Long id);
 
-	@Select("SELECT * FROM user WHERE username like '${searchStr}%' or phonenumber like '{searchStr}%' or mail like '%{searchStr}%'")
+	@Select("SELECT * FROM user WHERE username like '${searchStr}%' or phonenumber like '${searchStr}%' or mail like '%${searchStr}%'")
 	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "username", column = "username"), 
 			@Result(property = "birth", column = "birth"),

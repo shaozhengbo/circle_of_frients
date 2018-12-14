@@ -44,4 +44,14 @@ public interface MessageDao {
 	int updateByPrimaryKeySelective(Message record);
 
 	int updateByPrimaryKey(Message record);
+
+	@Select("select * from message where uid in (${uid}) and statue = 0 order by createtime desc")
+	@Results(value = { @Result(id = true, property = "id", column = "id"),
+			@Result(property = "uid", column = "uid", one = @One(select = "com.ibm.picasso.dao.UserDao.selectUserById")),
+			@Result(property = "message", column = "message"),
+			@Result(property = "from", column = "from", one = @One(select = "com.ibm.picasso.dao.MessageDao.selectByPrimaryKey")),
+			@Result(property = "pid", column = "pid", one = @One(select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")),
+			@Result(property = "statue", column = "statue"), @Result(property = "createtime", column = "createtime"),
+			@Result(property = "deletetime", column = "deletetime") })
+	List<Message> selectInUid(@Param("uid")String uid);
 }

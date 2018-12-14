@@ -8,6 +8,8 @@ public interface MessageService {
 	
 	int sendMessage(Message message);
 	
+	List<Message> getAllMessageInUid(String uid);
+	
 	List<Message> getAllMessageByUid(Long uid);
 	
 	Message getMessageById(Long id);

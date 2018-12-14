@@ -68,7 +68,7 @@ function checkUsernameIsExist(username) {
 			"username" : username,
 		},
 		success : function(data) {
-			if (data.msg == "查找到用户") {
+			if (data.msg == "查找到用户" && data.object.id != sessionStorage["user_id"]) {
 				result = true;
 			}
 		},
@@ -143,10 +143,6 @@ function login(flag) {
 		success : function(data) {
 			if (data.msg == '查找到用户') {
 				if (flag == '1') {
-					/*
-					 * $.globalMessenger().post({ message : "Login Success", id :
-					 * "Only-one-message", type : "info" });
-					 */
 				}
 
 				$('#loginDiv').fadeOut("fast");
@@ -163,6 +159,11 @@ function login(flag) {
 
 				$('#b').html("退出");
 				$('#b').attr("onclick", "exit()");
+				
+				$('#c').html("朋友");
+				$('#c').attr("href", "#search_user");
+				$('#c').attr("role", "button");
+				$('#c').attr("data-toggle", "modal");
 
 				var object = data.object;
 				$("#user_id").val(object.id);
@@ -218,7 +219,11 @@ function saveStorage(username, password) {
 
 function search() {
 	var searchStr = $("#searchInput").val();
-
+	if(searchStr == "") {
+		$("#searchResultTable").empty();
+		return;
+	}
+	
 	$.ajax({
 		url : "/User/searchUser",
 		type : "post",
@@ -226,12 +231,63 @@ function search() {
 			"searchStr" : searchStr
 		},
 		success : function(data) {
-			alert(searchStr)
-			var obj = data.object;
-			console.log(data);
+			var arr = data.object;
+			var searchResultHtml = "";
+			for(var i = 0; i < arr.length; i++) {
+				searchResultHtml = searchResultHtml + searchDivHtml(arr[i]);
+			}
+			$("#searchResultTable").empty();
+			$("#searchResultTable").append(searchResultHtml);
 		},
 		error : function() {
 			alert("通信错误");
+		}
+	});
+}
+
+function searchDivHtml(user) {
+	var html = "<tr><td align='center'><img src='"+user.img+"' width='60'height='60'style='object-fit: cover; border-radius: 30px;' /></td><td width='20%' align='center'>"+user.username+"</td><td width='20%' align='center'>"+user.phonenumber+"</td><td width='30%' align='center'>"+user.mail+"</td><td width='18%' align='center'>"+getAddButtonHtml(user.id)+"</td></tr>";
+	return html;
+}
+
+function getAddButtonHtml(id) {
+	var str = "";
+	$.ajax({
+		url : "Friend/isFriend",
+		type : "post",
+		async : false,
+		data : {
+			"uid" : id + ""
+		},
+		success : function(data) {
+			if(data.msg == "是好友") {
+				str = "<button id='friend_"+data.object.uid2.id+"' type='button' disabled='disabled' class='btn btn-warning'>已关注</button>";
+			} else {
+				str = "<button id='friend_"+id+"' type='button' class='btn btn-warning' onclick='addFriend("+id+")'>+关注</button>";
+			}
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+	return str;
+	
+}
+
+function addFriend(id) {
+	$.ajax({
+		url : "/Friend/addFriend",
+		type : "post",
+		data : {
+			"uid" : id
+		},
+		success : function(data) {
+			alert(data.msg);
+			$("#friend_"+data.object.uid2.id).attr("disabled","disabled");
+			$("#friend_"+data.object.uid2.id).html("已关注");
+		},
+		error: function(msg) {
+			console.log(msg);
 		}
 	});
 }
@@ -278,11 +334,6 @@ function editUserInfo() {
 			alert(data.msg);
 			$("#userInfoCloseBtn").click();
 			sessionStorage.setItem("username", $("#name").val());
-			function exit() {
-				sessionStorage.removeItem("username");
-				sessionStorage.removeItem("password");
-				location.reload();
-			}
 			login('0');
 			$('#a').html(data.object.username);
 		},
@@ -292,6 +343,14 @@ function editUserInfo() {
 	});
 
 }
+
+function exit() {
+	sessionStorage.removeItem("username");
+	sessionStorage.removeItem("password");
+	location.reload();
+}
+
+
 function changeUserImage() {
 	$("#user_image_file").click();
 }
@@ -331,12 +390,12 @@ function getAllMessage() {
 				success : function(res) {
 					console.log(res);
 					var list = res.object;
+					$("#itemDiv").empty();
 					if (list.length == 0) {
-						$("#itemDiv").empty();
 						return;
 					}
-					$("#itemDiv").empty();
 					for (var i = 0; i < list.length; i++) {
+						
 						$("#itemDiv")
 								.append(
 										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"

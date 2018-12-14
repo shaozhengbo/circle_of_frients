@@ -1,6 +1,8 @@
 package com.ibm.picasso.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -103,7 +105,13 @@ public class UserController {
 		user.setUsername(username);
 		user.setPassword(Util.MD5(password));
 		user.setCreatetime(Calendar.getInstance().getTime());
-		user.setBirth(Calendar.getInstance().getTime().toString());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String formatDate = sdf.format(new Date());
+		user.setBirth(formatDate);
+		user.setSex('男');
+		user.setMajor("");
+		user.setPhonenumber("");
+		user.setMail("");
 		user.setImg("img/moren.jpg");
 		boolean result = userService.registerUser(user);
 		if (result) {

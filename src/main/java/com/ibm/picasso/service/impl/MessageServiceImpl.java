@@ -36,5 +36,10 @@ public class MessageServiceImpl implements MessageService {
 		return messageDao.deleteByPrimaryKey(id);
 	}
 
+	@Override
+	public List<Message> getAllMessageInUid(String uid) {
+		return messageDao.selectInUid(uid);
+	}
+
 
 }

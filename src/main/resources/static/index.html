@@ -69,7 +69,8 @@ textarea {
 								<li class="hidden-xs"><a id="b" href=""></a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
-								<li><a id='d' href="#"></a></li>
+								<li><a id='c'
+									onclick='$("#searchInput").val("");$("#searchResultTable").empty()'></a></li>
 								<li class="visible-md visible-lg"><a></a></li>
 							</ul>
 						</div>
@@ -192,6 +193,39 @@ textarea {
 											</div>
 										</div>
 									</div>
+									<!-- 查找朋友 -->
+									<div class="modal fade" id="search_user" role="dialog"
+										aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">×</button>
+													<h4 class="modal-title" id="myModalLabel">查找朋友</h4>
+												</div>
+												<div class="modal-body">
+													<div class="form-group has-feedback">
+														<input id="searchInput" type="text" value=""
+															placeholder="输入用户名、手机号码或邮箱来搜索用户..." class="form-control" />
+													</div>
+
+													<div>
+														<div style="width: 98%; margin-left: 3%">
+															<table id="searchResultTable"
+																style="border-collapse: separate; border-spacing: 0px 10px;">
+															</table>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button id=userInfoCloseBtn type="button"
+														class="btn btn-default" data-dismiss="modal">关闭</button>
+													<button id="editButten" onclick="editUserInfo()"
+														type="button" class="btn btn-primary">保存</button>
+												</div>
+											</div>
+										</div>
+									</div>
 									<!-- PC端 -->
 									<div id="itemDiv" class="row clearfix hidden-xs  well well-sm"
 										style="width: 100%;">
@@ -250,10 +284,12 @@ textarea {
 									<div class="tab-pane" id="tab_register">
 										<form class="form-horizontal" role="form">
 											<div class="form-group">
-												<label for="register_username" class="col-sm-3 control-label">账号</label>
+												<label for="register_username"
+													class="col-sm-3 control-label">账号</label>
 												<div class="col-sm-8">
-													<input type="text" class="form-control" id="register_username"
-														placeholder="请输入用户名" onkeyup="recoveryButton2()"/>
+													<input type="text" class="form-control"
+														id="register_username" placeholder="请输入用户名"
+														onkeyup="recoveryButton2()" />
 												</div>
 											</div>
 											<div class="form-group">

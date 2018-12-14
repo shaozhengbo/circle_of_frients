@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ibm.picasso.domain.Friends;
 import com.ibm.picasso.domain.Image;
 import com.ibm.picasso.domain.Message;
 import com.ibm.picasso.domain.User;
 import com.ibm.picasso.pojo.MessagePojo;
+import com.ibm.picasso.service.impl.FriendsServiceImpl;
 import com.ibm.picasso.service.impl.ImageServiceImpl;
 import com.ibm.picasso.service.impl.MessageServiceImpl;
 
@@ -38,6 +40,8 @@ public class MessageController {
 	MessageServiceImpl messageService;
 	@Autowired
 	ImageServiceImpl imageService;
+	@Autowired
+	FriendsServiceImpl friendsService;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -47,11 +51,20 @@ public class MessageController {
 	@ResponseBody
 	public MessagePojo getAllMessage(HttpSession session) {
 		User user = (User) session.getAttribute("user");
-		List<Message> result = messageService.getAllMessageByUid(user.getId());
+		List<Friends> friendList = friendsService.getFriendList(user.getId());
+		String uid = user.getId() + "";
+		if(friendList.size() == 0 || friendList == null) {
+		} else {
+			for (Friends f : friendList) {
+				uid += "," + f.getUid2().getId();
+			}
+		}
+		List<Message> result = messageService.getAllMessageInUid(uid);
+		
 		if (result.size() == 0) {
 			msg = "获取到条" + result.size() + "消息";
 		} else {
-			msg = "没有消息";
+			msg = "完成";
 		}
 		return new MessagePojo(result, msg);
 	}
@@ -117,7 +130,7 @@ public class MessageController {
 		logger.info("deleteMessage start");
 		msg = "删除失败";
 		int result = messageService.deleteMessage(id);
-		if(result == 1) {
+		if (result == 1) {
 			msg = "删除成功";
 		}
 		logger.info("deleteMessage end");
