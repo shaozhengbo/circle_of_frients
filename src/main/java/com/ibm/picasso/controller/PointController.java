@@ -108,4 +108,22 @@ public class PointController {
 		logger.info("isPointed end");
 		return new MessagePojo(result, msg);
 	}
+	
+	@RequestMapping(value = "getAllPointByMid", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo getAllPointByMid(String mid) {
+		logger.info("getAllPointByMid start");
+		Point point = new Point();
+		Message message = new Message();
+		message.setId(Long.parseLong(mid));
+		point.setMid(message);
+		List<Point> pointList = pointService.getPointNum(point);
+		if(pointList == null || pointList.size() == 0) {
+			msg = "没有点赞信息";
+		} else {
+			msg = "OK";
+		}
+		logger.info("getAllPointByMid end");
+		return new MessagePojo(pointList, msg);
+	}
 }

@@ -29,6 +29,7 @@ import com.ibm.picasso.pojo.MessagePojo;
 import com.ibm.picasso.service.impl.FriendsServiceImpl;
 import com.ibm.picasso.service.impl.ImageServiceImpl;
 import com.ibm.picasso.service.impl.MessageServiceImpl;
+import com.ibm.picasso.util.Util;
 
 @Controller
 @RequestMapping("/Message/*")
@@ -75,6 +76,15 @@ public class MessageController {
 			HttpServletRequest req) throws IOException {
 		logger.info("sendMessage start");
 		Message messageObj = new Message();
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			return new MessagePojo(null, "请先登陆");
+		}
+		messageObj.setMessage(message);
+		messageObj.setCreatetime(new Date());
+		messageObj.setUid(user);
+		messageObj.setFrom((long) 0);
+		messageObj.setStatue(0);
 		if (file != null) {
 			try {
 				// 2.根据时间戳创建新的文件名，这样即便是第二次上传相同名称的文件，也不会把第一次的文件覆盖了
@@ -94,6 +104,8 @@ public class MessageController {
 				image.setCreatetime(new Date());
 				imageService.uploadImage(image);
 				messageObj.setPid(imageService.selectImage(image.getSrc()));
+				//加水印
+				Util.c(messageObj.getUid().getUsername(), destFileName, destFileName);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -101,15 +113,6 @@ public class MessageController {
 			}
 		}
 
-		User user = (User) session.getAttribute("user");
-		if (user == null) {
-			return new MessagePojo(null, "请先登陆");
-		}
-		messageObj.setMessage(message);
-		messageObj.setCreatetime(new Date());
-		messageObj.setUid(user);
-		messageObj.setFrom((long) 0);
-		messageObj.setStatue(0);
 		if (messageObj.getMessage() == null) {
 			messageObj.setMessage("");
 		}

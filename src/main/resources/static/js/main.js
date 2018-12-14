@@ -24,8 +24,8 @@ function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	$("<img/>").attr("src", src).load(function() {
 		var windowW = $(window).width();
 		var windowH = $(window).height();
-		var realWidth = 1000;
-		var realHeight = 1000;
+		var realWidth = 500;
+		var realHeight = 500;
 		var imgWidth, imgHeight;
 		var scale = 1;
 
@@ -59,7 +59,7 @@ function imgShow(outerdiv, innerdiv, bigimg, _this) {
 }
 
 function checkUsernameIsExist(username) {
-	var result = false;
+	var result = "不存在";
 	$.ajax({
 		url : "/User/getUserByUsername",
 		type : "post",
@@ -68,8 +68,9 @@ function checkUsernameIsExist(username) {
 			"username" : username,
 		},
 		success : function(data) {
-			if (data.msg == "查找到用户" && data.object.id != sessionStorage["user_id"]) {
-				result = true;
+			if (data.msg == "查找到用户"
+					&& data.object.id != sessionStorage["user_id"]) {
+				result = "存在";
 			}
 		},
 		error : function(msg) {
@@ -83,10 +84,11 @@ function register() {
 	var username = $("#register_username").val();
 	var password = $("#register_password").val();
 	var result = checkUsernameIsExist(username);
-	if (result) {
+	if (result == "存在") {
 		$('#registerButton').css("background", "red");
 		$('#registerButton').attr('disabled', true);
 		$('#registerButton').html("用户名已存在");
+		return;
 	}
 	$.ajax({
 		url : "/User/registerUser",
@@ -125,14 +127,6 @@ function login(flag) {
 		return;
 	}
 
-	if (flag == '1') {
-		$.globalMessenger().post({
-			message : "Logining...",
-			hideAfter : 2,
-			type : 'success'
-		});
-	}
-
 	$.ajax({
 		url : "/User/login",
 		type : "post",
@@ -146,7 +140,6 @@ function login(flag) {
 				}
 
 				$('#loginDiv').fadeOut("fast");
-
 				$('#messageEditDiv').fadeIn("fast");
 
 				saveStorage(username, password);
@@ -159,8 +152,8 @@ function login(flag) {
 
 				$('#b').html("退出");
 				$('#b').attr("onclick", "exit()");
-				
-				$('#c').html("朋友");
+
+				$('#c').html("搜索用户");
 				$('#c').attr("href", "#search_user");
 				$('#c').attr("role", "button");
 				$('#c').attr("data-toggle", "modal");
@@ -182,11 +175,6 @@ function login(flag) {
 				$("#user_img").attr("src", object.img);
 				getAllMessage();
 			} else {
-				$.globalMessenger().hideAll();
-				$.globalMessenger().post({
-					message : "Login Error",
-					type : 'error'
-				});
 				$('#loginButton').css("background", "red");
 				$('#loginButton').attr('disabled', true);
 				$('#loginButton').html("用户名或密码错误");
@@ -219,59 +207,75 @@ function saveStorage(username, password) {
 
 function search() {
 	var searchStr = $("#searchInput").val();
-	if(searchStr == "") {
+	if (searchStr == "") {
 		$("#searchResultTable").empty();
 		return;
 	}
-	
-	$.ajax({
-		url : "/User/searchUser",
-		type : "post",
-		data : {
-			"searchStr" : searchStr
-		},
-		success : function(data) {
-			var arr = data.object;
-			var searchResultHtml = "";
-			for(var i = 0; i < arr.length; i++) {
-				searchResultHtml = searchResultHtml + searchDivHtml(arr[i]);
-			}
-			$("#searchResultTable").empty();
-			$("#searchResultTable").append(searchResultHtml);
-		},
-		error : function() {
-			alert("通信错误");
-		}
-	});
+
+	$
+			.ajax({
+				url : "/User/searchUser",
+				type : "post",
+				data : {
+					"searchStr" : searchStr
+				},
+				success : function(data) {
+					var arr = data.object;
+					var searchResultHtml = "";
+					for (var i = 0; i < arr.length; i++) {
+						if (arr[i].id != sessionStorage["user_id"]) {
+							searchResultHtml = searchResultHtml
+									+ searchDivHtml(arr[i]);
+						}
+					}
+					$("#searchResultTable").empty();
+					$("#searchResultTable").append(searchResultHtml);
+				},
+				error : function() {
+					alert("通信错误");
+				}
+			});
 }
 
 function searchDivHtml(user) {
-	var html = "<tr><td align='center'><img src='"+user.img+"' width='60'height='60'style='object-fit: cover; border-radius: 30px;' /></td><td width='20%' align='center'>"+user.username+"</td><td width='20%' align='center'>"+user.phonenumber+"</td><td width='30%' align='center'>"+user.mail+"</td><td width='18%' align='center'>"+getAddButtonHtml(user.id)+"</td></tr>";
+	var html = "<tr><td align='center'><img src='"
+			+ user.img
+			+ "' width='60'height='60'style='object-fit: cover; border-radius: 30px;' /></td><td width='20%' align='center'>"
+			+ user.username + "</td><td width='20%' align='center'>"
+			+ user.phonenumber + "</td><td width='30%' align='center'>"
+			+ user.mail + "</td><td width='18%' align='center'>"
+			+ getAddButtonHtml(user.id) + "</td></tr>";
 	return html;
 }
 
 function getAddButtonHtml(id) {
 	var str = "";
-	$.ajax({
-		url : "Friend/isFriend",
-		type : "post",
-		async : false,
-		data : {
-			"uid" : id + ""
-		},
-		success : function(data) {
-			if(data.msg == "是好友") {
-				str = "<button id='friend_"+data.object.uid2.id+"' type='button' disabled='disabled' class='btn btn-warning'>已关注</button>";
-			} else {
-				str = "<button id='friend_"+id+"' type='button' class='btn btn-warning' onclick='addFriend("+id+")'>+关注</button>";
-			}
-		},
-		error : function(msg) {
-			console.log(msg);
-		}
-	});
+	$
+			.ajax({
+				url : "Friend/isFriend",
+				type : "post",
+				async : false,
+				data : {
+					"uid" : id + ""
+				},
+				success : function(data) {
+					if (data.msg == "是好友") {
+						str = "<button id='friend_"
+								+ data.object.uid2.id
+								+ "' type='button' disabled='disabled' class='btn btn-warning'>已关注</button>";
+					} else {
+						str = "<button id='friend_"
+								+ id
+								+ "' type='button' class='btn btn-warning' onclick='addFriend("
+								+ id + ")'>+关注</button>";
+					}
+				},
+				error : function(msg) {
+					console.log(msg);
+				}
+			});
 	return str;
-	
+
 }
 
 function addFriend(id) {
@@ -283,10 +287,10 @@ function addFriend(id) {
 		},
 		success : function(data) {
 			alert(data.msg);
-			$("#friend_"+data.object.uid2.id).attr("disabled","disabled");
-			$("#friend_"+data.object.uid2.id).html("已关注");
+			$("#friend_" + data.object.uid2.id).attr("disabled", "disabled");
+			$("#friend_" + data.object.uid2.id).html("已关注");
 		},
-		error: function(msg) {
+		error : function(msg) {
 			console.log(msg);
 		}
 	});
@@ -296,7 +300,7 @@ function editUserInfo() {
 	// check data
 	var nameCheck = checkUsernameIsExist($("#name").val());
 	var mail = $("#mail").val();
-	if (nameCheck) {
+	if (nameCheck == "存在") {
 		alert("用户名已存在");
 		return;
 	}
@@ -350,7 +354,6 @@ function exit() {
 	location.reload();
 }
 
-
 function changeUserImage() {
 	$("#user_image_file").click();
 }
@@ -395,7 +398,7 @@ function getAllMessage() {
 						return;
 					}
 					for (var i = 0; i < list.length; i++) {
-						
+
 						$("#itemDiv")
 								.append(
 										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"
@@ -412,7 +415,19 @@ function getAllMessage() {
 												+ imgHtml(list[i].pid)
 												+ "</div><div><small style='color: gray;'>"
 												+ timeStamp2String(list[i].createtime)
-												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' disabled='disabled' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button type='button' disabled='disabled' class='btn btn-default'aria-label='Center Align' style='width: 32%;'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span></button><button type='button' class='btn btn-default"
+												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' disabled='disabled' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button id='commentBtn_"
+												+ list[i].id
+												+ "' type='button' class='btn btn-default'aria-label='Center Align' style='width: 32%;' onclick='showCommitDiv("
+												+ list[i].id
+												+ ")'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span>&nbsp;<font id='c_"
+												+ list[i].id
+												+ "'>"
+												+ getCommentNum(list[i].id)
+												+ "</font></button><button id='pointButton_"
+												+ list[i].id
+												+ "' type='button' data-toggle='tooltip' data-placement='top' title='"
+												+ getPointInfo(list[i].id)
+												+ "' class='btn btn-default"
 												+ isPointed(list[i].id)
 												+ "'aria-label='Right Align' style='width: 32%;' onclick=point(this,"
 												+ list[i].id
@@ -420,9 +435,23 @@ function getAllMessage() {
 												+ list[i].id
 												+ "'>"
 												+ getPointNum(list[i].id)
-												+ "</font></button></div></div>");
+												+ "</font></button></div><div id='commentDiv_"
+												+ list[i].id
+												+ "' style='display:none;'>"
+												+ "<table id='commentTable_"
+												+ list[i].id
+												+ "' style='border-collapse: separate; border-spacing: 0px 10px;'></table><input id='commentInput_"
+												+ list[i].id
+												+ "' type='text' class='form-control' onblur='hiddenCommitDiv("
+												+ list[i].id
+												+ ")'/><button type='button' onclick='comment("
+												+ list[i].id
+												+ ")' class='btn btn-info' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>评论</button><button type='button' onclick='hiddenCommitDiv("
+												+ list[i].id
+												+ ")' class='btn btn-default' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>收起</button></div></div>");
 
 					}
+					$("[data-toggle='tooltip']").tooltip();
 					$("img").click(function() {
 						var _this = $(this);
 						imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
@@ -433,6 +462,106 @@ function getAllMessage() {
 				}
 
 			})
+}
+
+function comment(mid) {
+	var comment = $("#commentInput_" + mid).val();
+
+	$.ajax({
+		url : "/Comment/addComment",
+		type : "post",
+		data : {
+			"mid" : mid,
+			"comment" : comment
+		},
+		success : function(data) {
+			if (data.object == 1) {
+				$("#commentInput_" + mid).val('');
+				showCommitDiv(mid);
+			}
+		},
+		error : function(msg) {
+			comsole.log(msg);
+		}
+	});
+}
+
+function showCommitDiv(mid) {
+	$.ajax({
+		url : "/Comment/getCommentByMid",
+		type : "post",
+		data : {
+			"mid" : mid + ""
+		},
+		success : function(data) {
+			var arr = data.object;
+			var table = $("#commentTable_" + mid);
+			table.empty();
+			for (var i = 0; i < arr.length; i++) {
+				table.append("<tr><td width='10%'>" + arr[i].uid.username + " : </td><td width='80%'>"
+						+ arr[i].comment + "</td><td width='10%' algin='left'><small>"
+						+ timeStamp2String(arr[i].createtime) + "</small></td></tr>");
+			}
+			$("#commentDiv_" + mid).css("display", "");
+		},
+		error : function(msg) {
+			comsole.log(msg);
+		}
+	});
+}
+
+function hiddenCommitDiv(mid) {
+	 $("#commentDiv_" + mid).css("display", "none");
+}
+
+//function getCommentInfo(mid) {
+//	var html = "";
+//	$.ajax({
+//		url : "/Comment/getCommentByMid",
+//		data : {
+//			"mid" : mid
+//		},
+//		async : false,
+//		type : "post",
+//		success : function(data) {
+//			var arr = data.object;
+//			for (var i = 0; i < arr.length; i++) {
+//				html += "<p>" + arr[i].uid.username + " : " + arr[i].comment
+//						+ "</p>";
+//			}
+//		},
+//		error : function(msg) {
+//			console.log(msg);
+//		}
+//	});
+//	return html;
+//}
+
+function getPointInfo(mid) {
+	var str = "";
+	$.ajax({
+		url : "/Point/getAllPointByMid",
+		data : {
+			"mid" : mid
+		},
+		type : "post",
+		async : false,
+		success : function(data) {
+			var arr = data.object;
+			if (arr.length > 0) {
+				for (var i = 0; i < arr.length; i++) {
+					str += arr[i].uid.username;
+					if (i + 1 <= arr.length - 1) {
+						str += ", ";
+					}
+				}
+			}
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+	return str;
 }
 
 // 获取当前时间，格式YYYY-MM-DD
@@ -495,8 +624,10 @@ function point(obj, id) {
 			},
 			success : function(result) {
 				var num = getPointNum(id);
-				var dom = "f_"+id;
-				$("#"+dom).html(num);
+				var dom = "f_" + id;
+				$("#" + dom).html(num);
+				$("#pointButton_" + id).attr("data-original-title",
+						getPointInfo(id)).tooltip('fixTitle').tooltip('show');
 			}
 		});
 	} else {
@@ -510,11 +641,14 @@ function point(obj, id) {
 			success : function(result) {
 				obj.classList.add("active");
 				var num = getPointNum(id);
-				var dom = "f_"+id;
-				$("#"+dom).html(num);
+				var dom = "f_" + id;
+				$("#" + dom).html(num);
+				$("#pointButton_" + id).attr("data-original-title",
+						getPointInfo(id)).tooltip('fixTitle').tooltip('show');
 			}
 		});
 	}
+
 }
 
 function deleteHtml(uid, id) {
@@ -549,6 +683,24 @@ function getPointNum(mid) {
 	var num = 0;
 	$.ajax({
 		url : "/Point/getPointNum",
+		type : "post",
+		async : false,
+		data : {
+			"mid" : mid
+		},
+		success : function(data) {
+			num = data.object;
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+	return num;
+}
+function getCommentNum(mid) {
+	var num = 0;
+	$.ajax({
+		url : "/Comment/getCommentNum",
 		type : "post",
 		async : false,
 		data : {
