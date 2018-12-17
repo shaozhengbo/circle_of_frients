@@ -63,13 +63,13 @@ textarea {
 						<div class="collapse navbar-collapse"
 							id="bs-example-navbar-collapse-1" style="width: 95%;">
 							<ul class="nav navbar-nav navbar-right">
-								<li class="hidden-xs"><a id="a" href="#"> </a></li>
+								<li class="hidden-xs"><a id="a" href="#"></a></li>
 								<li class="hidden-xs"><a id="b" href=""></a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
-								<li><a id='c'
+								<li><a id='d' href="#"></a></li>
+								<li class="visible-md visible-lg"><a id='c'
 									onclick='$("#searchInput").val("");$("#searchResultTable").empty()'></a></li>
-								<li class="visible-md visible-lg"><a></a></li>
 							</ul>
 						</div>
 					</nav>
@@ -102,22 +102,20 @@ textarea {
 										<small> 分享一下目前的心情吧... </small>
 										<textarea rows="4" cols="67" style="resize: none; width: 100%"
 											id="message" name="message"></textarea>
-										<div style="margin-bottom: 10px;">
+										<a type="button" id="insertImgBtn" class="btn btn-info"
+											style="text-align: center; font-size: 15px; width: 48%"
+											onclick="uploadPic()">添加配图</a> <a class="btn btn-primary"
+											type="button" id="sendBtn"
+											style="text-align: center; font-size: 15px; width: 48%"
+											onclick="send()">发布</a>
+										<div style="margin-top: 20px;" align="center">
 											<img id="messagePic" src=""
-												style="object-fit: cover; border-radius: 8px;"> <a
-												type="button" id="insertImgBtn" class="btn btn-info"
-												style="text-align: center; font-size: 15px; display: block; margin-bottom: 10px;"
-												onclick="uploadPic()">添加配图</a>
+												style="object-fit: cover; border-radius: 8px;">
 										</div>
-
 										<div hidden="true">
 											<input id="messageChoicePic" name="file" type="file"
 												accept="image/*" />
 										</div>
-
-										<a class="btn btn-primary" type="button" id="sendBtn"
-											style="text-align: center; font-size: 15px; display: block;"
-											onclick="send()">发布</a>
 									</blockquote>
 								</form>
 							</div>
