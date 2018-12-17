@@ -112,7 +112,7 @@ textarea {
 
 										<div hidden="true">
 											<input id="messageChoicePic" name="file" type="file"
-												accept="image/jpeg,image/jpg,image/png" />
+												accept="image/*" />
 										</div>
 
 										<a class="btn btn-primary" type="button" id="sendBtn"
@@ -222,12 +222,22 @@ textarea {
 											</div>
 										</div>
 									</div>
+									<HR
+										style="FILTER: alpha(opacity = 100, finishopacity = 0, style = 1)"
+										width="100%" color=#987cb9 SIZE=3 />
 									<!-- PC端 -->
-									<div id="itemDiv" class="row clearfix hidden-xs  well well-sm"
+									<div id="itemDiv" class="row clearfix hidden-xs"
 										style="width: 100%;">
 										<div class="media well" style="background: #ffffff">
 											<p align="center">登陆后解锁</p>
 										</div>
+									</div>
+									<div id="nextPageDiv" class="row clearfix hidden-xs well"
+										style="width: 100%;">
+										<a id="nextPageBtn" type="button" class="btn btn-default"
+											onclick="getNextPageMessage()"
+											style="text-align: center; font-size: 15px; display: block; margin-bottom: 10px;">Click
+											load next page</a>
 									</div>
 								</div>
 							</div>

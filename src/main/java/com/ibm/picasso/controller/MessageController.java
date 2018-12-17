@@ -50,18 +50,18 @@ public class MessageController {
 
 	@RequestMapping(value = "getAllMessage", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo getAllMessage(HttpSession session) {
+	public MessagePojo getAllMessage(String pageNo, HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		List<Friends> friendList = friendsService.getFriendList(user.getId());
 		String uid = user.getId() + "";
-		if(friendList.size() == 0 || friendList == null) {
+		if (friendList.size() == 0 || friendList == null) {
 		} else {
 			for (Friends f : friendList) {
 				uid += "," + f.getUid2().getId();
 			}
 		}
-		List<Message> result = messageService.getAllMessageInUid(uid);
-		
+		List<Message> result = messageService.getAllMessageInUid(uid, (Integer.parseInt(pageNo) - 1) * 8, 8);
+
 		if (result.size() == 0) {
 			msg = "获取到条" + result.size() + "消息";
 		} else {
@@ -104,7 +104,7 @@ public class MessageController {
 				image.setCreatetime(new Date());
 				imageService.uploadImage(image);
 				messageObj.setPid(imageService.selectImage(image.getSrc()));
-				//加水印
+				// 加水印
 				Util.c(messageObj.getUid().getUsername(), destFileName, destFileName);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

@@ -48,7 +48,7 @@ public class Util {
 		out.close();
 	}
 
-	public static void sendMail(String toMail, JavaMailSenderImpl senderImpl) {
+	public static void sendMail(String toMail, String title, String msg, JavaMailSenderImpl senderImpl) {
 		// 设定mail server
 		senderImpl.setHost("smtp.qq.com");
 		senderImpl.setProtocol("smtp");
@@ -60,8 +60,8 @@ public class Util {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("690143820@qq.com");
 		message.setTo(toMail);
-		message.setSubject("【密码重置通知】");
-		message.setText("由于系统采用MD5加密了您的密码，现在已将您的登陆密码重置为123456，请尽快登陆后修改您的登陆密码。");
+		message.setSubject(title);
+		message.setText(msg);
 		senderImpl.send(message);
 	}
 

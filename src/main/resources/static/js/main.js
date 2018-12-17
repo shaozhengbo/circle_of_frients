@@ -173,7 +173,8 @@ function login(flag) {
 				$("#major").val(object.major);
 				$("#mail").val(object.mail);
 				$("#user_img").attr("src", object.img);
-				getAllMessage();
+				pageNo = 1;
+				getAllMessage(pageNo);
 			} else {
 				$('#loginButton').css("background", "red");
 				$('#loginButton').attr('disabled', true);
@@ -373,7 +374,7 @@ function send() {
 			$("#messagePic").attr("src", "");
 			$("#messagePic").attr("width", "0px");
 			$("#messagePic").attr("height", "0px");
-			getAllMessage();
+			getAllMessage(pageNo);
 		},
 		error : function(err) {
 			console.log(err);
@@ -381,14 +382,17 @@ function send() {
 	})
 }
 
-function getAllMessage() {
+var pageNo = 1;
+var pageCount = 8;
+
+function getAllMessage(pageNo) {
 	var flag = true;
 	$
 			.ajax({
 				url : "/Message/getAllMessage",
 				type : "post",
 				data : {
-
+					"pageNo" : pageNo
 				},
 				success : function(res) {
 					console.log(res);
@@ -442,9 +446,11 @@ function getAllMessage() {
 												+ list[i].id
 												+ "' style='border-collapse: separate; border-spacing: 0px 10px;'></table><input id='commentInput_"
 												+ list[i].id
-												+ "' type='text' class='form-control' onblur='hiddenCommitDiv("
+												+ "' type='text' onkeyup='resetSendCommentButton("
 												+ list[i].id
-												+ ")'/><button type='button' onclick='comment("
+												+ ")' class='form-control'/><button id='sendCommentButton_"
+												+ list[i].id
+												+ "'   type='button' onclick='comment("
 												+ list[i].id
 												+ ")' class='btn btn-info' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>评论</button><button type='button' onclick='hiddenCommitDiv("
 												+ list[i].id
@@ -461,11 +467,116 @@ function getAllMessage() {
 					console.log(err);
 				}
 
-			})
+			});
+}
+
+function getNextPageMessage() {
+	if ($("#nextPageBtn").html() == "别点了，没有更多了") {
+		$("#nextPageBtn").attr("disabled", "disabled");
+	}
+	pageNo += 1;
+	$
+			.ajax({
+				url : "/Message/getAllMessage",
+				type : "post",
+				data : {
+					"pageNo" : pageNo
+				},
+				success : function(res) {
+					console.log(res);
+					var list = res.object;
+					if (list.length == 0) {
+						$("#nextPageBtn").html("别点了，没有更多了");
+					}
+					for (var i = 0; i < list.length; i++) {
+
+						$("#itemDiv")
+								.append(
+										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"
+												+ list[i].uid.img
+												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;"
+												+ list[i].uid.username
+												+ " "
+												+ isNew(list[i].createtime)
+												+ deleteHtml(list[i].uid.id,
+														list[i].id)
+												+ "</div><br><div style='margin-left: 55px; margin-top: 20px;'><p>"
+												+ list[i].message
+												+ "</p><div style='text-align: left; width: 400px;'>"
+												+ imgHtml(list[i].pid)
+												+ "</div><div><small style='color: gray;'>"
+												+ timeStamp2String(list[i].createtime)
+												+ "</small></div></div></div><div style='width: 100%; margin-left: 5px; margin-top: 10px;'><button type='button' disabled='disabled' class='btn btn-default'aria-label='Left Align' style='width: 32%;'><span class='glyphicon glyphicon-share' aria-hidden='true'></span></button><button id='commentBtn_"
+												+ list[i].id
+												+ "' type='button' class='btn btn-default'aria-label='Center Align' style='width: 32%;' onclick='showCommitDiv("
+												+ list[i].id
+												+ ")'><span class='glyphicon glyphicon-comment'aria-hidden='true'></span>&nbsp;<font id='c_"
+												+ list[i].id
+												+ "'>"
+												+ getCommentNum(list[i].id)
+												+ "</font></button><button id='pointButton_"
+												+ list[i].id
+												+ "' type='button' data-toggle='tooltip' data-placement='top' title='"
+												+ getPointInfo(list[i].id)
+												+ "' class='btn btn-default"
+												+ isPointed(list[i].id)
+												+ "'aria-label='Right Align' style='width: 32%;' onclick=point(this,"
+												+ list[i].id
+												+ ")><span class='glyphicon glyphicon-thumbs-up'aria-hidden='true'></span>&nbsp;<font id='f_"
+												+ list[i].id
+												+ "'>"
+												+ getPointNum(list[i].id)
+												+ "</font></button></div><div id='commentDiv_"
+												+ list[i].id
+												+ "' style='display:none;'>"
+												+ "<table id='commentTable_"
+												+ list[i].id
+												+ "' style='border-collapse: separate; border-spacing: 0px 10px;'></table><input id='commentInput_"
+												+ list[i].id
+												+ "' type='text' class='form-control' onkeyup='resetSendCommentButton("
+												+ list[i].id
+												+ ")'/><button id='sendCommentButton_"
+												+ list[i].id
+												+ "'  type='button' onclick='comment("
+												+ list[i].id
+												+ ")' class='btn btn-info' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>评论</button><button type='button' onclick='hiddenCommitDiv("
+												+ list[i].id
+												+ ")' class='btn btn-default' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>收起</button></div></div>");
+
+					}
+					$("[data-toggle='tooltip']").tooltip();
+					$("img").click(function() {
+						var _this = $(this);
+						imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+					});
+				},
+				error : function(err) {
+					console.log(err);
+				}
+
+			});
+}
+
+function resetSendCommentButton(mid) {
+	var sendCommentButton = $("#sendCommentButton_" + mid);
+	if (sendCommentButton.html() == "please word any") {
+		sendCommentButton.html("评论");
+		sendCommentButton.removeClass();
+		sendCommentButton.addClass("btn btn-info");
+	}
 }
 
 function comment(mid) {
 	var comment = $("#commentInput_" + mid).val();
+	var sendCommentButton = $("#sendCommentButton_" + mid);
+
+	if (comment == "") {
+		// alert("Please word some");
+		sendCommentButton.html("please word any");
+		sendCommentButton.removeClass();
+		sendCommentButton.addClass("btn btn-danger");
+		return;
+	}
 
 	$.ajax({
 		url : "/Comment/addComment",
@@ -476,6 +587,7 @@ function comment(mid) {
 		},
 		success : function(data) {
 			if (data.object == 1) {
+				$("#c_" + mid).html(parseInt($("#c_" + mid).html()) + 1);
 				$("#commentInput_" + mid).val('');
 				showCommitDiv(mid);
 			}
@@ -498,9 +610,11 @@ function showCommitDiv(mid) {
 			var table = $("#commentTable_" + mid);
 			table.empty();
 			for (var i = 0; i < arr.length; i++) {
-				table.append("<tr><td width='10%'>" + arr[i].uid.username + " : </td><td width='80%'>"
-						+ arr[i].comment + "</td><td width='10%' algin='left'><small>"
-						+ timeStamp2String(arr[i].createtime) + "</small></td></tr>");
+				table.append("<tr><td width='10%'>" + arr[i].uid.username
+						+ " : </td><td width='80%'>" + arr[i].comment
+						+ "</td><td width='10%' algin='left'><small>"
+						+ timeStamp2String(arr[i].createtime)
+						+ "</small></td></tr>");
 			}
 			$("#commentDiv_" + mid).css("display", "");
 		},
@@ -511,31 +625,31 @@ function showCommitDiv(mid) {
 }
 
 function hiddenCommitDiv(mid) {
-	 $("#commentDiv_" + mid).css("display", "none");
+	$("#commentDiv_" + mid).css("display", "none");
 }
 
-//function getCommentInfo(mid) {
-//	var html = "";
-//	$.ajax({
-//		url : "/Comment/getCommentByMid",
-//		data : {
-//			"mid" : mid
-//		},
-//		async : false,
-//		type : "post",
-//		success : function(data) {
-//			var arr = data.object;
-//			for (var i = 0; i < arr.length; i++) {
-//				html += "<p>" + arr[i].uid.username + " : " + arr[i].comment
-//						+ "</p>";
-//			}
-//		},
-//		error : function(msg) {
-//			console.log(msg);
-//		}
-//	});
-//	return html;
-//}
+// function getCommentInfo(mid) {
+// var html = "";
+// $.ajax({
+// url : "/Comment/getCommentByMid",
+// data : {
+// "mid" : mid
+// },
+// async : false,
+// type : "post",
+// success : function(data) {
+// var arr = data.object;
+// for (var i = 0; i < arr.length; i++) {
+// html += "<p>" + arr[i].uid.username + " : " + arr[i].comment
+// + "</p>";
+// }
+// },
+// error : function(msg) {
+// console.log(msg);
+// }
+// });
+// return html;
+// }
 
 function getPointInfo(mid) {
 	var str = "";
@@ -671,7 +785,7 @@ function deleteMessage(mid) {
 		},
 		success : function(result) {
 			alert(result.msg);
-			getAllMessage();
+			getAllMessage(pageNo);
 		},
 		error : function(msg) {
 			console.info(msg);

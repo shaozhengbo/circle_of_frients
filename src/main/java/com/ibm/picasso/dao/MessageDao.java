@@ -45,7 +45,7 @@ public interface MessageDao {
 
 	int updateByPrimaryKey(Message record);
 
-	@Select("select * from message where uid in (${uid}) and statue = 0 order by createtime desc")
+	@Select("select * from message where uid in (${uid}) and statue = 0 order by createtime desc limit #{index}, #{count}")
 	@Results(value = { @Result(id = true, property = "id", column = "id"),
 			@Result(property = "uid", column = "uid", one = @One(select = "com.ibm.picasso.dao.UserDao.selectUserById")),
 			@Result(property = "message", column = "message"),
@@ -53,5 +53,5 @@ public interface MessageDao {
 			@Result(property = "pid", column = "pid", one = @One(select = "com.ibm.picasso.dao.ImageDao.selectByPrimaryKey")),
 			@Result(property = "statue", column = "statue"), @Result(property = "createtime", column = "createtime"),
 			@Result(property = "deletetime", column = "deletetime") })
-	List<Message> selectInUid(@Param("uid")String uid);
+	List<Message> selectInUid(@Param("uid")String uid, @Param("index")int index, @Param("count")int count);
 }

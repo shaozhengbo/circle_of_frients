@@ -5,11 +5,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +33,11 @@ import com.ibm.picasso.util.Util;
 @RequestMapping("/User/*")
 public class UserController {
 	@Autowired
-	UserServiceImpl userService;
+	private UserServiceImpl userService;
 	@Autowired
-	JavaMailSenderImpl senderImpl;
+	private JavaMailSenderImpl senderImpl;
+	@Autowired
+	private JmsTemplate jmsTemplate;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -111,9 +119,20 @@ public class UserController {
 		user.setSex('男');
 		user.setMajor("");
 		user.setPhonenumber("");
-		user.setMail("");
+		user.setMail("690143820@qq.com");
 		user.setImg("img/moren.jpg");
 		boolean result = userService.registerUser(user);
+
+		jmsTemplate.send("mail_lp", new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				MapMessage message = session.createMapMessage();
+				message.setString("email", new String("您已成功的在邵政博开发的系统上注册了账号，用户名为：" + username + ", 密码为：" + password));
+				message.setString("title", user.getMail());
+				return message;
+			}
+		});
+
 		if (result) {
 			msg = Currency.REGISTERSUCCESS;
 		} else {
@@ -125,7 +144,7 @@ public class UserController {
 
 	@RequestMapping(value = "updateUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo updateUser(User user,HttpSession session) throws Exception {
+	public MessagePojo updateUser(User user, HttpSession session) throws Exception {
 		logger.info("updateUser start");
 		User userById = userService.findUserById(user.getId());
 		userById.setUsername(user.getUsername());
@@ -168,7 +187,7 @@ public class UserController {
 		User user = userService.findUserByUsername(username);
 		user.setPassword(Util.MD5("123456"));
 		boolean result = userService.updatePassword(user);
-		Util.sendMail(email, senderImpl);
+		Util.sendMail(email, "【密码重置通知】", "由于系统采用MD5加密了您的密码，现在已将您的登陆密码重置为123456，请尽快登陆后修改您的登陆密码。", senderImpl);
 		if (result) {
 			msg = Currency.SUCCESS;
 		} else {
@@ -186,7 +205,7 @@ public class UserController {
 		modelAndView.addObject("username", username);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "getForgetPasswordUsername", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessagePojo getForgetPasswordUsername(HttpSession session) {

@@ -37,9 +37,8 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public List<Message> getAllMessageInUid(String uid) {
-		return messageDao.selectInUid(uid);
+	public List<Message> getAllMessageInUid(String uid, int index, int count) {
+		return messageDao.selectInUid(uid, index, count);
 	}
-
 
 }
