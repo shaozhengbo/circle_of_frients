@@ -1,9 +1,12 @@
 package com.ibm.picasso.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Friends {
-    private Long id;
+public class Friends implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private User uid1;
 

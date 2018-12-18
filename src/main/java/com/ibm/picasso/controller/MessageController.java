@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +44,8 @@ public class MessageController {
 	ImageServiceImpl imageService;
 	@Autowired
 	FriendsServiceImpl friendsService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -52,16 +55,22 @@ public class MessageController {
 	@ResponseBody
 	public MessagePojo getAllMessage(String pageNo, HttpSession session) {
 		User user = (User) session.getAttribute("user");
-		List<Friends> friendList = friendsService.getFriendList(user.getId());
-		String uid = user.getId() + "";
-		if (friendList.size() == 0 || friendList == null) {
-		} else {
-			for (Friends f : friendList) {
-				uid += "," + f.getUid2().getId();
+		
+		String fidsStr = redisTemplate.opsForValue().get("friendList_"+user.getId());
+		if(fidsStr == null) {
+			fidsStr = "";
+			List<Friends> friendList = friendsService.getFriendList(user.getId());
+			if (friendList.size() == 0 || friendList == null) {
+			} else {
+				for (Friends f : friendList) {
+					fidsStr += "," + f.getUid2().getId();
+				}
 			}
+			redisTemplate.opsForValue().set("friendList_"+user.getId(), fidsStr);
 		}
-		List<Message> result = messageService.getAllMessageInUid(uid, (Integer.parseInt(pageNo) - 1) * 8, 8);
-
+		
+		List<Message> result = messageService.getAllMessageInUid(fidsStr, (Integer.parseInt(pageNo) - 1) * 8, 8);
+		
 		if (result.size() == 0) {
 			msg = "获取到条" + result.size() + "消息";
 		} else {

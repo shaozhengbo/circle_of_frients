@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,8 @@ public class FriendController {
 
 	@Autowired
 	FriendsServiceImpl friendsService;
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	private static final Logger logger = LoggerFactory.getLogger(FriendController.class);
 
@@ -34,6 +37,12 @@ public class FriendController {
 	public MessagePojo addFriend(String uid, HttpSession session) {
 		logger.info("addFriend start");
 		User user = (User) session.getAttribute("user");
+
+		String redisResult = redisTemplate.opsForValue().get("friendList_" + uid);
+		if (redisResult != null) {
+			redisTemplate.delete("friendList_" + uid);
+		}
+
 		Friends friends = new Friends();
 		friends.setUid1(user);
 		User addUser = new User();
@@ -51,14 +60,24 @@ public class FriendController {
 		logger.info("addFriend start");
 		return new MessagePojo(friends, msg);
 	}
-	
+
 	@RequestMapping(value = "isFriend", method = RequestMethod.POST, produces = "application/json; chatset=utf-8")
 	@ResponseBody
 	public MessagePojo isFriend(String uid, HttpSession session) throws IOException {
 		logger.info("isFriend start");
-		User user = (User)session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
+		String redisResult = redisTemplate.opsForValue().get("friendList_" + uid);
+		if (redisResult != null) {
+			if (redisResult.indexOf(uid) != -1) {
+				Friends friend = new Friends();
+				friend.setUid1(user);
+				User user2 = new User();
+				user2.setId(Long.valueOf(uid));
+				friend.setUid2(user2);
+			}
+		}
 		Friends friend = friendsService.isFriend(user.getId(), Long.valueOf(uid));
-		if(friend != null) {
+		if (friend != null) {
 			msg = "是好友";
 		} else {
 			msg = "不是好友";
