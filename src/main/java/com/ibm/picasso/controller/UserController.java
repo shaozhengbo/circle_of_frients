@@ -107,7 +107,7 @@ public class UserController {
 
 	@RequestMapping(value = "registerUser", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public MessagePojo registerUser(String username, String password) throws Exception {
+	public MessagePojo registerUser(String username, String password, String email) throws Exception {
 		logger.info("registerUser start");
 		User user = new User();
 		user.setUsername(username);
@@ -119,7 +119,7 @@ public class UserController {
 		user.setSex('男');
 		user.setMajor("");
 		user.setPhonenumber("");
-		user.setMail("690143820@qq.com");
+		user.setMail(email);
 		user.setImg("img/moren.jpg");
 		boolean result = userService.registerUser(user);
 
@@ -154,6 +154,14 @@ public class UserController {
 		userById.setMajor(user.getMajor());
 		userById.setPhonenumber(user.getPhonenumber());
 		userById.setSex(user.getSex());
+		if(!user.getPassword().isEmpty()) {
+			userById.setPassword(Util.MD5(user.getPassword()));
+			boolean pwdResult = userService.updatePassword(userById);
+			if(pwdResult) {
+				Util.sendMail(userById.getMail(), "【密码修改通知】", "您的账号: "+userById.getUsername()+" 的登陆密码修改为："+user.getPassword()+"。", senderImpl);
+			}
+		}
+		
 		boolean result = userService.updateUser(userById);
 		if (result) {
 			msg = Currency.SUCCESS;

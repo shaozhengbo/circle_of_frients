@@ -3,9 +3,11 @@ package com.ibm.picasso.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,11 +27,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ibm.picasso.domain.Friends;
 import com.ibm.picasso.domain.Image;
 import com.ibm.picasso.domain.Message;
+import com.ibm.picasso.domain.Point;
 import com.ibm.picasso.domain.User;
 import com.ibm.picasso.pojo.MessagePojo;
 import com.ibm.picasso.service.impl.FriendsServiceImpl;
 import com.ibm.picasso.service.impl.ImageServiceImpl;
 import com.ibm.picasso.service.impl.MessageServiceImpl;
+import com.ibm.picasso.service.impl.PointServiceImpl;
 import com.ibm.picasso.util.Util;
 
 @Controller
@@ -39,26 +43,30 @@ public class MessageController {
 	private String fileUploadPath;
 
 	@Autowired
-	MessageServiceImpl messageService;
+	private MessageServiceImpl messageService;
 	@Autowired
-	ImageServiceImpl imageService;
+	private ImageServiceImpl imageService;
 	@Autowired
-	FriendsServiceImpl friendsService;
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+	private FriendsServiceImpl friendsService;
+	@Autowired
+	private PointServiceImpl pointService;
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
 	private static String msg = "";
 
 	@RequestMapping(value = "getAllMessage", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public MessagePojo getAllMessage(String pageNo, HttpSession session) {
+		logger.info("getAllMessage start");
 		User user = (User) session.getAttribute("user");
-		
-		String fidsStr = redisTemplate.opsForValue().get("friendList_"+user.getId());
-		if(fidsStr == null) {
-			fidsStr = "";
+
+		String fidsStr = redisTemplate.opsForValue().get("friendList_" + user.getId());
+
+		if (fidsStr == null) {
+			fidsStr = user.getId() + "";
 			List<Friends> friendList = friendsService.getFriendList(user.getId());
 			if (friendList.size() == 0 || friendList == null) {
 			} else {
@@ -66,16 +74,18 @@ public class MessageController {
 					fidsStr += "," + f.getUid2().getId();
 				}
 			}
-			redisTemplate.opsForValue().set("friendList_"+user.getId(), fidsStr);
+			redisTemplate.opsForValue().set("friendList_" + user.getId(), fidsStr, 60 * 10, TimeUnit.SECONDS);
 		}
-		
+
 		List<Message> result = messageService.getAllMessageInUid(fidsStr, (Integer.parseInt(pageNo) - 1) * 8, 8);
-		
+
 		if (result.size() == 0) {
 			msg = "获取到条" + result.size() + "消息";
 		} else {
 			msg = "完成";
 		}
+		
+		logger.info("getAllMessage end");
 		return new MessagePojo(result, msg);
 	}
 
@@ -147,6 +157,39 @@ public class MessageController {
 		}
 		logger.info("deleteMessage end");
 		return new MessagePojo(null, msg);
+	}
+
+	@RequestMapping(value = "getHotMessage", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public MessagePojo getHotMessage() {
+		logger.info("getHotMessage start");
+		List<Message> hotMessageList = new ArrayList<>();
+		String hotMessageStr = redisTemplate.opsForValue().get("hotMessageList");
+		if (hotMessageStr == null) {
+			hotMessageStr = "";
+			List<Point> pointList = pointService.getHotPoint();
+			// 选取有图片的三个朋友圈
+			for (Point p : pointList) {
+				if (hotMessageList.size() > 2) {
+					break;
+				}
+				if (p.getMid().getPid() != null) {
+					hotMessageList.add(p.getMid());
+				}
+			}
+			for (Message h : hotMessageList) {
+				hotMessageStr += "," + h.getId();
+			}
+			if(hotMessageStr.startsWith(",")) {
+				hotMessageStr = hotMessageStr.substring(1);
+			}
+			redisTemplate.opsForValue().set("hotMessageList", hotMessageStr, 60 * 10, TimeUnit.SECONDS);
+		}
+
+		List<Message> result = messageService.getAllMessageInId(hotMessageStr);
+		
+		logger.info("getHotMessage end");
+		return new MessagePojo(result, msg);
 	}
 
 }

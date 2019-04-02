@@ -13,4 +13,6 @@ public interface PointService {
 	List<Point> getPointNum(Point point);
 	
 	Point findByMidAndUid(Point point);
+	
+	List<Point> getHotPoint();
 }

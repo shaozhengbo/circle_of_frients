@@ -35,5 +35,9 @@ public class PointServiceImpl implements PointService {
 		return pointDao.selectByMidAndUid(point);
 	}
 
+	@Override
+	public List<Point> getHotPoint() {
+		return pointDao.selectByHot();
+	}
 
 }

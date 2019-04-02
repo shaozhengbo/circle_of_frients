@@ -21,10 +21,6 @@ public class ChatroomController {
         }
         ModelAndView mav = new ModelAndView("/chat");
         mav.addObject("username", username);
-        String hostAddress = InetAddress.getLocalHost().getHostAddress();
-        int serverPort = request.getServerPort();
-        String contextPath = request.getContextPath();
-        System.err.println(hostAddress + serverPort + contextPath);
         mav.addObject("webSocketUrl", "ws://"+InetAddress.getLocalHost().getHostAddress()+":"+request.getServerPort()+request.getContextPath()+"/chat");
         return mav;
     }

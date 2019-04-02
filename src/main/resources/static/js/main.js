@@ -59,6 +59,24 @@ function imgShow(outerdiv, innerdiv, bigimg, _this) {
 	});
 }
 
+function getWrapper() {
+	$.ajax({
+		url : "/Message/getHotMessage",
+		type : "post",
+		async : false,
+		success : function(data) {
+			var obj = data.object;
+			console.log(obj)
+			for(var i = 0; i < obj.length; i++) {
+				$("#wrapper").append("<div class='item"+(i == 0 ? " active" : "")+"'><img src='"+obj[i].pid.src+"' style='height:300px' alt='...'><div class='carousel-caption'>"+obj[i].message+"</div></div>");
+			}
+		},
+		error : function(msg) {
+			console.log(msg);
+		}
+	});
+}
+
 function checkUsernameIsExist(username) {
 	var result = "不存在";
 	$.ajax({
@@ -84,6 +102,7 @@ function checkUsernameIsExist(username) {
 function register() {
 	var username = $("#register_username").val();
 	var password = $("#register_password").val();
+	var email = $("#register_mail").val();
 	var result = checkUsernameIsExist(username);
 	if (result == "存在") {
 		$('#registerButton').css("background", "red");
@@ -91,12 +110,25 @@ function register() {
 		$('#registerButton').html("用户名已存在");
 		return;
 	}
+	if(email == "") {
+		$('#registerButton').css("background", "red");
+		$('#registerButton').attr('disabled', true);
+		$('#registerButton').html('请输入邮箱');
+		return;
+	} else if (email.indexOf("@") == -1) {
+		$('#registerButton').css("background", "red");
+		$('#registerButton').attr('disabled', true);
+		$('#registerButton').html('请输入正确的邮箱');
+		return;
+	}
+	
 	$.ajax({
 		url : "/User/registerUser",
 		type : "post",
 		data : {
 			"username" : username,
-			"password" : password
+			"password" : password,
+			"email" : email
 		},
 		success : function(data) {
 			if (data.msg == "注册成功") {
@@ -337,7 +369,8 @@ function editUserInfo() {
 			"phonenumber" : $("#phonenumber").val(),
 			"mail" : $("#mail").val(),
 			"major" : $("#major").val(),
-			"img" : $("#user_img")[0].src.substring(22)
+			"img" : $("#user_img")[0].src.substring(22),
+			"password" : $("#newPassword").val()
 		},
 		success : function(data) {
 			alert(data.msg);
@@ -356,6 +389,7 @@ function editUserInfo() {
 function exit() {
 	sessionStorage.removeItem("username");
 	sessionStorage.removeItem("password");
+	$("#nextPageDiv").attr("display","");
 	location.reload();
 }
 
@@ -411,9 +445,8 @@ function getAllMessage(pageNo) {
 								.append(
 										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"
 												+ list[i].uid.img
-												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;"
+												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left; margin-top: 10px'>&nbsp;"
 												+ list[i].uid.username
-												+ " "
 												+ isNew(list[i].createtime)
 												+ deleteHtml(list[i].uid.id,
 														list[i].id)
@@ -459,13 +492,13 @@ function getAllMessage(pageNo) {
 												+ ")' class='btn btn-info' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>评论</button><button type='button' onclick='hiddenCommitDiv("
 												+ list[i].id
 												+ ")' class='btn btn-default' style='width: 100%;text-align: center; font-size: 15px; display: block; margin-bottom: 10px;'>收起</button></div></div>");
-
 					}
 					$("[data-toggle='tooltip']").tooltip();
 					$("img").click(function() {
 						var _this = $(this);
 						imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
 					});
+					$("#nextPageDiv").css("display","");
 				},
 				error : function(err) {
 					console.log(err);
@@ -487,7 +520,6 @@ function getNextPageMessage() {
 					"pageNo" : pageNo
 				},
 				success : function(res) {
-					console.log(res);
 					var list = res.object;
 					if (list.length == 0) {
 						$("#nextPageBtn").html("别点了，没有更多了");
@@ -498,9 +530,8 @@ function getNextPageMessage() {
 								.append(
 										"<div class='media well' style='background: #ffffff'><div><div style='float: left; clear: both;'><img class='pimg' src='"
 												+ list[i].uid.img
-												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left;'>&nbsp;&nbsp;"
+												+ "' width='50px;' height='50px;'style='border-radius: 25px; object-fit: cover;' /></div><div style='float: left; margin-top: 10px'>&nbsp;"
 												+ list[i].uid.username
-												+ " "
 												+ isNew(list[i].createtime)
 												+ deleteHtml(list[i].uid.id,
 														list[i].id)
@@ -838,8 +869,8 @@ function isNew(time) {
 	var itemTime = new Date(time);
 	var nowTime = new Date();
 	if (nowTime - itemTime > 1000 * 60 * 3) {
-		return "";
+		return " ";
 	} else {
-		return "<span class='label label-danger'>New</span>";
+		return " <span class='label label-danger'>New</span>";
 	}
 }

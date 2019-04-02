@@ -34,4 +34,9 @@ public interface PointDao {
 			@Result(property = "uid", column = "uid", one = @One(select = "com.ibm.picasso.dao.UserDao.selectUserById")),
 			@Result(property = "createtime", column = "createtime"), })
 	Point selectByMidAndUid(Point point);
+
+	@Select("SELECT mid FROM point where mid in (SELECT mid FROM point GROUP BY mid HAVING COUNT(mid)>=2) group by mid")
+	@Results(value = {
+			@Result(property = "mid", column = "mid", one = @One(select = "com.ibm.picasso.dao.MessageDao.selectByPrimaryKey")), })
+	List<Point> selectByHot();
 }
